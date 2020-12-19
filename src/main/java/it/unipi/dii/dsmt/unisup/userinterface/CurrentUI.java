@@ -31,6 +31,7 @@ public class CurrentUI {
         addToGroup(container);
 
         Scene scene = new Scene(root, 1040, 700);
+        scene.getStylesheets().add("file:css/UniSup.css");
         return scene;
     }
 
