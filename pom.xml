@@ -15,6 +15,20 @@
         <junit.version>5.7.0</junit.version>
     </properties>
 
+    <repositories>
+        <!--<repository>
+          <id>repo1-jinterface</id>
+          <name>repository for Erlang jinterface</name>
+          <url>https://mvnrepository.com</url>
+        </repository>
+        -->
+        <repository>
+            <id>repo2-jinterface</id>
+            <name>repository2 for Erlang jinterface</name>
+            <url>https://clojars.org/repo/</url>
+        </repository>
+    </repositories>
+
     <dependencies>
 
         <dependency>
@@ -29,6 +43,13 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>clojang</groupId>
+            <artifactId>erlang-jinterface</artifactId>
+            <version>1.10-1</version>
+        </dependency>
+
     </dependencies>
 
     <build>
