@@ -22,7 +22,7 @@ public class CurrentUI {
         nodeWindow = new LogIn();
         root = nodeWindow.getNodes();
 
-        Scene scene = new Scene(root, 1280, 700);
+        Scene scene = new Scene(root, 1040, 700);
         scene.getStylesheets().add("file:css/UniSup.css");
         return scene;
     }

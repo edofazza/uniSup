@@ -1,5 +1,6 @@
 package it.unipi.dii.dsmt.unisup.userinterface.enumui;
 
+import it.unipi.dii.dsmt.unisup.userinterface.scenes.HomePage;
 import it.unipi.dii.dsmt.unisup.userinterface.scenes.LogIn;
 import it.unipi.dii.dsmt.unisup.userinterface.scenes.UniSupScene;
 
@@ -18,8 +19,8 @@ public enum SceneNames {
         switch (sn) {
             case LOGIN:
                 return new LogIn();
-            //case HOMEPAGE:
-               // return new HomePage();
+            case HOMEPAGE:
+                return new HomePage();
             default:
                 return null;
         }

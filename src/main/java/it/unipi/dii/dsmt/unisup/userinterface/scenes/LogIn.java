@@ -1,6 +1,5 @@
 package it.unipi.dii.dsmt.unisup.userinterface.scenes;
 
-import it.unipi.dii.dsmt.unisup.beans.User;
 import it.unipi.dii.dsmt.unisup.userinterface.CurrentUI;
 import it.unipi.dii.dsmt.unisup.userinterface.enumui.SceneNames;
 import it.unipi.dii.dsmt.unisup.userinterface.javafxextensions.buttons.RegularButton;
@@ -34,10 +33,10 @@ public class LogIn extends UniSupScene {
      * Display the Node related to the Email: the <code>FieldRelatedLabel</code> and the <code>FieldRelatedLabel</code>
      */
     private void displayEmailFields() {
-        FieldRelatedLabel usernameLabel = new FieldRelatedLabel("Username", 550, 170);
+        FieldRelatedLabel usernameLabel = new FieldRelatedLabel("Username", 420, 170);
 
         usernameTF = new TextField();
-        usernameTF.relocate(550, 200);
+        usernameTF.relocate(420, 200);
 
         sceneNodes.getChildren().addAll(usernameLabel, usernameTF);
     }
@@ -46,10 +45,10 @@ public class LogIn extends UniSupScene {
      * Display the Node related to the Password: the <code>FieldRelatedLabel</code> and the <code>FieldRelatedLabel</code>
      */
     private void displayPasswordFields() {
-        FieldRelatedLabel passwordLabel = new FieldRelatedLabel("Password", 550, 270);
+        FieldRelatedLabel passwordLabel = new FieldRelatedLabel("Password", 420, 270);
 
         passwordTF = new PasswordField();
-        passwordTF.relocate(550, 300);
+        passwordTF.relocate(420, 300);
 
         sceneNodes.getChildren().addAll(passwordLabel, passwordTF);
     }
@@ -60,7 +59,7 @@ public class LogIn extends UniSupScene {
      * Add to the scene the <code>RegularButton</code> for the log in.
      */
     private void displayLogInButton() {
-        RegularButton logInButton = new RegularButton("LOG IN", 700, 370);
+        RegularButton logInButton = new RegularButton("LOG IN", 570, 370);
 
         logInButton.setOnAction((ActionEvent ev)-> logInButtonAction());
 
@@ -72,10 +71,10 @@ public class LogIn extends UniSupScene {
      */
     private void logInButtonAction() {
         // set the user
-        if(false) { //TODO
+        if(true) { //TODO
             CurrentUI.changeScene(SceneNames.HOMEPAGE);
         } else {
-            InvalidFormEntryLabel loginError = new InvalidFormEntryLabel("Username/password incorrect", 600, 400, true);
+            InvalidFormEntryLabel loginError = new InvalidFormEntryLabel("Username/password incorrect", 470, 400, true);
             sceneNodes.getChildren().add(loginError);
         }
     }
