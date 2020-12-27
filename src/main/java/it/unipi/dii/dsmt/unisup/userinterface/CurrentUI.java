@@ -1,48 +1,56 @@
 package it.unipi.dii.dsmt.unisup.userinterface;
 
-import it.unipi.dii.dsmt.unisup.userinterface.javafxextensions.panes.Container;
+import it.unipi.dii.dsmt.unisup.beans.User;
+import it.unipi.dii.dsmt.unisup.userinterface.enumui.SceneNames;
+import it.unipi.dii.dsmt.unisup.userinterface.scenes.LogIn;
+import it.unipi.dii.dsmt.unisup.userinterface.scenes.UniSupScene;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 
 public class CurrentUI {
-    private static CurrentUI currentUI;
-    private Group root;
+    private static UniSupScene nodeWindow;
+    private static Group root;
+    private static User userLogged;
 
-    //****************************
-    // SINGLETON
-    //****************************
-    public CurrentUI() {
-        root = new Group();
-    }
-
-    public static CurrentUI getInstance() {
-        if (currentUI == null)
-            currentUI = new CurrentUI();
-
-        return currentUI;
-    }
-
-    //****************************
-    // SCENE IMPLEMENTATION
-    //****************************
+    /**
+     * Create the default scene (<em>LogIn</em>) and set the dimension of it
+     * @return the scene created
+     */
     public Scene initScene() {
-        Container container = new Container();
-        addToGroup(container);
+        /*   LogIn   */
 
-        Scene scene = new Scene(root, 1040, 700);
+        nodeWindow = new LogIn();
+        root = nodeWindow.getNodes();
+
+        Scene scene = new Scene(root, 1280, 700);
         scene.getStylesheets().add("file:css/UniSup.css");
         return scene;
     }
 
-    //****************************
-    // GROUP OPERATIONS
-    //****************************
-    public void addToGroup(Node node) {
-        root.getChildren().add(node);
+    /**
+     * Clears all the nodes from the scene, and then adds the nodes regarding the new one
+     * @param sn is a <em>SceneNames</em> which indicates the new scene
+     */
+
+    public static void changeScene(SceneNames sn) {
+
+        root.getChildren().clear();
+        nodeWindow = sn.createNewScene(sn);
+        root = nodeWindow.getNodes();
     }
 
-    public void removeFromGroup(Node node) {
-        root.getChildren().remove(node);
+    /**
+     * Get the user logged
+     * @return the user logged
+     */
+    public static User getUser() {
+        return userLogged;
+    }
+
+    /**
+     * Removes the user stored in memory (<code>userLogged</code>) when the user logged out (in order to avoid error and to be coherent).
+     */
+    protected static void userExit() {
+        userLogged = null;
     }
 }

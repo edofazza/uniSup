@@ -1,6 +1,5 @@
-.WriteButton {
-    -fx-background-color: transparent;
-    -fx-border-color: transparent;
-    -fx-background-size: 50;
-    -fx-background-image: url("file:img/write.png");
-}
+@import url("buttons/writeButtonStyle.css");
+@import url("buttons/submissionButtonStyle.css");
+
+@import url("labels/fieldRelatedLabelStyle.css");
+@import url("labels/invalidFormEntryStyle.css");
