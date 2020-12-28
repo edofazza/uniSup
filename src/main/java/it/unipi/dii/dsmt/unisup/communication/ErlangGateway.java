@@ -1,4 +1,4 @@
-package it.unipi.dii.dsmt.unisup.persistence;
+package it.unipi.dii.dsmt.unisup.communication;
 
 import com.ericsson.otp.erlang.*;
 
