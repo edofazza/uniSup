@@ -1,14 +1,18 @@
 package it.unipi.dii.dsmt.unisup.beans;
 
 import java.time.Instant;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Message {
+    private static AtomicInteger identifier = new AtomicInteger(0);
+    private final int messageId;
     private String sender;
     private String receiver;
     private Instant timestamp;
     private String text;
 
     public Message(String sender, String receiver, String text){
+        this.messageId = identifier.getAndIncrement();
         this.receiver=receiver;
         this.sender=sender;
         this.text=text;
@@ -45,5 +49,9 @@ public class Message {
 
     public void setTimestamp(Instant timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public int getMessageId() {
+        return messageId;
     }
 }

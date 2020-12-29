@@ -103,7 +103,7 @@ public class ErlangGateway {
                             reqMsg.toString());
 
                     //blocking receive operation
-                    OtpErlangObject msg = mbox.receive();
+                    OtpErlangObject msg = mbox.receive(30);
                     //getting the message content (a number)
                     OtpErlangDouble curr_avg_erlang = (OtpErlangDouble) msg;  //it is supposed to be a tuple...
                     curr_avg = curr_avg_erlang.doubleValue();

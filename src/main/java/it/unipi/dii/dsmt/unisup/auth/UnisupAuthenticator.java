@@ -15,6 +15,9 @@ public abstract class UnisupAuthenticator implements Authenticator{
         return saveBackups(u);
     }
 
+    @Override
+    public abstract boolean addContact(String username);
+
     public abstract boolean authenticate(User u);
     public abstract void loadBackups(User u);
     public abstract boolean saveBackups(User u);

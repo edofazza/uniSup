@@ -12,4 +12,6 @@ public interface Authenticator {
     boolean loginOrRegister(User u);
 
     boolean logout(User u);
+
+    boolean addContact(String username);
 }

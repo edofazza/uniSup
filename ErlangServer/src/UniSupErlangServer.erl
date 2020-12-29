@@ -96,3 +96,9 @@ code_change(_OldVsn, State = #'UniSupErlangServer'_state{}, _Extra) ->
 %%%===================================================================
 %%% Internal functions
 %%%===================================================================
+
+checkIntoMnesia(Username, Password) -> ok.
+
+getAddressFromMnesia(Username) -> ok.
+
+pushIntoRabbitMQ(Sender, Receiver, Message) ->ok.
