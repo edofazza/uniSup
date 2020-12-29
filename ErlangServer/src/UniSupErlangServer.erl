@@ -1,5 +1,5 @@
 %%%-------------------------------------------------------------------
-%%% @author Edoardo Fazzari
+%%% @author Edoardo Fazzari, Mirco Ramo, Sina Gholami
 %%% @copyright (C) 2020, <COMPANY>
 %%% @doc
 %%%

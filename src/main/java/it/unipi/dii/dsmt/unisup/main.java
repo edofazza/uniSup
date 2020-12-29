@@ -1,7 +1,7 @@
 package it.unipi.dii.dsmt.unisup;
 
 import it.unipi.dii.dsmt.unisup.userinterface.CurrentUI;
-import javafx.application.Application;
+import javafx.application.*;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 

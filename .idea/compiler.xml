@@ -9,8 +9,8 @@
         <module name="uniSup" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="uniSup" target="1.8" />
+    <bytecodeTargetLevel target="8">
+      <module name="uniSup" target="8" />
     </bytecodeTargetLevel>
   </component>
 </project>
