@@ -1,4 +1,4 @@
-package it.unipi.dii.dsmt.unisup.auth;
+package it.unipi.dii.dsmt.unisup.communication;
 
 import it.unipi.dii.dsmt.unisup.beans.User;
 

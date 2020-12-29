@@ -1,53 +1,55 @@
 package it.unipi.dii.dsmt.unisup.communication;
 
-import com.ericsson.otp.erlang.OtpMbox;
 import com.ericsson.otp.erlang.OtpNode;
-import it.unipi.dii.dsmt.unisup.beans.Message;
 
 import java.io.IOException;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class Gateway {
-    private static final String serverNodeName = "unisup_server@localhost"; //configuration parameter
-    private static final String serverRegisteredName = "unisup_server"; //configuration parameter
-    private static OtpMbox ackMbox;
-    private static OtpMbox receiveMbox;
-    private static final String clientNodeName = "unisup_client_node@localhost"; //configuration parameter
-    private static final String applicationCookie = "unisup";
-    private static OtpNode clientNode;
-    private static Gateway ref;
-    private static final ExecutorService myExecutor = Executors.newCachedThreadPool();
+public abstract class Gateway {
+    protected static final String serverNodeName = "unisup_server@localhost"; //configuration parameter
+    protected static final String serverRegisteredName = "unisup_server"; //configuration parameter
+    protected static final String clientNodeName = "unisup_client_node@localhost"; //configuration parameter
+    protected static String applicationCookie = "unisup";
+    protected static OtpNode clientNode;
+    private static boolean initialized=false;
+    private static ExecutorService myExecutor;
 
-    public static Gateway getInstance(String cookie){
-        if(ref == null){
-            ref = new Gateway();
+    public static void prepareGateway(){
+        if(!initialized){
+            initialiaze();
         }
-        return ref;
     }
 
-    private Gateway(){
+    private static void initialiaze(){
         try {
             clientNode = new OtpNode(clientNodeName, applicationCookie);
-            ackMbox = clientNode.createMbox("ackMbox");
-            receiveMbox = clientNode.createMbox("receiveMbox");
+            myExecutor= Executors.newCachedThreadPool();
+            initialized=true;
         }catch (IOException ioe){
             ioe.printStackTrace();
         }
     }
 
-
-
-    private static class CommunicateTask implements Runnable{
-        private final int taskId;
-
-        CommunicateTask(Message m){
-            taskId=m.getMessageId();
+    public Object addToExecutor(Callable task){
+        try {
+            return myExecutor.submit(task).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            return null;
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+            return null;
         }
+    }
 
-        @Override
-        public void run() {
+    public void stopExecutor(){
+        myExecutor.shutdown();
+    }
 
-        }
+    public void setApplicationCookie(String cookie){
+        applicationCookie=cookie;
     }
 }
