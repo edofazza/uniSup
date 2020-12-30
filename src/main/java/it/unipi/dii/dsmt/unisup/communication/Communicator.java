@@ -6,5 +6,5 @@ public interface Communicator {
 
     boolean sendMessage(Message m, long timeout);
 
-    Message receiveMessage(String usernameSender);
+    Message receiveMessage();
 }
