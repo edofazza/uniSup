@@ -87,11 +87,9 @@ public class ErlangGateway {
             int drawnNum;
             double curr_avg;
 
-            for (int i = 0; i < NUM_RUNS; i++) {
+
                 drawnNum = rndGen.nextInt(100); //a random int is generated, for the req body
                 try {
-                    //waiting for a while
-                    Thread.sleep(rndGen.nextInt(1000));
 
                     //composing the request message
                     OtpErlangInt num = new OtpErlangInt(drawnNum);
@@ -114,7 +112,7 @@ public class ErlangGateway {
                     System.out.println("ERROR!\n" + e);
                     e.printStackTrace();
                 }
-            }
+
         }
     }
 }
