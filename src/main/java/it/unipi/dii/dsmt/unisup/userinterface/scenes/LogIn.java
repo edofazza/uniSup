@@ -1,5 +1,7 @@
 package it.unipi.dii.dsmt.unisup.userinterface.scenes;
 
+import it.unipi.dii.dsmt.unisup.beans.Message;
+import it.unipi.dii.dsmt.unisup.communication.MessageGateway;
 import it.unipi.dii.dsmt.unisup.userinterface.CurrentUI;
 import it.unipi.dii.dsmt.unisup.userinterface.enumui.SceneNames;
 import it.unipi.dii.dsmt.unisup.userinterface.javafxextensions.buttons.RegularButton;
@@ -72,6 +74,8 @@ public class LogIn extends UniSupScene {
     private void logInButtonAction() {
         // set the user
         if(true) { //TODO
+            //MessageGateway messageGateway = MessageGateway.getInstance();
+            //messageGateway.sendMessage(new Message("unisup_client_node@localhost", "donald@localhost", "Test"), 5);
             CurrentUI.changeScene(SceneNames.HOMEPAGE);
         } else {
             InvalidFormEntryLabel loginError = new InvalidFormEntryLabel("Username/password incorrect", 470, 400, true);

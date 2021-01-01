@@ -1,5 +1,6 @@
 package it.unipi.dii.dsmt.unisup.userinterface.javafxextensions.panes;
 
+import it.unipi.dii.dsmt.unisup.userinterface.javafxextensions.panes.regularpanes.ChatPane;
 import it.unipi.dii.dsmt.unisup.userinterface.javafxextensions.panes.regularpanes.LeftHeaderWithCreateNewChat;
 import it.unipi.dii.dsmt.unisup.userinterface.javafxextensions.panes.regularpanes.RightHeader;
 
@@ -13,6 +14,7 @@ public class Container extends Pane {
         displayLeftHeader();
         displayContactUserPane();
         displayRightHeader();
+        displayChatPane();
     }
 
     private void displayLeftHeader() {
@@ -33,5 +35,10 @@ public class Container extends Pane {
         getChildren().add(rightHeader);
     }
 
+    private void displayChatPane() {
+        ChatPane chatPane = new ChatPane(350, 50, 720, 651);
+
+        getChildren().add(chatPane);
+    }
 
 }
