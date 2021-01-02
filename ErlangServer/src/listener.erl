@@ -20,6 +20,6 @@ init_listener() ->
 
 listener_server_loop() ->
   receive
-    ({From, Action, Tuple}) -> From ! 'UniSupErlangServer':call_server({Action, Tuple})
+    ({From, Action, Argument}) -> spawn(fun() -> From ! 'UniSupErlangServer':call_server({Action, Argument}) end)
   end,
   listener_server_loop().
