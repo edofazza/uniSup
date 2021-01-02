@@ -18,7 +18,7 @@
 init() ->
   mnesia:create_schema([node()]),
   mnesia:start(),
-  mnesia:create_table(users, [{attributes, record_info(fields, user)}]),
-  mnesia:create_table(messages, [{attributes, record_info(fields, message)}]).
+  mnesia:create_table(users, [{attributes, record_info(fields, unisup_user)}]),
+  mnesia:create_table(messages, [{attributes, record_info(fields, unisup_message)}]).
 
 
