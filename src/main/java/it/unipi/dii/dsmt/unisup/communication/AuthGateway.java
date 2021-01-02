@@ -62,7 +62,7 @@ public class AuthGateway extends Gateway implements Authenticator{
            OtpErlangString password = new OtpErlangString(me.getPassword());
            OtpErlangString myNodeName = new OtpErlangString(clientNodeName);
            OtpErlangTuple tuple = new OtpErlangTuple(new OtpErlangObject[]{pid, username, password, myNodeName});
-           OtpErlangTuple reqMessage = new OtpErlangTuple(new OtpErlangObject[]{log, tuple});
+           OtpErlangTuple reqMessage = new OtpErlangTuple(new OtpErlangObject[]{pid, log, tuple});
            mbox.send(serverRegisteredName, serverNodeName, reqMessage);
 
            OtpErlangBoolean response = (OtpErlangBoolean) mbox.receive();
@@ -87,7 +87,7 @@ public class AuthGateway extends Gateway implements Authenticator{
             OtpErlangString password = new OtpErlangString(me.getPassword());
             OtpErlangString myNodeName = new OtpErlangString(clientNodeName);
             OtpErlangTuple tuple = new OtpErlangTuple(new OtpErlangObject[]{pid, username, password, myNodeName});
-            OtpErlangTuple reqMessage = new OtpErlangTuple(new OtpErlangObject[]{register, tuple});
+            OtpErlangTuple reqMessage = new OtpErlangTuple(new OtpErlangObject[]{pid, register, tuple});
             mbox.send(serverRegisteredName, serverNodeName, reqMessage);
 
             OtpErlangBoolean response = (OtpErlangBoolean) mbox.receive();
@@ -106,9 +106,10 @@ public class AuthGateway extends Gateway implements Authenticator{
 
         @Override
         public Boolean call() throws Exception {
+            OtpErlangPid pid = mbox.self();
             OtpErlangAtom contact = new OtpErlangAtom("contact");
             OtpErlangString contactName = new OtpErlangString(newContact);
-            OtpErlangTuple reqMsg = new OtpErlangTuple(new OtpErlangObject[]{contact, contactName});
+            OtpErlangTuple reqMsg = new OtpErlangTuple(new OtpErlangObject[]{pid, contact, contactName});
             mbox.send(serverRegisteredName, serverNodeName, reqMsg);
 
             OtpErlangBoolean response = (OtpErlangBoolean) mbox.receive();

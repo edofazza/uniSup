@@ -7,12 +7,11 @@
 %%% Created : 27. dic 2020 19:35
 %%%-------------------------------------------------------------------
 -module('UniSupErlangServer').
--author("Edoardo Fazzari").
 
 -behaviour(gen_server).
 
 %% API
--export([start_link/0]).
+-export([start_server/0, call_server/1]).
 
 %% gen_server callbacks
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2,
@@ -20,17 +19,17 @@
 
 -define(SERVER, ?MODULE).
 
--record('UniSupErlangServer'_state, {}).
-
 %%%===================================================================
 %%% API
 %%%===================================================================
 
 %% @doc Spawns the server and registers the local name (unique)
--spec(start_link() ->
-  {ok, Pid :: pid()} | ignore | {error, Reason :: term()}).
-start_link() ->
-  gen_server:start_link({local, ?SERVER}, ?MODULE, [], []).
+start_server() ->
+  gen_server:start({local, unisup_gen_server}, ?MODULE, [], []).
+
+call_server(Content) ->
+  gen_server:call(unisup_gen_server, Content).
+
 
 %%%===================================================================
 %%% gen_server callbacks
@@ -38,24 +37,12 @@ start_link() ->
 
 %% @private
 %% @doc Initializes the server
--spec(init(Args :: term()) ->
-{ok, State :: #'UniSupErlangServer'_state{}} | {ok, State :: #'UniSupErlangServer'_state{}, timeout() | hibernate} |
-{stop, Reason :: term()} | ignore).
 init([]) ->
-  {ok, #'UniSupErlangServer'_state{}}.
+  ok.
 
 %% @private
 %% @doc Handling call messages
--spec(handle_call(Request :: term(), From :: {pid(), Tag :: term()},
-    State :: #'UniSupErlangServer'_state{}) ->
-{reply, Reply :: term(), NewState :: #'UniSupErlangServer'_state{}} |
-{reply, Reply :: term(), NewState :: #'UniSupErlangServer'_state{}, timeout() | hibernate} |
-{noreply, NewState :: #'UniSupErlangServer'_state{}} |
-{noreply, NewState :: #'UniSupErlangServer'_state{}, timeout() | hibernate} |
-{stop, Reason :: term(), Reply :: term(), NewState :: #'UniSupErlangServer'_state{}} |
-{stop, Reason :: term(), NewState :: #'UniSupErlangServer'_state{}}).
-handle_call(_Request, _From, State = #'UniSupErlangServer'_state{}) ->
-{reply, ok, State}.
+handle_call({}, _From, )
 
 %% @private
 %% @doc Handling cast messages
