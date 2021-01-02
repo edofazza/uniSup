@@ -1,8 +1,13 @@
 package it.unipi.dii.dsmt.unisup.communication;
 
 import com.ericsson.otp.erlang.*;
+import it.unipi.dii.dsmt.unisup.beans.Chat;
+import it.unipi.dii.dsmt.unisup.beans.Message;
 import it.unipi.dii.dsmt.unisup.beans.User;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.concurrent.Callable;
 
 public class AuthGateway extends Gateway implements Authenticator{
@@ -25,6 +30,11 @@ public class AuthGateway extends Gateway implements Authenticator{
     }
 
     @Override
+    public List<Chat> getChatHistory(User u) {
+        return null;
+    }
+
+    @Override
     public boolean register(User u) {
         Callable<Boolean> toRun = new AuthGateway.RegisterTask(u);
         boolean result = (Boolean)addToExecutor(toRun);
@@ -33,7 +43,7 @@ public class AuthGateway extends Gateway implements Authenticator{
 
     @Override
     public boolean logout(User u) {
-        //export chats
+        stopExecutor();
         return true;
     }
 
@@ -70,6 +80,38 @@ public class AuthGateway extends Gateway implements Authenticator{
         }
     }
 
+    private static class GetHistoryTask implements Callable<List<Chat>> {
+        private User me;
+        private final OtpMbox mbox;
+
+        GetHistoryTask(User u){
+            me=u;
+            mbox = clientNode.createMbox();
+        }
+
+        @Override
+        public List<Chat> call() throws Exception {
+            OtpErlangPid pid = mbox.self();
+            OtpErlangAtom history = new OtpErlangAtom("history");
+            OtpErlangString username = new OtpErlangString(me.getUsername());
+            OtpErlangTuple reqMessage = new OtpErlangTuple(new OtpErlangObject[]{pid, history, username});
+            mbox.send(serverRegisteredName, serverNodeName, reqMessage);
+
+            OtpErlangList response = (OtpErlangList)mbox.receive();
+            ArrayList<Chat> toReturn = new ArrayList<>();
+            Chat c=null;
+            for(Iterator<OtpErlangObject> i=response.iterator(); i.hasNext(); ){
+                OtpErlangTuple message = (OtpErlangTuple)i.next();
+                String sender = ((OtpErlangString)message.elementAt(0)).stringValue();
+                String receiver = ((OtpErlangString)message.elementAt(1)).stringValue();
+                String text = ((OtpErlangString)message.elementAt(2)).stringValue();
+                Message m = new Message(sender, receiver, text);
+                //handle message import
+            }
+            return toReturn;
+        }
+    }
+
     private static class RegisterTask implements Callable<Boolean> {
         private User me;
         private final OtpMbox mbox;
@@ -81,8 +123,9 @@ public class AuthGateway extends Gateway implements Authenticator{
 
         @Override
         public Boolean call() throws Exception {
-            OtpErlangAtom register = new OtpErlangAtom("register");
             OtpErlangPid pid = mbox.self();
+            OtpErlangAtom register = new OtpErlangAtom("register");
+
             OtpErlangString username = new OtpErlangString(me.getUsername());
             OtpErlangString password = new OtpErlangString(me.getPassword());
             OtpErlangString myNodeName = new OtpErlangString(clientNodeName);
