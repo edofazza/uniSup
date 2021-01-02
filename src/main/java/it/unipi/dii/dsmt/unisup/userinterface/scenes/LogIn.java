@@ -81,10 +81,9 @@ public class LogIn extends UniSupScene {
             //messageGateway.sendMessage(new Message("unisup_client_node@localhost", "donald@localhost", "Test"), 5);
 
             User user = new User("edofazza", "edoardo98");
-            //new XMLParser().storeUserInformation(user);
+            new XMLParser().storeUserInformation(user);
 
-            user = new XMLParser().loadUserInformation();
-            System.out.println(user.getUsername());
+            //user = new XMLParser().loadUserInformation();
 
             CurrentUI.changeScene(SceneNames.HOMEPAGE);
         } else {

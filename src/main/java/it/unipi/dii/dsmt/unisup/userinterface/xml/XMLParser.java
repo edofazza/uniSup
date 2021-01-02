@@ -2,10 +2,7 @@ package it.unipi.dii.dsmt.unisup.userinterface.xml;
 
 import com.thoughtworks.xstream.*;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.*;
 import java.nio.file.*;
 import java.util.*;
@@ -24,11 +21,11 @@ public class XMLParser {
         XStream xStream = new XStream();
 
         try (
-                FileOutputStream fileOutputStream = new FileOutputStream("xml/config/user.xml");
-                ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+                Writer writer = new BufferedWriter(new OutputStreamWriter(
+                        new FileOutputStream("xml/config/user.xml"), "utf-8"))
                 ) {
             String xml = xStream.toXML(user);
-            objectOutputStream.writeObject(xml);
+            writer.write(xml);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
