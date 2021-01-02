@@ -1,12 +1,14 @@
 package it.unipi.dii.dsmt.unisup.userinterface.scenes;
 
 import it.unipi.dii.dsmt.unisup.beans.Message;
+import it.unipi.dii.dsmt.unisup.beans.User;
 import it.unipi.dii.dsmt.unisup.communication.MessageGateway;
 import it.unipi.dii.dsmt.unisup.userinterface.CurrentUI;
 import it.unipi.dii.dsmt.unisup.userinterface.enumui.SceneNames;
 import it.unipi.dii.dsmt.unisup.userinterface.javafxextensions.buttons.RegularButton;
 import it.unipi.dii.dsmt.unisup.userinterface.javafxextensions.labels.FieldRelatedLabel;
 import it.unipi.dii.dsmt.unisup.userinterface.javafxextensions.labels.InvalidFormEntryLabel;
+import it.unipi.dii.dsmt.unisup.userinterface.xml.XMLParser;
 import javafx.event.ActionEvent;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -26,6 +28,7 @@ public class LogIn extends UniSupScene {
         displayEmailFields();
         displayPasswordFields();
 
+        displayRegisterButton();
         displayLogInButton();
     }
 
@@ -63,7 +66,7 @@ public class LogIn extends UniSupScene {
     private void displayLogInButton() {
         RegularButton logInButton = new RegularButton("LOG IN", 570, 370);
 
-        logInButton.setOnAction((ActionEvent ev)-> logInButtonAction());
+        logInButton.setOnAction( e -> logInButtonAction());
 
         sceneNodes.getChildren().add(logInButton);
     }
@@ -76,10 +79,28 @@ public class LogIn extends UniSupScene {
         if(true) { //TODO
             //MessageGateway messageGateway = MessageGateway.getInstance();
             //messageGateway.sendMessage(new Message("unisup_client_node@localhost", "donald@localhost", "Test"), 5);
+
+            User user = new User("edofazza", "edoardo98");
+            //new XMLParser().storeUserInformation(user);
+
+            user = new XMLParser().loadUserInformation();
+            System.out.println(user.getUsername());
+
             CurrentUI.changeScene(SceneNames.HOMEPAGE);
         } else {
             InvalidFormEntryLabel loginError = new InvalidFormEntryLabel("Username/password incorrect", 470, 400, true);
             sceneNodes.getChildren().add(loginError);
         }
+    }
+
+    private void displayRegisterButton() {
+        RegularButton registerButton = new RegularButton("REGISTER", 350, 370);
+        registerButton.setOnAction(e -> registerButtonAction());
+
+        sceneNodes.getChildren().add(registerButton);
+    }
+
+    private void registerButtonAction() {
+        // TODO
     }
 }
