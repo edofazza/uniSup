@@ -9,7 +9,9 @@ public interface Authenticator {
      * @param u user to log/register
      * @return true if the user has been logged, false if he/she has been registered
      */
-    boolean loginOrRegister(User u);
+    boolean login(User u);
+
+    boolean register(User u);
 
     boolean logout(User u);
 

@@ -17,14 +17,23 @@ public class AuthGateway extends Gateway implements Authenticator{
     }
 
     @Override
-    public boolean loginOrRegister(User u) {
+    public boolean login(User u) {
         Callable<Boolean> toRun = new AuthGateway.LogTask(u);
+        boolean result = (Boolean)addToExecutor(toRun);
+        //import chats
+        return result;
+    }
+
+    @Override
+    public boolean register(User u) {
+        Callable<Boolean> toRun = new AuthGateway.RegisterTask(u);
         boolean result = (Boolean)addToExecutor(toRun);
         return result;
     }
 
     @Override
     public boolean logout(User u) {
+        //export chats
         return true;
     }
 
@@ -58,6 +67,31 @@ public class AuthGateway extends Gateway implements Authenticator{
 
            OtpErlangBoolean response = (OtpErlangBoolean) mbox.receive();
            return response.booleanValue();
+        }
+    }
+
+    private static class RegisterTask implements Callable<Boolean> {
+        private User me;
+        private final OtpMbox mbox;
+
+        RegisterTask(User u){
+            me=u;
+            mbox = clientNode.createMbox();
+        }
+
+        @Override
+        public Boolean call() throws Exception {
+            OtpErlangAtom register = new OtpErlangAtom("register");
+            OtpErlangPid pid = mbox.self();
+            OtpErlangString username = new OtpErlangString(me.getUsername());
+            OtpErlangString password = new OtpErlangString(me.getPassword());
+            OtpErlangString myNodeName = new OtpErlangString(clientNodeName);
+            OtpErlangTuple tuple = new OtpErlangTuple(new OtpErlangObject[]{pid, username, password, myNodeName});
+            OtpErlangTuple reqMessage = new OtpErlangTuple(new OtpErlangObject[]{register, tuple});
+            mbox.send(serverRegisteredName, serverNodeName, reqMessage);
+
+            OtpErlangBoolean response = (OtpErlangBoolean) mbox.receive();
+            return response.booleanValue();
         }
     }
 
