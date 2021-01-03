@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="rabbit_common">
+    <CLASSES />
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/../../../../Program Files/erl-23.2/lib/rabbit_common" />
+    </SOURCES>
+  </library>
+</component>
