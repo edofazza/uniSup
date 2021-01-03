@@ -56,13 +56,14 @@ login(Username, Password, NodeName, Pid) ->
         case mnesia:read({unisup_users, Username}) =:= [] of
           true -> % User present
             %% GET PASSWORD
-            Pass = select(qlc:q([X || X <- mnesia:table(unisup_users),
-              (X#unisup_users.username == Username)])),
+            %Pass = select(qlc:q([X || X <- mnesia:table(unisup_users),
+             % (X#unisup_users.username == Username)])),
+             [_,Pass,_,_] = [User] = mnesia:read(unisup_users, Username),
 
             %% CHECK IF THE PASSWORD IS CORRECT
             case Password == Pass of
                %% If the password is equal to the one inserted then I update the data in Mnesia
-               %% and I return true. Otherwise, I return "password_not_correct"
+               %% and I return true. Otherwise, I return false
                true ->
                  update_user(Username, NodeName, Pid),
                  true;
