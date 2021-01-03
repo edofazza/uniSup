@@ -5,9 +5,7 @@ import it.unipi.dii.dsmt.unisup.beans.Chat;
 import it.unipi.dii.dsmt.unisup.beans.Message;
 import it.unipi.dii.dsmt.unisup.beans.User;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.Callable;
 
 public class AuthGateway extends Gateway implements Authenticator{
@@ -99,14 +97,31 @@ public class AuthGateway extends Gateway implements Authenticator{
 
             OtpErlangList response = (OtpErlangList)mbox.receive();
             ArrayList<Chat> toReturn = new ArrayList<>();
-            Chat c=null;
+            TreeMap<String, ArrayList<Message>> tree = new TreeMap<>();
             for(Iterator<OtpErlangObject> i=response.iterator(); i.hasNext(); ){
                 OtpErlangTuple message = (OtpErlangTuple)i.next();
                 String sender = ((OtpErlangString)message.elementAt(0)).stringValue();
                 String receiver = ((OtpErlangString)message.elementAt(1)).stringValue();
                 String text = ((OtpErlangString)message.elementAt(2)).stringValue();
                 Message m = new Message(sender, receiver, text);
-                //handle message import
+                String key;
+                if(sender.equals(me.getUsername()))
+                    key=receiver;
+                else if(receiver.equals(me.getUsername()))
+                    key=sender;
+                else
+                    continue;
+                ArrayList<Message> al;
+                if(tree.containsKey(key))
+                    al = tree.get(key);
+                else
+                    al = new ArrayList<>();
+                al.add(m);
+                tree.put(key, al);
+            }
+            for(Map.Entry<String, ArrayList<Message>> entry : tree.entrySet()){
+                Chat c = new Chat(entry.getKey(), entry.getValue());
+                toReturn.add(c);
             }
             return toReturn;
         }
