@@ -50,16 +50,17 @@ handle_call({message, {Msg_Id, Sender, Receiver, Text}}, _From, _)->
   %%push into RabbitMq
   {ack, Msg_Id};
 handle_call({log, {Pid, Username, Password, ClientNodeName}}, _From, _)->
-  %%check username and password
-  %%update mnesia physical addresses
-  true;
+  mnesiaFunctions:login(Username, Password, ClientNodeName, Pid);
+
 handle_call({register, {Pid, Username, Password, ClientNodeName}}, _From, _)->
-  %%check username and password
-  %%update mnesia physical addresses
-  true;
+  mnesiaFunctions:register(Username, Password, ClientNodeName, Pid);
+
 handle_call({contact, Username}, _From, _) ->
   %%check username
   %add contact
+  true;
+handle_call({history, Username}, _From, _) ->
+  %%return all the chat history from mnesia
   true;
 handle_call(_, _From, _) ->
   false.

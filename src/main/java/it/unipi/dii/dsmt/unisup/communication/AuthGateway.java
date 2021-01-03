@@ -23,13 +23,14 @@ public class AuthGateway extends Gateway implements Authenticator{
     public boolean login(User u) {
         Callable<Boolean> toRun = new AuthGateway.LogTask(u);
         boolean result = (Boolean)addToExecutor(toRun);
-        //import chats
         return result;
     }
 
     @Override
     public List<Chat> getChatHistory(User u) {
-        return null;
+        Callable<List<Chat>> toRun = new AuthGateway.GetHistoryTask(u);
+        List<Chat> result = (List<Chat>)addToExecutor(toRun);
+        return result;
     }
 
     @Override

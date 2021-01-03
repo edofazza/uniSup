@@ -12,11 +12,15 @@ public class Message {
     private String text;
 
     public Message(String sender, String receiver, String text){
+        this(sender, receiver, text, Instant.now());
+    }
+
+    public Message(String sender, String receiver, String text, Instant timestamp){
         this.messageId = identifier.getAndIncrement();
-        this.receiver=receiver;
-        this.sender=sender;
-        this.text=text;
-        this.timestamp= Instant.now();
+        this.receiver = receiver;
+        this.sender = sender;
+        this.text = text;
+        this.timestamp = timestamp;
     }
 
     public Instant getTimestamp() {
