@@ -10,15 +10,59 @@
 -author("edoardo").
 
 %% API
--export([init/0]).
+-export([init/0, login/4, register/4]).
 
 -include_lib("stdlib/include/qlc.hrl").
 -include("headers/records.hrl").
 
+%%%===================================================================
+%%% API
+%%%===================================================================
 init() ->
   mnesia:create_schema([node()]),
   mnesia:start(),
-  mnesia:create_table(users, [{attributes, record_info(fields, unisup_user)}]),
-  mnesia:create_table(messages, [{attributes, record_info(fields, unisup_message)}]).
+  mnesia:create_table(unisup_users,
+    [{attributes, record_info(fields, unisup_users)},
+      {disc_copies, node()},
+      {type, ordered_set}]),
+  mnesia:create_table(unisup_messages, [{attributes, record_info(fields, unisup_messages)},
+    {disc_copies, node()},
+    {type, bag}]).
 
+
+%%%===================================================================
+%%% USER OPERATIONS
+%%%===================================================================
+
+add_user(Username, Password, NodeName, Pid) ->
+  Fun = fun() ->
+    mnesia:write(#unisup_users{username = Username,
+                        password = Password,
+                        nodeName = NodeName,
+                        pid = Pid
+                        })
+        end,
+    mnesia:activity(transaction, Fun).
+
+login(Username, Password, NodeName, Pid) ->
+  F = fun() ->
+        case mnesia:read({unisup_users, Username}) =:= [] of
+          true -> % User present
+            mnesia:read({unisup_users, Username});
+          false ->
+            user_not_present
+        end
+    end,
+    mnesia:activity(transaction, F).
+
+register(Username, Password, NodeName, Pid) ->
+  F = fun() ->
+        case mnesia:read({unisup_users, Username}) =:= [] of
+          true -> % User present
+            username_already_present;
+          false ->
+            add_user(Username, Password, NodeName, Pid)
+        end
+    end,
+    mnesia:activity(transaction, F).
 
