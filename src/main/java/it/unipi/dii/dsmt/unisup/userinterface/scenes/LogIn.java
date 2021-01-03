@@ -1,15 +1,14 @@
 package it.unipi.dii.dsmt.unisup.userinterface.scenes;
 
-import it.unipi.dii.dsmt.unisup.beans.Message;
 import it.unipi.dii.dsmt.unisup.beans.User;
-import it.unipi.dii.dsmt.unisup.communication.MessageGateway;
+import it.unipi.dii.dsmt.unisup.communication.AuthGateway;
+import it.unipi.dii.dsmt.unisup.communication.Authenticator;
 import it.unipi.dii.dsmt.unisup.userinterface.CurrentUI;
 import it.unipi.dii.dsmt.unisup.userinterface.enumui.SceneNames;
 import it.unipi.dii.dsmt.unisup.userinterface.javafxextensions.buttons.RegularButton;
 import it.unipi.dii.dsmt.unisup.userinterface.javafxextensions.labels.FieldRelatedLabel;
 import it.unipi.dii.dsmt.unisup.userinterface.javafxextensions.labels.InvalidFormEntryLabel;
 import it.unipi.dii.dsmt.unisup.userinterface.xml.XMLParser;
-import javafx.event.ActionEvent;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
@@ -84,8 +83,12 @@ public class LogIn extends UniSupScene {
             new XMLParser().storeUserInformation(user);
 
             //user = new XMLParser().loadUserInformation();
+            Authenticator auth = AuthGateway.getInstance();
+            boolean result = auth.login(user);
+            System.out.println("Result of login is" + result);
 
-            CurrentUI.changeScene(SceneNames.HOMEPAGE);
+            if(result)
+                CurrentUI.changeScene(SceneNames.HOMEPAGE);
         } else {
             InvalidFormEntryLabel loginError = new InvalidFormEntryLabel("Username/password incorrect", 470, 400, true);
             sceneNodes.getChildren().add(loginError);
