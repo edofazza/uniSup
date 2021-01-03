@@ -44,11 +44,28 @@ add_user(Username, Password, NodeName, Pid) ->
         end,
     mnesia:activity(transaction, Fun).
 
+update_user(Username, NodeName, Pid) ->
+  F = fun() ->
+    [User] = mnesia:read(unisup_users, Username),
+    mnesia:write(User#unisup_users{nodeName = NodeName, pid = Pid})
+
 login(Username, Password, NodeName, Pid) ->
   F = fun() ->
         case mnesia:read({unisup_users, Username}) =:= [] of
           true -> % User present
-            mnesia:read({unisup_users, Username});
+            %% GET PASSWORD
+            Pass = select(qlc:q([X || X <- mnesia:table(unisup_users),
+              (X#unisup_users.username == Username)])),
+
+            %% CHECK IF THE PASSWORD IS CORRECT
+            case Password == Pass of
+               %% If the password is equal to the one inserted then I update the data in Mnesia
+               %% and I return true. Otherwise, I return "password_not_correct"
+               true ->
+                 update_user(Username, NodeName, Pid),
+                 true;
+               false -> password_not_correct
+            end;
           false ->
             user_not_present
         end
