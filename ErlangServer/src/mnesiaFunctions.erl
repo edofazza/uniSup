@@ -46,8 +46,10 @@ add_user(Username, Password, NodeName, Pid) ->
 
 update_user(Username, NodeName, Pid) ->
   F = fun() ->
-    [User] = mnesia:read(unisup_users, Username),
-    mnesia:write(User#unisup_users{nodeName = NodeName, pid = Pid})
+      [User] = mnesia:read(unisup_users, Username),
+      mnesia:write(User#unisup_users{nodeName = NodeName, pid = Pid})
+      end,
+  mnesia:activity(transaction, F).
 
 login(Username, Password, NodeName, Pid) ->
   F = fun() ->
@@ -64,10 +66,10 @@ login(Username, Password, NodeName, Pid) ->
                true ->
                  update_user(Username, NodeName, Pid),
                  true;
-               false -> password_not_correct
+               false -> false
             end;
           false ->
-            user_not_present
+            false
         end
     end,
     mnesia:activity(transaction, F).
@@ -76,9 +78,10 @@ register(Username, Password, NodeName, Pid) ->
   F = fun() ->
         case mnesia:read({unisup_users, Username}) =:= [] of
           true -> % User present
-            username_already_present;
+            false;
           false ->
-            add_user(Username, Password, NodeName, Pid)
+            add_user(Username, Password, NodeName, Pid),
+            true
         end
     end,
     mnesia:activity(transaction, F).
