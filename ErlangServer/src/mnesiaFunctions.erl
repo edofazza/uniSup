@@ -10,7 +10,7 @@
 -author("edoardo").
 
 %% API
--export([init/0, login/4, register/4, all_user/0, readTest/1]).
+-export([init/0, login/4, register/4, all_user/0, readTest/1, insert_new_message/3, all_messages/0, get_user_related_messages/1]).
 
 -include_lib("stdlib/include/qlc.hrl").
 -include("headers/records.hrl").
@@ -25,9 +25,9 @@ init() ->
     [{attributes, record_info(fields, unisup_users)}]),
       %{disc_copies, node()},
       %{type, ordered_set}]),
-  mnesia:create_table(unisup_messages, [{attributes, record_info(fields, unisup_messages)}]).
+  mnesia:create_table(unisup_messages, [{type, bag}, {attributes, record_info(fields, unisup_messages)},
     %{disc_copies, node()},
-    %{type, bag}]).
+    ]).
 
 
 %%%===================================================================
@@ -61,7 +61,7 @@ login(Username, Password, NodeName, Pid) ->
             %% CHECK IF THE PASSWORD IS CORRECT
             case Password =:= Pass of
                %% If the password is equal to the one inserted then I update the data in Mnesia
-               %% and I return true. Otherwise, I return false
+               %% and I will return true. Otherwise, I will return false
                true ->
                  update_user(Username, NodeName, Pid),
                  true;
@@ -98,3 +98,70 @@ all_user() ->
       end,
   mnesia:transaction(F).
 
+
+%%%===================================================================
+%%% MESSAGE OPERATIONS
+%%%===================================================================
+
+insert_new_message(Sender, Receiver, Text) ->
+  Fun = fun() ->
+    %% CHECK IF THE SENDER AND THE RECEIVER DO EXIST
+          case mnesia:read({unisup_users, Sender}) =:= []  of
+            true ->
+              false;
+            false ->
+              case mnesia:read({unisup_users, Receiver}) =:= [] of
+                true ->
+                  false;
+                false ->
+                  add_message(Sender, Receiver, Text),
+                  true
+              end
+          end
+        end,
+  mnesia:activity(transaction, Fun).
+
+add_message(Sender, Receiver, Text) ->
+  Fun = fun() ->
+    mnesia:write(#unisup_messages{sender = Sender,
+      receiver = Receiver,
+      text = Text,
+      timestamp = time_format:format_utc_timestamp()
+    })
+        end,
+  mnesia:activity(transaction, Fun).
+
+all_messages() ->
+  F = fun() ->
+    Q = qlc:q([{E#unisup_messages.sender, E#unisup_messages.receiver, E#unisup_messages.text, E#unisup_messages.timestamp} || E <- mnesia:table(unisup_messages)]),
+    qlc:e(Q)
+      end,
+  mnesia:transaction(F).
+
+message_sent(Username) ->
+  F = fun() ->
+    Q = qlc:q([{E#unisup_messages.sender, E#unisup_messages.receiver, E#unisup_messages.text, E#unisup_messages.timestamp} || E <- mnesia:table(unisup_messages), E#unisup_messages.sender == Username]),
+    qlc:e(Q)
+      end,
+  mnesia:transaction(F).
+
+get_message_sent(Username) ->
+  {_, Messages} = message_sent(Username),
+  Messages.
+
+message_received(Username) ->
+  F = fun() ->
+    Q = qlc:q([{E#unisup_messages.sender, E#unisup_messages.receiver, E#unisup_messages.text, E#unisup_messages.timestamp} || E <- mnesia:table(unisup_messages), E#unisup_messages.receiver == Username]),
+    qlc:e(Q)
+      end,
+  mnesia:transaction(F).
+
+get_message_received(Username) ->
+  {_, Messages} = message_received(Username),
+  Messages.
+
+
+%% FORMAT:
+%%      [{"edo","pippo","Test1","3 Jan 2021 13:32:40.857139"}, ....]
+get_user_related_messages(Username) ->
+  get_message_sent(Username) ++ get_message_received(Username).
