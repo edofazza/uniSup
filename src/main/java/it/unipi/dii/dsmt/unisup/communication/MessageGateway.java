@@ -67,6 +67,7 @@ public class MessageGateway extends Gateway implements Communicator{
         }
     }
 
+    //TODO: to review once implemented RabbitMQ APIs, adding also timestamps
     private static class ReceiveTask implements Callable<Message> {
 
         @Override
