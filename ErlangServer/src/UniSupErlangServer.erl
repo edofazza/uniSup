@@ -48,8 +48,9 @@ init([]) ->
 handle_call({message, {Msg_Id, Sender, Receiver, Text}}, _From, _)->
   case mnesiaFunctions:insert_new_message(Sender, Receiver, Text) of    %%maybe to do at consuming time from RabbitMQ
     true->
-      %%get Receiver pid
-      %%push into RabbitMq
+      ReceiverPid = mnesiaFunctions:retrieve_pid(Receiver),
+      ReceiverNodeName = mnesiaFunctions:retrieve_nodename(Receiver),
+      %%push into RabbitMq({Msg_Id, Sender, Receiver, Text, Timestamp}, ReceiverPid, ReceiverNodeName)
       {ack, Msg_Id};
     false ->
       {nack, Msg_Id}
