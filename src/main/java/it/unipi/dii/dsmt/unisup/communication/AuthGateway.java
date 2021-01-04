@@ -75,7 +75,7 @@ public class AuthGateway extends Gateway implements Authenticator{
            OtpErlangTuple reqMessage = new OtpErlangTuple(new OtpErlangObject[]{pid, log, tuple});
            mbox.send(serverRegisteredName, serverNodeName, reqMessage);
 
-           OtpErlangBoolean response = (OtpErlangBoolean) mbox.receive();
+           OtpErlangAtom response = (OtpErlangAtom) mbox.receive();
            return response.booleanValue();
         }
     }
@@ -151,7 +151,7 @@ public class AuthGateway extends Gateway implements Authenticator{
             OtpErlangTuple reqMessage = new OtpErlangTuple(new OtpErlangObject[]{pid, register, tuple});
             mbox.send(serverRegisteredName, serverNodeName, reqMessage);
 
-            OtpErlangBoolean response = (OtpErlangBoolean) mbox.receive();
+            OtpErlangAtom response = (OtpErlangAtom) mbox.receive();
             return response.booleanValue();
         }
     }
