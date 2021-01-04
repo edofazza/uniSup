@@ -89,7 +89,7 @@ public class LogIn extends UniSupScene {
         boolean result = auth.login(user);
         System.out.println("Result of login is" + result);
 
-        if(true) {
+        if(result) {
             CurrentUI.setUser(user);
             CurrentUI.changeScene(SceneNames.HOMEPAGE);
         } else {

@@ -40,7 +40,7 @@ call_server(Content) ->
 
 %% @private
 %% @doc Initializes the server
-init([]) ->
+init(_) ->
   {ok,{}}.
 
 %% @private
@@ -56,10 +56,10 @@ handle_call({message, {Msg_Id, Sender, Receiver, Text}}, _From, _)->
       {nack, Msg_Id}
   end;
 handle_call({log, {Pid, Username, Password, ClientNodeName}}, _From, _)->
-  mnesiaFunctions:login(Username, Password, ClientNodeName, Pid);
+  {reply, mnesiaFunctions:login(Username, Password, ClientNodeName, Pid), _ = '_'};
 
 handle_call({register, {Pid, Username, Password, ClientNodeName}}, _From, _)->
-  mnesiaFunctions:register(Username, Password, ClientNodeName, Pid);
+  {reply, mnesiaFunctions:register(Username, Password, ClientNodeName, Pid), _ = '_'};
 
 %%handle_call({contact, Username}, _From, _) ->
   %%check username
