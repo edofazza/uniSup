@@ -47,13 +47,13 @@ public class AuthGateway extends Gateway implements Authenticator{
         return true;
     }
 
-    @Override
+    /*@Override
     public boolean addContact(String username) {
         Callable<Boolean> toRun = new AuthGateway.NewContactTask(username);
         boolean result = (Boolean)addToExecutor(toRun);
         //save into db
         return result;
-    }
+    }*/
 
     private static class LogTask implements Callable<Boolean> {
         private User me;
@@ -156,6 +156,7 @@ public class AuthGateway extends Gateway implements Authenticator{
         }
     }
 
+    /*
     private static class NewContactTask implements Callable<Boolean> {
         private String newContact;
         private final OtpMbox mbox;
@@ -177,4 +178,6 @@ public class AuthGateway extends Gateway implements Authenticator{
             return response.booleanValue();
         }
     }
+    */
+
 }

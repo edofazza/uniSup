@@ -1,5 +1,5 @@
 %%%-------------------------------------------------------------------
-%%% @author Edoardo Fazzari, Mirco Ramo, Sina Gholami
+%%% @author Mirco Ramo
 %%% @copyright (C) 2020, <COMPANY>
 %%% @doc
 %%%
@@ -7,6 +7,7 @@
 %%% Created : 27. dic 2020 19:35
 %%%-------------------------------------------------------------------
 -module('UniSupErlangServer').
+-author("Mirco Ramo").
 
 -behaviour(gen_server).
 
@@ -45,37 +46,25 @@ init([]) ->
 %% @private
 %% @doc Handling call messages
 handle_call({message, {Msg_Id, Sender, Receiver, Text}}, _From, _)->
-  mnesiaFunctions:insert_new_message(Sender, Receiver, Text),
-  %%get Receiver pid
-  %%push into RabbitMq
-  {ack, Msg_Id};
+  case mnesiaFunctions:insert_new_message(Sender, Receiver, Text) of
+    true->
+      %%get Receiver pid
+      %%push into RabbitMq
+      {ack, Msg_Id};
+    false ->
+      {nack, Msg_Id}
+  end;
 handle_call({log, {Pid, Username, Password, ClientNodeName}}, _From, _)->
   mnesiaFunctions:login(Username, Password, ClientNodeName, Pid);
 
 handle_call({register, {Pid, Username, Password, ClientNodeName}}, _From, _)->
   mnesiaFunctions:register(Username, Password, ClientNodeName, Pid);
 
-handle_call({contact, Username}, _From, _) ->
+%%handle_call({contact, Username}, _From, _) ->
   %%check username
   %add contact
-  true;
+  %%true;
 handle_call({history, Username}, _From, _) ->
-  mnesiaFunctions:get_user_related_messages(Username).
+  mnesiaFunctions:get_user_related_messages(Username);
 handle_call(_, _From, _) ->
   false.
-
-%%%===================================================================
-%%% private functions
-%%%===================================================================
-
-checkIntoMnesia(Username, Password) -> ok.
-
-getAddressFromMnesia(Username) -> ok.
-
-pushIntoRabbitMQ(Sender, Receiver, Message) ->ok.
-
-%%%===================================================================
-%%% Mnesia
-%%%===================================================================
-
-
