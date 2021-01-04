@@ -6,7 +6,7 @@
 %%% @end
 %%% Created : 27. dic 2020 19:35
 %%%-------------------------------------------------------------------
--module('UniSupErlangServer').
+-module(uniSupErlangServer).
 -author("Mirco Ramo").
 
 -behaviour(gen_server).
@@ -15,7 +15,7 @@
 -export([start_server/0, call_server/1]).
 
 %% gen_server callbacks
--export([init/1, handle_call/3]).
+-export([init/1, handle_call/3, handle_cast/2]).
 
 -define(SERVER, ?MODULE).
 
@@ -69,3 +69,5 @@ handle_call({history, Username}, _From, _) ->
   mnesiaFunctions:get_user_related_messages(Username);
 handle_call(_, _From, _) ->
   false.
+
+handle_cast(_, _) -> noreply.
