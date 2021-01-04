@@ -41,7 +41,7 @@ call_server(Content) ->
 %% @private
 %% @doc Initializes the server
 init([]) ->
-  ok.
+  {ok,{}}.
 
 %% @private
 %% @doc Handling call messages
