@@ -1,10 +1,12 @@
 package it.unipi.dii.dsmt.unisup.beans;
 
-import java.io.Serializable;
+import java.util.List;
 
-public class User implements Serializable {
+public class User {
     private String username;
     private String password;
+
+    private List<Chat> chatList;
 
     public User(String username, String password){
         this.username=username;
