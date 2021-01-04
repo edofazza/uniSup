@@ -45,7 +45,7 @@ init([]) ->
 %% @private
 %% @doc Handling call messages
 handle_call({message, {Msg_Id, Sender, Receiver, Text}}, _From, _)->
-  %%save into mnesia
+  mnesiaFunctions:insert_new_message(Sender, Receiver, Text),
   %%get Receiver pid
   %%push into RabbitMq
   {ack, Msg_Id};
@@ -60,8 +60,7 @@ handle_call({contact, Username}, _From, _) ->
   %add contact
   true;
 handle_call({history, Username}, _From, _) ->
-  %%return all the chat history from mnesia
-  true;
+  mnesiaFunctions:get_user_related_messages(Username).
 handle_call(_, _From, _) ->
   false.
 

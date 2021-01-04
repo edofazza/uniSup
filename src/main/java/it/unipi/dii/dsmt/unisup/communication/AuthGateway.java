@@ -5,6 +5,7 @@ import it.unipi.dii.dsmt.unisup.beans.Chat;
 import it.unipi.dii.dsmt.unisup.beans.Message;
 import it.unipi.dii.dsmt.unisup.beans.User;
 
+import java.time.Instant;
 import java.util.*;
 import java.util.concurrent.Callable;
 
@@ -104,7 +105,8 @@ public class AuthGateway extends Gateway implements Authenticator{
                 String sender = ((OtpErlangString)message.elementAt(0)).stringValue();
                 String receiver = ((OtpErlangString)message.elementAt(1)).stringValue();
                 String text = ((OtpErlangString)message.elementAt(2)).stringValue();
-                Message m = new Message(sender, receiver, text);
+                Instant timestamp = Instant.parse(((OtpErlangString)message.elementAt(3)).stringValue());
+                Message m = new Message(sender, receiver, text, timestamp);
                 String key;
                 if(sender.equals(me.getUsername()))
                     key=receiver;
