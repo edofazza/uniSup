@@ -46,7 +46,7 @@ init([]) ->
 %% @private
 %% @doc Handling call messages
 handle_call({message, {Msg_Id, Sender, Receiver, Text}}, _From, _)->
-  case mnesiaFunctions:insert_new_message(Sender, Receiver, Text) of
+  case mnesiaFunctions:insert_new_message(Sender, Receiver, Text) of    %%maybe to do at consuming time from RabbitMQ
     true->
       %%get Receiver pid
       %%push into RabbitMq
