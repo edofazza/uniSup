@@ -47,6 +47,10 @@ public class CurrentUI {
         return userLogged;
     }
 
+    public static void setUser(User user) {
+        userLogged = user;
+    }
+
     /**
      * Removes the user stored in memory (<code>userLogged</code>) when the user logged out (in order to avoid error and to be coherent).
      */

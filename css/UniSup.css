@@ -1,5 +1,6 @@
 @import url("buttons/writeButtonStyle.css");
 @import url("buttons/submissionButtonStyle.css");
+@import url("buttons/logOutButtonStyle.css");
 
 @import url("labels/fieldRelatedLabelStyle.css");
 @import url("labels/invalidFormEntryStyle.css");

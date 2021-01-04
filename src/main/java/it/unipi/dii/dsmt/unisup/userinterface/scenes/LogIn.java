@@ -18,6 +18,7 @@ import javafx.scene.control.TextField;
 public class LogIn extends UniSupScene {
     private TextField usernameTF;
     private PasswordField passwordTF;
+    private InvalidFormEntryLabel invalidFormEntryLabel;
 
     /**
      * Constructor. Called a series of functions to add all the <code>Node</code> needed.
@@ -27,8 +28,14 @@ public class LogIn extends UniSupScene {
         displayEmailFields();
         displayPasswordFields();
 
+        displayResultLabel();
+
         displayRegisterButton();
         displayLogInButton();
+    }
+
+    private void displayResultLabel() {
+        invalidFormEntryLabel = new InvalidFormEntryLabel("", 470, 400, false);
     }
 
     ////////////////////////  FIELDS  ////////////////////////
@@ -74,24 +81,21 @@ public class LogIn extends UniSupScene {
      * Checks if the fields filled by the user are correct and if so, it goes to his homepage.
      */
     private void logInButtonAction() {
-        // set the user
-        if(true) { //TODO
-            //MessageGateway messageGateway = MessageGateway.getInstance();
-            //messageGateway.sendMessage(new Message("unisup_client_node@localhost", "donald@localhost", "Test"), 5);
 
-            User user = new User("edofazza", "edoardo98");
-            new XMLParser().storeUserInformation(user);
+        User user = new User(usernameTF.getText(), passwordTF.getText());
+        new XMLParser().storeUserInformation(user);
 
-            //user = new XMLParser().loadUserInformation();
-            Authenticator auth = AuthGateway.getInstance();
-            boolean result = auth.login(user);
-            System.out.println("Result of login is" + result);
+        Authenticator auth = AuthGateway.getInstance();
+        boolean result = auth.login(user);
+        System.out.println("Result of login is" + result);
 
-            if(result)
-                CurrentUI.changeScene(SceneNames.HOMEPAGE);
+        if(true) {
+            CurrentUI.setUser(user);
+            CurrentUI.changeScene(SceneNames.HOMEPAGE);
         } else {
-            InvalidFormEntryLabel loginError = new InvalidFormEntryLabel("Username/password incorrect", 470, 400, true);
-            sceneNodes.getChildren().add(loginError);
+            invalidFormEntryLabel.setText("Username/Password not correct");
+            invalidFormEntryLabel.setStyle("-fx-background-color: #FF211A;");
+            invalidFormEntryLabel.setVisible(true);
         }
     }
 
@@ -103,6 +107,17 @@ public class LogIn extends UniSupScene {
     }
 
     private void registerButtonAction() {
-        // TODO
+        Authenticator auth = AuthGateway.getInstance();
+        User user = new User(usernameTF.getText(), passwordTF.getText());
+        boolean result = auth.register(user);
+
+        if (result) {
+            invalidFormEntryLabel.setText("Username/Password not correct");
+            invalidFormEntryLabel.setStyle("-fx-background-color: green;");
+        } else {
+            invalidFormEntryLabel.setText("Username already taken");
+            invalidFormEntryLabel.setStyle("-fx-background-color: #FF211A;");
+        }
+        invalidFormEntryLabel.setVisible(true);
     }
 }
