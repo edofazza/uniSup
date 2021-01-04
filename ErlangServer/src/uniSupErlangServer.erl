@@ -51,9 +51,9 @@ handle_call({message, {Msg_Id, Sender, Receiver, Text}}, _From, _)->
       ReceiverPid = mnesiaFunctions:retrieve_pid(Receiver),
       ReceiverNodeName = mnesiaFunctions:retrieve_nodename(Receiver),
       %%push into RabbitMq({Msg_Id, Sender, Receiver, Text, Timestamp}, ReceiverPid, ReceiverNodeName)
-      {ack, Msg_Id};
+      {reply, {ack, Msg_Id},  _ = '_'};
     false ->
-      {nack, Msg_Id}
+      {reply, {nack, Msg_Id},  _ = '_'}
   end;
 handle_call({log, {Pid, Username, Password, ClientNodeName}}, _From, _)->
   {reply, mnesiaFunctions:login(Username, Password, ClientNodeName, Pid), _ = '_'};
@@ -66,8 +66,9 @@ handle_call({register, {Pid, Username, Password, ClientNodeName}}, _From, _)->
   %add contact
   %%true;
 handle_call({history, Username}, _From, _) ->
-  mnesiaFunctions:get_user_related_messages(Username);
+  {reply, mnesiaFunctions:get_user_related_messages(Username), _ = '_'};
 handle_call(_, _From, _) ->
-  false.
+  {reply, false, _ = '_'}.
 
-handle_cast(_, _) -> noreply.
+handle_cast(_, _) ->
+ {noreply, _ = '_'}.

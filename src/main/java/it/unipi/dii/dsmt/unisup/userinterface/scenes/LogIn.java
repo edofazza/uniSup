@@ -36,6 +36,8 @@ public class LogIn extends UniSupScene {
 
     private void displayResultLabel() {
         invalidFormEntryLabel = new InvalidFormEntryLabel("", 470, 400, false);
+
+        sceneNodes.getChildren().add(invalidFormEntryLabel);
     }
 
     ////////////////////////  FIELDS  ////////////////////////
@@ -112,7 +114,7 @@ public class LogIn extends UniSupScene {
         boolean result = auth.register(user);
 
         if (result) {
-            invalidFormEntryLabel.setText("Username/Password not correct");
+            invalidFormEntryLabel.setText("User added");
             invalidFormEntryLabel.setStyle("-fx-background-color: green;");
         } else {
             invalidFormEntryLabel.setText("Username already taken");
