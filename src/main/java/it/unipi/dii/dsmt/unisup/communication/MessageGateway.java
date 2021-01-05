@@ -6,12 +6,12 @@ import it.unipi.dii.dsmt.unisup.beans.Message;
 import java.util.concurrent.Callable;
 
 public class MessageGateway extends Gateway implements Communicator{
-    private static MessageGateway ref;
+    private static MessageGateway ref=null;
 
     public static MessageGateway getInstance(){
         if(ref==null){
             prepareGateway();
-            ref= new MessageGateway();
+            ref = new MessageGateway();
         }
         return ref;
     }

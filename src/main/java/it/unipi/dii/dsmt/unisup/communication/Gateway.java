@@ -16,7 +16,7 @@ public abstract class Gateway {
     protected static OtpMbox receiveMessagesMailbox;
     protected static String applicationCookie = "unisup";
     protected static OtpNode clientNode;
-    private static boolean initialized=false;
+    private static boolean initialized = false;
     private static ExecutorService myExecutor;
 
     public static void prepareGateway(String username){

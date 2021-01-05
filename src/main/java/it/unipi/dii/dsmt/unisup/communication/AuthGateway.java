@@ -10,11 +10,11 @@ import java.util.*;
 import java.util.concurrent.Callable;
 
 public class AuthGateway extends Gateway implements Authenticator{
-    private static AuthGateway ref;
+    private static AuthGateway ref=null;
 
     public static AuthGateway getInstance(){
         if(ref==null){
-            prepareGateway();
+            prepareGateway("sss");
             ref= new AuthGateway();
         }
         return ref;
