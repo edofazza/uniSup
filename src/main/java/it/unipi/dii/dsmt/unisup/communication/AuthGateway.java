@@ -14,7 +14,6 @@ public class AuthGateway extends Gateway implements Authenticator{
 
     public static AuthGateway getInstance(){
         if(ref==null){
-            prepareGateway("sss");
             ref= new AuthGateway();
         }
         return ref;
@@ -22,6 +21,7 @@ public class AuthGateway extends Gateway implements Authenticator{
 
     @Override
     public boolean login(User u) {
+        prepareGateway(u.getUsername());
         Callable<Boolean> toRun = new AuthGateway.LogTask(u);
         boolean result = (Boolean)addToExecutor(toRun);
         return result;
@@ -29,6 +29,7 @@ public class AuthGateway extends Gateway implements Authenticator{
 
     @Override
     public List<Chat> getChatHistory(User u) {
+        prepareGateway(u.getUsername());
         Callable<List<Chat>> toRun = new AuthGateway.GetHistoryTask(u);
         List<Chat> result = (List<Chat>)addToExecutor(toRun);
         return result;
@@ -36,6 +37,7 @@ public class AuthGateway extends Gateway implements Authenticator{
 
     @Override
     public boolean register(User u) {
+        prepareGateway(u.getUsername());
         Callable<Boolean> toRun = new AuthGateway.RegisterTask(u);
         boolean result = (Boolean)addToExecutor(toRun);
         return result;
