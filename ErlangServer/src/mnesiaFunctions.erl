@@ -78,9 +78,9 @@ is_user_present(Username) ->
   F = fun() ->
     case mnesia:read({unisup_users, Username}) =:= [] of
       true ->
-        true;
+        false;
       false ->
-        false
+        true
     end
     end,
   mnesia:activity(transaction, F).
