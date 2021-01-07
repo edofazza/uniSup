@@ -140,8 +140,7 @@ insert_new_message(Sender, Receiver, Text) ->
                 true ->
                   false;
                 false ->
-                  add_message(Sender, Receiver, Text),
-                  true
+                  add_message(Sender, Receiver, Text)
               end
           end
         end,
@@ -149,12 +148,14 @@ insert_new_message(Sender, Receiver, Text) ->
 
 add_message(Sender, Receiver, Text) ->
   Fun = fun() ->
+    Timestamp = time_format:format_utc_timestamp(),
     mnesia:write(#unisup_messages{
       sender = {Sender, time_format:format_utc_timestamp()},
       receiver = Receiver,
       text = Text,
-      timestamp = time_format:format_utc_timestamp()
-    })
+      timestamp = Timestamp
+    }),
+    Timestamp
         end,
   mnesia:activity(transaction, Fun).
 
