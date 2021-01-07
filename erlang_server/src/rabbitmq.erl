@@ -12,32 +12,28 @@
 -include_lib("eunit/include/eunit.hrl").
 -behavior(gen_server).
 %% API
--export([start_rabbitmq_server/0, start_consuming_handler/3, request_consuming/1, test_g/0, push/1]).
--export([init_consuming_handler/3]).
+-export([start_rabbitmq_server/0, stop_rabbitmq_server/0, reset_rabbitmq_server/0]).
+-export([start_consuming_handler/2, request_consuming/1, test_g/0, push/1]).
+-export([init_consuming_handler/2]).
 -export([init/1, handle_call/3, handle_cast/2]).
 
 
-%% @doc Spawns the server and registers the local name (unique)
+%% @doc Spawns the server and registers the local rabbitmq_server (unique)
 start_rabbitmq_server() ->
   gen_server:start({local, rabbitmq_server}, ?MODULE, [rabbitmq_server], []).
 
-start_consuming_handler(Channels, Channel, Receiver)->
-  {ok, Pid} = init_consuming_handler(Channels, Channel, Receiver),
+stop_rabbitmq_server() ->
+  gen_server:cast(rabbitmq_server, stop).
+
+reset_rabbitmq_server()->
+  gen_server:cast(rabbitmq_server, reset).
+
+start_consuming_handler(Channel, Receiver)->
+  {ok, Pid} = init_consuming_handler(Channel, Receiver),
   io:format("consuming started over pid: ~p~n", [Pid]),
   {ok, Pid}.
 
-%% @private
-%% @doc Initializes the consumer server
-init([rabbitmq_server]) ->
-  Connection = create_connection(),
-  io:format("consumer server init: ~p~n", [{[Connection],[], []}]),
-  {ok, {[Connection],[], []}}.
 
-init_consuming_handler(Channels, Channel, Receiver) ->
-  create_queue(Channel, Receiver),
-  Pid = spawn(fun() -> loop_consuming(Channel, Receiver) end),
-  amqp_channel:subscribe(Channel, #'basic.consume'{queue = list_to_binary(Receiver)}, Pid),
-  {ok, Pid}.
 
 request_consuming(Receiver)->
   gen_server:call(rabbitmq_server, {init, Receiver}).
@@ -51,6 +47,20 @@ push({Msg_Id, Sender, Receiver, Text, Timestamp}) ->
 
 remove_channel(Channel, Consumer) ->
   gen_server:call(rabbitmq_server, {remove_channel, Channel, Consumer}).
+
+
+%% @private
+%% @doc Initializes the consumer server
+init([rabbitmq_server]) ->
+  Connection = create_connection(),
+  io:format("consumer server init: ~p~n", [{[Connection],[], []}]),
+  {ok, {[Connection],[], []}}.
+
+init_consuming_handler(Channel, Receiver) ->
+  create_queue(Channel, Receiver),
+  Pid = spawn(fun() -> loop_consuming(Channel, Receiver) end),
+  amqp_channel:subscribe(Channel, #'basic.consume'{queue = list_to_binary(Receiver)}, Pid),
+  {ok, Pid}.
 
 handle_call({init, Receiver}, _From, {Connections, Channels, Consumers}) ->
   {New_Connections, New_Channels, New_Consumers} = consume({Connections, Channels, Consumers}, Receiver),
@@ -71,7 +81,7 @@ handle_call({push, {Msg_Id, Sender, Receiver, Text, Timestamp}}, _From, {Connect
   amqp_channel:cast(Channel, Publish, Msg),
   {reply, pushed, {New_Connections, Channels, Consumers}}.
 
-handle_cast(terminate, {Connections, _Channels, Consumers}) ->
+handle_cast(stop, {Connections, _Channels, Consumers}) ->
   [remove_consumer(C) || C <- Consumers],
   [amqp_connection:close(L) || L <- Connections],
   {noreply, {[],[], []}};
@@ -80,15 +90,9 @@ handle_cast(reset, _State) ->
   Connection = create_connection(),
   {restarted, {[Connection],[], []}}.
 
+
 remove_consumer(Consumer) ->
   Consumer ! server_shutdown.
-
-close_connections([L]) ->
-  amqp_connection:close(L),
-  ok;
-close_connections([H|T]) ->
-  amqp_connection:close(H),
-  close_connections(T).
 
 create_connection() ->
   {ok, Connection} = amqp_connection:start(#amqp_params_network{ host="localhost"}),
@@ -109,7 +113,7 @@ get_connection(Connections) ->
 consume({Connections, Channels, Consumers}, Receiver) ->
   {New_Connections, Connection} = get_connection(Connections),
   {ok, Channel} = amqp_connection:open_channel(Connection),
-  {ok, Pid} = start_consuming_handler(Channels, Channel, Receiver),
+  {ok, Pid} = start_consuming_handler(Channel, Receiver),
   {New_Connections, Channels ++ [Channel], Consumers ++ [Pid]}.
 
 
@@ -212,8 +216,8 @@ test_c()->
 %%  io:format("Check Connection PID: ~p~n", [whereis(connection)]).
 %%  start_consuming(Connection, "gholi").
 %test producer
-test_p() ->
-  Queue_name = "gholi",
-  {ok, Channel} = create_channel(),
-  create_queue(Channel, Queue_name),
-  push(Channel, {"Msg_Id", "Sender", Queue_name, "Text", "Timestamp"}).
+%%test_p() ->
+%%  Queue_name = "gholi",
+%%  {ok, Channel} = create_channel(),
+%%  create_queue(Channel, Queue_name),
+%%  push(Channel, {"Msg_Id", "Sender", Queue_name, "Text", "Timestamp"}).
