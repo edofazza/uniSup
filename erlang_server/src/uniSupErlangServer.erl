@@ -50,11 +50,12 @@ handle_call({message, {Msg_Id, Sender, Receiver, Text}}, _From, _)->
     true->
       ReceiverPid = mnesiaFunctions:retrieve_pid(Receiver),
       ReceiverNodeName = mnesiaFunctions:retrieve_nodename(Receiver),
-      %%push into RabbitMq({Msg_Id, Sender, Receiver, Text, Timestamp}, ReceiverPid, ReceiverNodeName)
+      rabbitmq:push({Msg_Id, Sender, Receiver, Text, time_format:format_utc_timestamp()}); %%PIDs??
       {reply, {ack, Msg_Id},  _ = '_'};
     false ->
       {reply, {nack, Msg_Id},  _ = '_'}
   end;
+
 handle_call({log, {Pid, Username, Password, ClientNodeName}}, _From, _)->
   {reply, mnesiaFunctions:login(Username, Password, ClientNodeName, Pid), _ = '_'};
 
