@@ -282,3 +282,328 @@ Error in process <0.352.0> with exit value:
     stack_size: 28
     reductions: 1248
   neighbours:
+2021-01-07 17:16:24 =ERROR REPORT====
+** Generic server rabbitmq_server terminating 
+** Last message in was {push,{"1234","random","gholi","hi there!","now"}}
+** When Server state == {[<0.340.0>],[{<0.351.0>,"gholi"}],[{<0.353.0>,"gholi"}]}
+** Reason for termination ==
+** {badarg,[{erlang,list_to_binary,[<<"gholi">>],[]},{rabbitmq,create_queue,2,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,207}]},{rabbitmq,handle_call,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,88}]},{gen_server,try_handle_call,4,[{file,"gen_server.erl"},{line,715}]},{gen_server,handle_msg,6,[{file,"gen_server.erl"},{line,744}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,226}]}]}
+** Client <0.266.0> stacktrace
+** [{gen,do_call,4,[{file,"gen.erl"},{line,208}]},{gen_server,call,2,[{file,"gen_server.erl"},{line,234}]},{rabbitmq,test_g,0,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,193}]},{erl_eval,do_apply,6,[{file,"erl_eval.erl"},{line,684}]},{shell,exprs,7,[{file,"shell.erl"},{line,686}]},{shell,eval_exprs,7,[{file,"shell.erl"},{line,642}]},{shell,eval_loop,3,[{file,"shell.erl"},{line,627}]}]
+2021-01-07 17:16:24 =CRASH REPORT====
+  crasher:
+    initial call: rabbitmq:init/1
+    pid: <0.337.0>
+    registered_name: rabbitmq_server
+    exception error: bad argument: [{erlang,list_to_binary,[<<"gholi">>],[]},{rabbitmq,create_queue,2,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,207}]},{rabbitmq,handle_call,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,88}]},{gen_server,try_handle_call,4,[{file,"gen_server.erl"},{line,715}]},{gen_server,handle_msg,6,[{file,"gen_server.erl"},{line,744}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,226}]}]
+    ancestors: [<0.266.0>]
+    message_queue_len: 0
+    messages: []
+    links: []
+    dictionary: [{rand_seed,{#{bits => 58,jump => #Fun<rand.3.47293030>,next => #Fun<rand.0.47293030>,type => exsss,uniform => #Fun<rand.1.47293030>,uniform_n => #Fun<rand.2.47293030>},[15659356688790764|4519386572538504]}},{gen_server_call_timeout,60000}]
+    trap_exit: false
+    status: running
+    heap_size: 2586
+    stack_size: 28
+    reductions: 2016
+  neighbours:
+2021-01-07 17:21:51 =ERROR REPORT====
+** Generic server rabbitmq_server terminating 
+** Last message in was {terminate_consuming_session,"gholi"}
+** When Server state == {[<0.340.0>],[{<0.351.0>,"gholi"}],[{<0.353.0>,"gholi"}]}
+** Reason for termination ==
+** {{badmatch,false},[{rabbitmq,handle_call,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,69}]},{gen_server,try_handle_call,4,[{file,"gen_server.erl"},{line,715}]},{gen_server,handle_msg,6,[{file,"gen_server.erl"},{line,744}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,226}]}]}
+** Client <0.353.0> stacktrace
+** [{gen,do_call,4,[{file,"gen.erl"},{line,208}]},{gen_server,call,2,[{file,"gen_server.erl"},{line,234}]},{rabbitmq,loop_consuming,2,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,177}]}]
+2021-01-07 17:21:51 =CRASH REPORT====
+  crasher:
+    initial call: rabbitmq:init/1
+    pid: <0.337.0>
+    registered_name: rabbitmq_server
+    exception error: {{badmatch,false},[{rabbitmq,handle_call,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,69}]},{gen_server,try_handle_call,4,[{file,"gen_server.erl"},{line,715}]},{gen_server,handle_msg,6,[{file,"gen_server.erl"},{line,744}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,226}]}]}
+    ancestors: [<0.266.0>]
+    message_queue_len: 0
+    messages: []
+    links: []
+    dictionary: [{rand_seed,{#{bits => 58,jump => #Fun<rand.3.47293030>,next => #Fun<rand.0.47293030>,type => exsss,uniform => #Fun<rand.1.47293030>,uniform_n => #Fun<rand.2.47293030>},[113230410354242447|173901653790259520]}},{gen_server_call_timeout,60000}]
+    trap_exit: false
+    status: running
+    heap_size: 2586
+    stack_size: 28
+    reductions: 1942
+  neighbours:
+2021-01-07 17:38:39 =ERROR REPORT====
+** Generic server rabbitmq_server terminating 
+** Last message in was {terminate_consuming_session,"gholi"}
+** When Server state == {[<0.340.0>],[{<0.351.0>,"gholi"}],[{<0.353.0>,"gholi"}]}
+** Reason for termination ==
+** {{badmatch,{<0.351.0>,"gholi"}},[{rabbitmq,handle_call,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,68}]},{gen_server,try_handle_call,4,[{file,"gen_server.erl"},{line,715}]},{gen_server,handle_msg,6,[{file,"gen_server.erl"},{line,744}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,226}]}]}
+** Client <0.353.0> stacktrace
+** [{gen,do_call,4,[{file,"gen.erl"},{line,208}]},{gen_server,call,2,[{file,"gen_server.erl"},{line,234}]},{rabbitmq,loop_consuming,2,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,176}]}]
+2021-01-07 17:38:39 =CRASH REPORT====
+  crasher:
+    initial call: rabbitmq:init/1
+    pid: <0.337.0>
+    registered_name: rabbitmq_server
+    exception error: {{badmatch,{<0.351.0>,"gholi"}},[{rabbitmq,handle_call,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,68}]},{gen_server,try_handle_call,4,[{file,"gen_server.erl"},{line,715}]},{gen_server,handle_msg,6,[{file,"gen_server.erl"},{line,744}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,226}]}]}
+    ancestors: [<0.266.0>]
+    message_queue_len: 0
+    messages: []
+    links: []
+    dictionary: [{gen_server_call_timeout,60000},{rand_seed,{#{bits => 58,jump => #Fun<rand.3.47293030>,next => #Fun<rand.0.47293030>,type => exsss,uniform => #Fun<rand.1.47293030>,uniform_n => #Fun<rand.2.47293030>},[95148665497487268|173102151462366780]}}]
+    trap_exit: false
+    status: running
+    heap_size: 1598
+    stack_size: 28
+    reductions: 1953
+  neighbours:
+2021-01-07 17:41:06 =ERROR REPORT====
+** Generic server rabbitmq_server terminating 
+** Last message in was {terminate_consuming_session,"gholi"}
+** When Server state == {[<0.340.0>],[{<0.351.0>,"gholi"}],[{<0.353.0>,"gholi"}]}
+** Reason for termination ==
+** {{badmatch,{<0.351.0>,"gholi"}},[{rabbitmq,handle_call,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,67}]},{gen_server,try_handle_call,4,[{file,"gen_server.erl"},{line,715}]},{gen_server,handle_msg,6,[{file,"gen_server.erl"},{line,744}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,226}]}]}
+** Client <0.353.0> stacktrace
+** [{gen,do_call,4,[{file,"gen.erl"},{line,208}]},{gen_server,call,2,[{file,"gen_server.erl"},{line,234}]},{rabbitmq,loop_consuming,2,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,177}]}]
+2021-01-07 17:41:06 =CRASH REPORT====
+  crasher:
+    initial call: rabbitmq:init/1
+    pid: <0.337.0>
+    registered_name: rabbitmq_server
+    exception error: {{badmatch,{<0.351.0>,"gholi"}},[{rabbitmq,handle_call,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,67}]},{gen_server,try_handle_call,4,[{file,"gen_server.erl"},{line,715}]},{gen_server,handle_msg,6,[{file,"gen_server.erl"},{line,744}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,226}]}]}
+    ancestors: [<0.266.0>]
+    message_queue_len: 0
+    messages: []
+    links: []
+    dictionary: [{gen_server_call_timeout,60000},{rand_seed,{#{bits => 58,jump => #Fun<rand.3.47293030>,next => #Fun<rand.0.47293030>,type => exsss,uniform => #Fun<rand.1.47293030>,uniform_n => #Fun<rand.2.47293030>},[221649079003901716|103549040966840811]}}]
+    trap_exit: false
+    status: running
+    heap_size: 2586
+    stack_size: 28
+    reductions: 1956
+  neighbours:
+2021-01-07 17:43:16 =ERROR REPORT====
+** Generic server rabbitmq_server terminating 
+** Last message in was {terminate_consuming_session,"gholi"}
+** When Server state == {[<0.340.0>],[{<0.351.0>,"gholi"}],[{<0.353.0>,"gholi"}]}
+** Reason for termination ==
+** {{{function_clause,[{gen,do_for_proc,["gholi",#Fun<gen.0.110169649>],[{file,"gen.erl"},{line,311}]},{gen_server,call,3,[{file,"gen_server.erl"},{line,242}]},{rabbitmq,handle_call,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,72}]},{gen_server,try_handle_call,4,[{file,"gen_server.erl"},{line,715}]},{gen_server,handle_msg,6,[{file,"gen_server.erl"},{line,744}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,226}]}]},{gen_server,call,["gholi",{close,200,<<"Goodbye">>},60000]}},[{gen_server,call,3,[{file,"gen_server.erl"},{line,246}]},{rabbitmq,handle_call,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,72}]},{gen_server,try_handle_call,4,[{file,"gen_server.erl"},{line,715}]},{gen_server,handle_msg,6,[{file,"gen_server.erl"},{line,744}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,226}]}]}
+** Client <0.353.0> stacktrace
+** [{gen,do_call,4,[{file,"gen.erl"},{line,208}]},{gen_server,call,2,[{file,"gen_server.erl"},{line,234}]},{rabbitmq,loop_consuming,2,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,180}]}]
+2021-01-07 17:43:16 =CRASH REPORT====
+  crasher:
+    initial call: rabbitmq:init/1
+    pid: <0.337.0>
+    registered_name: rabbitmq_server
+    exception exit: {{{function_clause,[{gen,do_for_proc,["gholi",#Fun<gen.0.110169649>],[{file,"gen.erl"},{line,311}]},{gen_server,call,3,[{file,"gen_server.erl"},{line,242}]},{rabbitmq,handle_call,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,72}]},{gen_server,try_handle_call,4,[{file,"gen_server.erl"},{line,715}]},{gen_server,handle_msg,6,[{file,"gen_server.erl"},{line,744}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,226}]}]},{gen_server,call,["gholi",{close,200,<<"Goodbye">>},60000]}},[{gen_server,call,3,[{file,"gen_server.erl"},{line,246}]},{rabbitmq,handle_call,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,72}]},{gen_server,try_handle_call,4,[{file,"gen_server.erl"},{line,715}]},{gen_server,handle_msg,6,[{file,"gen_server.erl"},{line,744}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,226}]}]}
+    ancestors: [<0.266.0>]
+    message_queue_len: 0
+    messages: []
+    links: []
+    dictionary: [{gen_server_call_timeout,60000},{rand_seed,{#{bits => 58,jump => #Fun<rand.3.47293030>,next => #Fun<rand.0.47293030>,type => exsss,uniform => #Fun<rand.1.47293030>,uniform_n => #Fun<rand.2.47293030>},[69760990197144570|102726741796766955]}}]
+    trap_exit: false
+    status: running
+    heap_size: 2586
+    stack_size: 28
+    reductions: 2150
+  neighbours:
+2021-01-07 17:45:44 =ERROR REPORT====
+** Generic server rabbitmq_server terminating 
+** Last message in was {terminate_consuming_session,"gholi"}
+** When Server state == {[<0.340.0>],[{<0.351.0>,"gholi"}],[{<0.353.0>,"gholi"}]}
+** Reason for termination ==
+** {{{function_clause,[{gen,do_for_proc,["gholi",#Fun<gen.0.110169649>],[{file,"gen.erl"},{line,311}]},{gen_server,call,3,[{file,"gen_server.erl"},{line,242}]},{rabbitmq,handle_call,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,69}]},{gen_server,try_handle_call,4,[{file,"gen_server.erl"},{line,715}]},{gen_server,handle_msg,6,[{file,"gen_server.erl"},{line,744}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,226}]}]},{gen_server,call,["gholi",{close,200,<<"Goodbye">>},60000]}},[{gen_server,call,3,[{file,"gen_server.erl"},{line,246}]},{rabbitmq,handle_call,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,69}]},{gen_server,try_handle_call,4,[{file,"gen_server.erl"},{line,715}]},{gen_server,handle_msg,6,[{file,"gen_server.erl"},{line,744}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,226}]}]}
+** Client <0.353.0> stacktrace
+** [{gen,do_call,4,[{file,"gen.erl"},{line,208}]},{gen_server,call,2,[{file,"gen_server.erl"},{line,234}]},{rabbitmq,loop_consuming,2,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,177}]}]
+2021-01-07 17:45:44 =CRASH REPORT====
+  crasher:
+    initial call: rabbitmq:init/1
+    pid: <0.337.0>
+    registered_name: rabbitmq_server
+    exception exit: {{{function_clause,[{gen,do_for_proc,["gholi",#Fun<gen.0.110169649>],[{file,"gen.erl"},{line,311}]},{gen_server,call,3,[{file,"gen_server.erl"},{line,242}]},{rabbitmq,handle_call,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,69}]},{gen_server,try_handle_call,4,[{file,"gen_server.erl"},{line,715}]},{gen_server,handle_msg,6,[{file,"gen_server.erl"},{line,744}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,226}]}]},{gen_server,call,["gholi",{close,200,<<"Goodbye">>},60000]}},[{gen_server,call,3,[{file,"gen_server.erl"},{line,246}]},{rabbitmq,handle_call,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,69}]},{gen_server,try_handle_call,4,[{file,"gen_server.erl"},{line,715}]},{gen_server,handle_msg,6,[{file,"gen_server.erl"},{line,744}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,226}]}]}
+    ancestors: [<0.266.0>]
+    message_queue_len: 0
+    messages: []
+    links: []
+    dictionary: [{gen_server_call_timeout,60000},{rand_seed,{#{bits => 58,jump => #Fun<rand.3.47293030>,next => #Fun<rand.0.47293030>,type => exsss,uniform => #Fun<rand.1.47293030>,uniform_n => #Fun<rand.2.47293030>},[178819805016143191|54910969878068620]}}]
+    trap_exit: false
+    status: running
+    heap_size: 2586
+    stack_size: 28
+    reductions: 2108
+  neighbours:
+2021-01-07 17:47:37 =ERROR REPORT====
+** Generic server rabbitmq_server terminating 
+** Last message in was {terminate_consuming_session,"gholi"}
+** When Server state == {[<0.340.0>],[{<0.351.0>,"gholi"}],[{<0.353.0>,"gholi"}]}
+** Reason for termination ==
+** {{{function_clause,[{gen,do_for_proc,["gholi",#Fun<gen.0.110169649>],[{file,"gen.erl"},{line,311}]},{gen_server,call,3,[{file,"gen_server.erl"},{line,242}]},{rabbitmq,handle_call,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,69}]},{gen_server,try_handle_call,4,[{file,"gen_server.erl"},{line,715}]},{gen_server,handle_msg,6,[{file,"gen_server.erl"},{line,744}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,226}]}]},{gen_server,call,["gholi",{close,200,<<"Goodbye">>},60000]}},[{gen_server,call,3,[{file,"gen_server.erl"},{line,246}]},{rabbitmq,handle_call,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,69}]},{gen_server,try_handle_call,4,[{file,"gen_server.erl"},{line,715}]},{gen_server,handle_msg,6,[{file,"gen_server.erl"},{line,744}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,226}]}]}
+** Client <0.353.0> stacktrace
+** [{gen,do_call,4,[{file,"gen.erl"},{line,208}]},{gen_server,call,2,[{file,"gen_server.erl"},{line,234}]},{rabbitmq,loop_consuming,2,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,177}]}]
+2021-01-07 17:47:37 =CRASH REPORT====
+  crasher:
+    initial call: rabbitmq:init/1
+    pid: <0.337.0>
+    registered_name: rabbitmq_server
+    exception exit: {{{function_clause,[{gen,do_for_proc,["gholi",#Fun<gen.0.110169649>],[{file,"gen.erl"},{line,311}]},{gen_server,call,3,[{file,"gen_server.erl"},{line,242}]},{rabbitmq,handle_call,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,69}]},{gen_server,try_handle_call,4,[{file,"gen_server.erl"},{line,715}]},{gen_server,handle_msg,6,[{file,"gen_server.erl"},{line,744}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,226}]}]},{gen_server,call,["gholi",{close,200,<<"Goodbye">>},60000]}},[{gen_server,call,3,[{file,"gen_server.erl"},{line,246}]},{rabbitmq,handle_call,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,69}]},{gen_server,try_handle_call,4,[{file,"gen_server.erl"},{line,715}]},{gen_server,handle_msg,6,[{file,"gen_server.erl"},{line,744}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,226}]}]}
+    ancestors: [<0.266.0>]
+    message_queue_len: 0
+    messages: []
+    links: []
+    dictionary: [{gen_server_call_timeout,60000},{rand_seed,{#{bits => 58,jump => #Fun<rand.3.47293030>,next => #Fun<rand.0.47293030>,type => exsss,uniform => #Fun<rand.1.47293030>,uniform_n => #Fun<rand.2.47293030>},[136466970173440|169021472333689477]}}]
+    trap_exit: false
+    status: running
+    heap_size: 2586
+    stack_size: 28
+    reductions: 2108
+  neighbours:
+2021-01-07 17:48:59 =ERROR REPORT====
+** Generic server rabbitmq_server terminating 
+** Last message in was {terminate_consuming_session,"gholi"}
+** When Server state == {[<0.340.0>],[{<0.351.0>,"gholi"}],[{<0.353.0>,"gholi"}]}
+** Reason for termination ==
+** {badarg,[{rabbitmq,handle_call,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,70}]},{gen_server,try_handle_call,4,[{file,"gen_server.erl"},{line,715}]},{gen_server,handle_msg,6,[{file,"gen_server.erl"},{line,744}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,226}]}]}
+** Client <0.353.0> stacktrace
+** [{gen,do_call,4,[{file,"gen.erl"},{line,208}]},{gen_server,call,2,[{file,"gen_server.erl"},{line,234}]},{rabbitmq,loop_consuming,2,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,176}]}]
+2021-01-07 17:48:59 =CRASH REPORT====
+  crasher:
+    initial call: rabbitmq:init/1
+    pid: <0.337.0>
+    registered_name: rabbitmq_server
+    exception error: bad argument: [{rabbitmq,handle_call,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,70}]},{gen_server,try_handle_call,4,[{file,"gen_server.erl"},{line,715}]},{gen_server,handle_msg,6,[{file,"gen_server.erl"},{line,744}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,226}]}]
+    ancestors: [<0.266.0>]
+    message_queue_len: 0
+    messages: []
+    links: []
+    dictionary: [{gen_server_call_timeout,60000},{rand_seed,{#{bits => 58,jump => #Fun<rand.3.47293030>,next => #Fun<rand.0.47293030>,type => exsss,uniform => #Fun<rand.1.47293030>,uniform_n => #Fun<rand.2.47293030>},[87582063280572949|115299610179327778]}}]
+    trap_exit: false
+    status: running
+    heap_size: 2586
+    stack_size: 28
+    reductions: 1920
+  neighbours:
+2021-01-07 17:50:51 =ERROR REPORT====
+** Generic server rabbitmq_server terminating 
+** Last message in was {terminate_consuming_session,"gholi"}
+** When Server state == {[<0.340.0>],[{<0.351.0>,"gholi"}],[{<0.353.0>,"gholi"}]}
+** Reason for termination ==
+** {function_clause,[{lists,delete,["gholi",{"gholi","gholi"}],[{file,"lists.erl"},{line,376}]},{rabbitmq,handle_call,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,69}]},{gen_server,try_handle_call,4,[{file,"gen_server.erl"},{line,715}]},{gen_server,handle_msg,6,[{file,"gen_server.erl"},{line,744}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,226}]}]}
+** Client <0.353.0> stacktrace
+** [{gen,do_call,4,[{file,"gen.erl"},{line,208}]},{gen_server,call,2,[{file,"gen_server.erl"},{line,234}]},{rabbitmq,loop_consuming,2,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,174}]}]
+2021-01-07 17:50:51 =CRASH REPORT====
+  crasher:
+    initial call: rabbitmq:init/1
+    pid: <0.337.0>
+    registered_name: rabbitmq_server
+    exception error: {function_clause,[{lists,delete,["gholi",{"gholi","gholi"}],[{file,"lists.erl"},{line,376}]},{rabbitmq,handle_call,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,69}]},{gen_server,try_handle_call,4,[{file,"gen_server.erl"},{line,715}]},{gen_server,handle_msg,6,[{file,"gen_server.erl"},{line,744}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,226}]}]}
+    ancestors: [<0.266.0>]
+    message_queue_len: 0
+    messages: []
+    links: []
+    dictionary: [{gen_server_call_timeout,60000},{rand_seed,{#{bits => 58,jump => #Fun<rand.3.47293030>,next => #Fun<rand.0.47293030>,type => exsss,uniform => #Fun<rand.1.47293030>,uniform_n => #Fun<rand.2.47293030>},[167331572195539313|17950785703403490]}}]
+    trap_exit: false
+    status: running
+    heap_size: 2586
+    stack_size: 28
+    reductions: 1971
+  neighbours:
+2021-01-07 17:53:03 =ERROR REPORT====
+** Generic server rabbitmq_server terminating 
+** Last message in was {terminate_consuming_session,"gholi"}
+** When Server state == {[<0.340.0>],[{<0.351.0>,"gholi"}],[{<0.353.0>,"gholi"}]}
+** Reason for termination ==
+** {function_clause,[{lists,delete,[[{<0.351.0>,"gholi"}],{"gholi",<0.351.0>}],[{file,"lists.erl"},{line,376}]},{rabbitmq,handle_call,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,69}]},{gen_server,try_handle_call,4,[{file,"gen_server.erl"},{line,715}]},{gen_server,handle_msg,6,[{file,"gen_server.erl"},{line,744}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,226}]}]}
+** Client <0.353.0> stacktrace
+** [{gen,do_call,4,[{file,"gen.erl"},{line,208}]},{gen_server,call,2,[{file,"gen_server.erl"},{line,234}]},{rabbitmq,loop_consuming,2,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,174}]}]
+2021-01-07 17:53:03 =CRASH REPORT====
+  crasher:
+    initial call: rabbitmq:init/1
+    pid: <0.337.0>
+    registered_name: rabbitmq_server
+    exception error: {function_clause,[{lists,delete,[[{<0.351.0>,"gholi"}],{"gholi",<0.351.0>}],[{file,"lists.erl"},{line,376}]},{rabbitmq,handle_call,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,69}]},{gen_server,try_handle_call,4,[{file,"gen_server.erl"},{line,715}]},{gen_server,handle_msg,6,[{file,"gen_server.erl"},{line,744}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,226}]}]}
+    ancestors: [<0.266.0>]
+    message_queue_len: 0
+    messages: []
+    links: []
+    dictionary: [{gen_server_call_timeout,60000},{rand_seed,{#{bits => 58,jump => #Fun<rand.3.47293030>,next => #Fun<rand.0.47293030>,type => exsss,uniform => #Fun<rand.1.47293030>,uniform_n => #Fun<rand.2.47293030>},[272254600878475734|141720932093378180]}}]
+    trap_exit: false
+    status: running
+    heap_size: 2586
+    stack_size: 28
+    reductions: 1973
+  neighbours:
+2021-01-07 17:53:42 =ERROR REPORT====
+** Generic server rabbitmq_server terminating 
+** Last message in was {terminate_consuming_session,"gholi"}
+** When Server state == {[<0.340.0>],[{<0.351.0>,"gholi"}],[{<0.353.0>,"gholi"}]}
+** Reason for termination ==
+** {function_clause,[{lists,delete,[[{<0.351.0>,"gholi"}],{<0.351.0>,"gholi"}],[{file,"lists.erl"},{line,376}]},{rabbitmq,handle_call,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,69}]},{gen_server,try_handle_call,4,[{file,"gen_server.erl"},{line,715}]},{gen_server,handle_msg,6,[{file,"gen_server.erl"},{line,744}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,226}]}]}
+** Client <0.353.0> stacktrace
+** [{gen,do_call,4,[{file,"gen.erl"},{line,208}]},{gen_server,call,2,[{file,"gen_server.erl"},{line,234}]},{rabbitmq,loop_consuming,2,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,174}]}]
+2021-01-07 17:53:42 =CRASH REPORT====
+  crasher:
+    initial call: rabbitmq:init/1
+    pid: <0.337.0>
+    registered_name: rabbitmq_server
+    exception error: {function_clause,[{lists,delete,[[{<0.351.0>,"gholi"}],{<0.351.0>,"gholi"}],[{file,"lists.erl"},{line,376}]},{rabbitmq,handle_call,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,69}]},{gen_server,try_handle_call,4,[{file,"gen_server.erl"},{line,715}]},{gen_server,handle_msg,6,[{file,"gen_server.erl"},{line,744}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,226}]}]}
+    ancestors: [<0.266.0>]
+    message_queue_len: 0
+    messages: []
+    links: []
+    dictionary: [{gen_server_call_timeout,60000},{rand_seed,{#{bits => 58,jump => #Fun<rand.3.47293030>,next => #Fun<rand.0.47293030>,type => exsss,uniform => #Fun<rand.1.47293030>,uniform_n => #Fun<rand.2.47293030>},[254567981979396388|84561521153634284]}}]
+    trap_exit: false
+    status: running
+    heap_size: 2586
+    stack_size: 28
+    reductions: 1971
+  neighbours:
+2021-01-07 17:54:45 =ERROR REPORT====
+** Generic server rabbitmq_server terminating 
+** Last message in was {terminate_consuming_session,"gholi"}
+** When Server state == {[<0.340.0>],[{<0.351.0>,"gholi"}],[{<0.353.0>,"gholi"}]}
+** Reason for termination ==
+** {function_clause,[{lists,delete,[[{<0.351.0>,"gholi"}],{<0.351.0>,"gholi"}],[{file,"lists.erl"},{line,376}]},{rabbitmq,handle_call,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,69}]},{gen_server,try_handle_call,4,[{file,"gen_server.erl"},{line,715}]},{gen_server,handle_msg,6,[{file,"gen_server.erl"},{line,744}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,226}]}]}
+** Client <0.353.0> stacktrace
+** [{gen,do_call,4,[{file,"gen.erl"},{line,208}]},{gen_server,call,2,[{file,"gen_server.erl"},{line,234}]},{rabbitmq,loop_consuming,2,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,174}]}]
+2021-01-07 17:54:45 =CRASH REPORT====
+  crasher:
+    initial call: rabbitmq:init/1
+    pid: <0.337.0>
+    registered_name: rabbitmq_server
+    exception error: {function_clause,[{lists,delete,[[{<0.351.0>,"gholi"}],{<0.351.0>,"gholi"}],[{file,"lists.erl"},{line,376}]},{rabbitmq,handle_call,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,69}]},{gen_server,try_handle_call,4,[{file,"gen_server.erl"},{line,715}]},{gen_server,handle_msg,6,[{file,"gen_server.erl"},{line,744}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,226}]}]}
+    ancestors: [<0.266.0>]
+    message_queue_len: 0
+    messages: []
+    links: []
+    dictionary: [{rand_seed,{#{bits => 58,jump => #Fun<rand.3.47293030>,next => #Fun<rand.0.47293030>,type => exsss,uniform => #Fun<rand.1.47293030>,uniform_n => #Fun<rand.2.47293030>},[22655524931932126|19534089717522182]}},{gen_server_call_timeout,60000}]
+    trap_exit: false
+    status: running
+    heap_size: 2586
+    stack_size: 28
+    reductions: 1970
+  neighbours:
+2021-01-07 17:55:32 =ERROR REPORT====
+** Generic server rabbitmq_server terminating 
+** Last message in was {terminate_consuming_session,"gholi"}
+** When Server state == {[<0.340.0>],[{<0.351.0>,"gholi"}],[{<0.353.0>,"gholi"}]}
+** Reason for termination ==
+** {function_clause,[{lists,delete,[[{<0.351.0>,"gholi"}],{<0.351.0>,"gholi"}],[{file,"lists.erl"},{line,376}]},{rabbitmq,handle_call,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,69}]},{gen_server,try_handle_call,4,[{file,"gen_server.erl"},{line,715}]},{gen_server,handle_msg,6,[{file,"gen_server.erl"},{line,744}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,226}]}]}
+** Client <0.353.0> stacktrace
+** [{gen,do_call,4,[{file,"gen.erl"},{line,208}]},{gen_server,call,2,[{file,"gen_server.erl"},{line,234}]},{rabbitmq,loop_consuming,2,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,174}]}]
+2021-01-07 17:55:32 =CRASH REPORT====
+  crasher:
+    initial call: rabbitmq:init/1
+    pid: <0.337.0>
+    registered_name: rabbitmq_server
+    exception error: {function_clause,[{lists,delete,[[{<0.351.0>,"gholi"}],{<0.351.0>,"gholi"}],[{file,"lists.erl"},{line,376}]},{rabbitmq,handle_call,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,69}]},{gen_server,try_handle_call,4,[{file,"gen_server.erl"},{line,715}]},{gen_server,handle_msg,6,[{file,"gen_server.erl"},{line,744}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,226}]}]}
+    ancestors: [<0.266.0>]
+    message_queue_len: 0
+    messages: []
+    links: []
+    dictionary: [{rand_seed,{#{bits => 58,jump => #Fun<rand.3.47293030>,next => #Fun<rand.0.47293030>,type => exsss,uniform => #Fun<rand.1.47293030>,uniform_n => #Fun<rand.2.47293030>},[263701891693709539|150653153439349978]}},{gen_server_call_timeout,60000}]
+    trap_exit: false
+    status: running
+    heap_size: 1598
+    stack_size: 28
+    reductions: 1964
+  neighbours:

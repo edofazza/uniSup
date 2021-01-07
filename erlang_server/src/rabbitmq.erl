@@ -13,8 +13,7 @@
 -behavior(gen_server).
 %% API
 -export([start_rabbitmq_server/0, stop_rabbitmq_server/0, reset_rabbitmq_server/0, delete_user/1]).
--export([start_consuming_handler/2, terminate_consuming_session/1, request_consuming/1, test_g/0, push/1]).
--export([init_consuming_handler/2]).
+-export([start_consuming_handler/2, terminate_consuming_session/1, request_consuming/2, test_g/0, push/1]).
 -export([init/1, handle_call/3, handle_cast/2]).
 
 
@@ -31,9 +30,9 @@ reset_rabbitmq_server()->
   gen_server:cast(rabbitmq_server, reset).
 
 %% @doc request for consuming
-%% @param the username of the User
-request_consuming(Username)->
-  gen_server:call(rabbitmq_server, {start_consumer, Username}).
+%% @param Receiver: the username and Pid of the Receiver
+request_consuming(Receiver_Username, Receiver_Pid)->
+  gen_server:call(rabbitmq_server, {start_consumer, Receiver_Username, Receiver_Pid}).
 
 %% @doc terminate the consuming of a user in case of logout or terminated session
 %% @param the username of the User
@@ -48,54 +47,25 @@ delete_user(Username)->
 
 %% @doc push the message into the rabbitmq
 %% @param message id, Sender username, Receiver Username, text and timestamp
-push({Msg_Id, Sender, Receiver, Text, Timestamp}) ->
-  gen_server:call(rabbitmq_server, {push, {Msg_Id, Sender, Receiver, Text, Timestamp}}).
-
-
-%% @private
-%% @doc initialize the pulling consumer
-%% @returns PID of the pulling consumer
-start_consuming_handler(Channel, Receiver)->
-  {ok, Pid} = init_consuming_handler(Channel, Receiver),
-  io:format("consuming started over pid: ~p~n", [Pid]),
-  {ok, Pid}.
-
-%% @private
-%% @doc create the queue and spawn the pulling consumer
-%% @returns PID of the pulling consumer
-init_consuming_handler(Channel, Receiver) ->
-  create_queue(Channel, Receiver),
-  Pid = spawn(fun() -> loop_consuming(Channel, Receiver) end),
-  amqp_channel:subscribe(Channel, #'basic.consume'{queue = list_to_binary(Receiver)}, Pid),
-  {ok, Pid}.
-
-%% @private
-%% @doc removing the channel from the channel list
-%% @param Channel PID, Consumer PID
-remove_channel(Channel, Consumer) ->
-  gen_server:call(rabbitmq_server, {remove_channel, Channel, Consumer}).
-
+push({Msg_Id, Sender_Username, Receiver_Username, Text, Timestamp}) ->
+  gen_server:call(rabbitmq_server, {push, {Msg_Id, Sender_Username, Receiver_Username, Text, Timestamp}}).
 
 %% @private
 %% @doc Initializes the rabbitmq server
 init([rabbitmq_server]) ->
   Connection = create_connection(),
-  io:format("consumer server init: ~p~n", [{[Connection],[], []}]),
   {ok, {[Connection],[], []}}.
 
 %% @private
-handle_call({start_consumer, Receiver}, _From, {Connections, Channels, Consumers}) ->
-  {New_Connections, New_Channels, New_Consumers} = consume({Connections, Channels, Consumers}, Receiver),
-  io:format("The result: ~p~n", [{New_Connections, New_Channels,  New_Consumers}]),
+handle_call({start_consumer, Receiver_Username, Receiver_Pid}, _From, {Connections, Channels, Consumers}) ->
+  {New_Connections, New_Channels, New_Consumers} =
+    consume({Connections, Channels, Consumers}, {Receiver_Username, Receiver_Pid}),
   {reply, consumer_created, {New_Connections, New_Channels,  New_Consumers}};
 
 %% @private
-handle_call({terminate_consuming_session, Receiver}, _From, {Connections, Channels, Consumers}) ->
-  {Receiver, Channel} = lists:keyfind(Receiver, 1, Channels),
-  {Receiver, Consumer} = lists:keyfind(Receiver, 1, Consumers),
-  stop_consuming(Consumer),
-  {reply, consuming_session_terminated, {Connections, lists:delete(Channel, {Receiver, Channel}),
-    lists:delete(Consumer, {Receiver, Consumer})}};
+handle_call({terminate_consuming_session, Receiver_Username}, _From, {Connections, Channels, Consumers}) ->
+  {reply, true, {Connections, lists:keydelete(Receiver_Username, 2, Channels),
+    lists:keydelete(Receiver_Username,2,Consumers)}};
 
 %% @private
 handle_call({delete_user, Receiver}, _From, {Connections, Channels, Consumers}) ->
@@ -104,18 +74,14 @@ handle_call({delete_user, Receiver}, _From, {Connections, Channels, Consumers}) 
   {reply, user_deleted, {Connections, Channels,  Consumers}};
 
 %% @private
-handle_call({remove_channel, Channel, Consumer}, _From, {Connections, Channels, Consumers}) ->
-  {reply, channel_deleted, {Connections, lists:delete(Channel, Channels), lists:delete(Consumer, Consumers)}};
-
-%% @private
-handle_call({push, {Msg_Id, Sender, Receiver, Text, Timestamp}}, _From, {Connections, Channels, Consumers}) ->
-  Map = create_map({Msg_Id, Sender, Receiver, Text, Timestamp}),
+handle_call({push, {Msg_Id, Sender_Username, Receiver_Username, Text, Timestamp}}, _From, {Connections, Channels, Consumers}) ->
+  Map = create_map({Msg_Id, Sender_Username, Receiver_Username, Text, Timestamp}),
   Payload = jsx:encode(Map),
   {New_Connections, Connection} = get_connection(Connections),
   {ok, Channel} = amqp_connection:open_channel(Connection),
-  create_queue(Channel, list_to_binary(Receiver)),
+  create_queue(Channel, Receiver_Username),
   %% Queue name is equal to the Receiver which is the username of the Receiver
-  Publish = #'basic.publish'{exchange = <<>>, routing_key = list_to_binary(Receiver)},
+  Publish = #'basic.publish'{exchange = <<>>, routing_key = list_to_binary(Receiver_Username)},
   Props = #'P_basic'{delivery_mode = 2}, %% persistent message
   %% the inserted message in rabbitmq has the following format
   %% {"Msg_Id": "*" , "Sender": "*", "Receiver": "*", "Text": "*", "Timestamp": "*"}
@@ -157,44 +123,63 @@ get_connection(Connections) ->
   end.
 
 %% @private
-consume({Connections, Channels, Consumers}, Receiver) ->
+consume({Connections, Channels, Consumers}, {Receiver_Username, Receiver_Pid}) ->
   {New_Connections, Connection} = get_connection(Connections),
   {ok, Channel} = amqp_connection:open_channel(Connection),
-  {ok, New_Consumer} = start_consuming_handler(Channel, Receiver),
-  {New_Connections, Channels ++ [{Channel, Receiver}], Consumers ++ [{New_Consumer, Receiver}]}. %return the new state
+  {ok, New_Consumer} = start_consuming_handler(Channel, {Receiver_Username, Receiver_Pid}),
+  io:format("consumer new status: ~p~n", [{New_Connections, Channels ++ [{Channel, Receiver_Username}], Consumers ++ [{New_Consumer, Receiver_Username}]}]),
+  {New_Connections, Channels ++ [{Channel, Receiver_Username}], Consumers ++ [{New_Consumer, Receiver_Username}]}. %return the new state
 
 %% @private
-loop_consuming(Channel, Receiver) ->
+%% @doc initialize the pulling consumer
+%% @returns pid of the pulling consumer
+start_consuming_handler(Channel, {Receiver_Username, Receiver_Pid})->
+  create_queue(Channel, Receiver_Username),
+  Pid = spawn(fun() -> loop_consuming(Channel, {Receiver_Username, Receiver_Pid}) end),
+  amqp_channel:subscribe(Channel, #'basic.consume'{queue = list_to_binary(Receiver_Username)}, Pid),
+  io:format("consuming started over pid: ~p~n", [Pid]),
+  {ok, Pid}.
+
+%% @private
+loop_consuming(Channel,  {Receiver_Username, Receiver_Pid}) ->
   case is_process_alive(Channel) of
     true->
       receive
         #'basic.consume_ok'{} ->
           io:format("basic.consume_ok~n"),
           ok,
-          loop_consuming(Channel, Receiver);
+          loop_consuming(Channel, {Receiver_Username, Receiver_Pid});
 
         #'basic.cancel_ok'{} ->
           io:format("cancel~n"),
           cancel;
 
         {#'basic.deliver'{delivery_tag = Tag}, {amqp_msg,_, Msg}} ->
-          io:format("this is the content: ~p~n", [Msg]),
+          io:format("this is the content in server side: ~p~n", [Msg]),
           io:format("this is consumer tag~p~n", [Tag]),
           io:format("basic.deliver~n"),
           amqp_channel:cast(Channel, #'basic.ack'{delivery_tag = Tag}),
-          loop_consuming(Channel, Receiver);
+          Receiver_Pid ! Msg,
+          loop_consuming(Channel, {Receiver_Username, Receiver_Pid});
+
+        terminate ->
+          terminate;
 
         _ ->
-          loop_consuming(Channel, Receiver);
+          loop_consuming(Channel, {Receiver_Username, Receiver_Pid})
 
-        server_shutdown ->
-          shut_down
+      after 1000 ->
+        terminate_consuming_session(Receiver_Username), %terminate current Receiver session by sending terminate atom
+        case lists:keyfind(status, 1, process_info(Receiver_Pid))  =:=  {status,running} of
+          true ->
+            %request for creating another pulling consumer for the current Receiver
+            request_consuming(Receiver_Username, Receiver_Pid),
+            %to consume the terminate atom message
+            loop_consuming(Channel, {Receiver_Username, Receiver_Pid});
 
-      after 5000 ->
-        amqp_channel:close(Channel),
-        remove_channel(Channel, self()),
-        request_consuming(Receiver),
-        loop_consuming(Channel, Receiver)
+          _ ->
+            amqp_channel:close(Channel),terminate
+        end
       end;
 
     false ->
@@ -207,7 +192,12 @@ loop_consuming(Channel, Receiver) ->
 test_g() ->
   Receiver = "gholi",
   start_rabbitmq_server(),
-  request_consuming(Receiver).
+  request_consuming(Receiver, self()),
+  push({"1234", "random", Receiver, "hi there!", "now"}),
+  receive
+    Msg ->
+      io:format("this is the content in client side: ~p~n", [Msg])
+  end.
 
 %% @private
 delete_queue(Channel, Queue_Name) ->
