@@ -30,6 +30,7 @@
 start_server() ->
   gen_server:start({local, unisup_gen_server}, ?MODULE, [], []).
 
+%% @doc Standard API for every possible request to the server.
 call_server(Content) ->
   gen_server:call(unisup_gen_server, Content).
 
@@ -41,10 +42,11 @@ call_server(Content) ->
 %% @private
 %% @doc Initializes the server
 init(_) ->
+  rabbitmq:start_rabbitmq_server(),
   {ok,{}}.
 
 %% @private
-%% @doc Handling call messages
+%% @doc Handles messages to be sent: checks the receiver username, if it exists pushes the message into RabbitMQ
 handle_call({message, {Msg_Id, Sender, Receiver, Text}}, _From, _)->
   case mnesiaFunctions:is_user_present(Receiver) of    %%maybe to do at consuming time from RabbitMQ
     true->
@@ -57,14 +59,30 @@ handle_call({message, {Msg_Id, Sender, Receiver, Text}}, _From, _)->
       {reply, {nack, Msg_Id},  _ = '_'}
   end;
 
+%% @doc Handles login requests: calls mnesiaFunctions:login for credential checking and physical addresses updating
 handle_call({log, {Pid, Username, Password, ClientNodeName}}, _From, _)->
-  {reply, mnesiaFunctions:login(Username, Password, ClientNodeName, Pid), _ = '_'};
+  case mnesiaFunctions:login(Username, Password, ClientNodeName, Pid) of
+    true->
+      case rabbitmq:request_consuming() of
+        consumer_created -> {reply, true, _ = '_'};
+        _ -> {reply, false, _ = '_'}
+      end;
+    _->
+      {reply, false, _ = '_'}
+  end;
 
+%% @doc Handles register requests: calls MnesiaFunctions:register for username checking and user storaging
 handle_call({register, {Pid, Username, Password, ClientNodeName}}, _From, _)->
   {reply, mnesiaFunctions:register(Username, Password, ClientNodeName, Pid), _ = '_'};
 
+%% @doc handles chat history backup requests: gets every sent or received message and forward that list to the sender
 handle_call({history, Username}, _From, _) ->
   {reply, mnesiaFunctions:get_user_related_messages(Username), _ = '_'};
+
+%% @doc handles logout: terminates rabbitMQ consuming session
+handle_call({logout, Username}, _From, _) ->
+  {reply, rabbitmq:terminate_consuming_session(Username), _='_'};
+
 handle_call(_, _From, _) ->
   {reply, false, _ = '_'}.
 

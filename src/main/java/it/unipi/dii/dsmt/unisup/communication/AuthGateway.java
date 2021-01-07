@@ -44,8 +44,10 @@ public class AuthGateway extends Gateway implements Authenticator{
 
     @Override
     public boolean logout(User u) {
+        Callable<Boolean> toRun = new AuthGateway.LogoutTask(u);
+        boolean result = (Boolean)addToExecutor(toRun);
         stopExecutor();
-        return true;
+        return result;
     }
 
     private static class LogTask implements Callable<Boolean> {
@@ -65,7 +67,7 @@ public class AuthGateway extends Gateway implements Authenticator{
            OtpErlangString password = new OtpErlangString(me.getPassword());
            OtpErlangString myNodeName = new OtpErlangString(myName);
            OtpErlangTuple tuple = new OtpErlangTuple(new OtpErlangObject[]{pid, username, password, myNodeName});
-           OtpErlangTuple reqMessage = new OtpErlangTuple(new OtpErlangObject[]{pid, log, tuple});
+           OtpErlangTuple reqMessage = new OtpErlangTuple(new OtpErlangObject[]{receiveMessagesMailbox.self(), log, tuple});
            mbox.send(serverRegisteredName, serverNodeName, reqMessage);
 
            OtpErlangAtom response = (OtpErlangAtom) mbox.receive();
@@ -142,6 +144,29 @@ public class AuthGateway extends Gateway implements Authenticator{
             OtpErlangString myNodeName = new OtpErlangString(myName);
             OtpErlangTuple tuple = new OtpErlangTuple(new OtpErlangObject[]{pid, username, password, myNodeName});
             OtpErlangTuple reqMessage = new OtpErlangTuple(new OtpErlangObject[]{pid, register, tuple});
+            mbox.send(serverRegisteredName, serverNodeName, reqMessage);
+
+            OtpErlangAtom response = (OtpErlangAtom) mbox.receive();
+            return response.booleanValue();
+        }
+    }
+
+    private static class LogoutTask implements Callable<Boolean>{
+        private User me;
+        private final OtpMbox mbox;
+
+        LogoutTask(User u){
+            me=u;
+            mbox = clientNode.createMbox();
+        }
+
+        @Override
+        public Boolean call() throws Exception {
+            OtpErlangPid pid = mbox.self();
+            OtpErlangAtom logout = new OtpErlangAtom("logout");
+
+            OtpErlangString username = new OtpErlangString(me.getUsername());
+            OtpErlangTuple reqMessage = new OtpErlangTuple(new OtpErlangObject[]{pid, logout, username});
             mbox.send(serverRegisteredName, serverNodeName, reqMessage);
 
             OtpErlangAtom response = (OtpErlangAtom) mbox.receive();
