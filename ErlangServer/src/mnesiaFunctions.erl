@@ -11,7 +11,8 @@
 
 %% API
 -export([init/0, login/4, register/4, all_user/0, readTest/1, insert_new_message/3,
-  all_messages/0, get_user_related_messages/1, retrieve_nodename/1, retrieve_pid/1]).
+  all_messages/0, get_user_related_messages/1, retrieve_nodename/1, retrieve_pid/1,
+  is_user_present/1]).
 
 -include_lib("stdlib/include/qlc.hrl").
 -include("headers/records.hrl").
@@ -72,6 +73,17 @@ login(Username, Password, NodeName, Pid) ->
         end
     end,
     mnesia:activity(transaction, F).
+
+is_user_present(Username) ->
+  F = fun() ->
+    case mnesia:read({unisup_users, Username}) =:= [] of
+      true ->
+        true;
+      false ->
+        false
+    end
+    end,
+  mnesia:activity(transaction, F).
 
 register(Username, Password, NodeName, Pid) ->
   F = fun() ->
