@@ -207,3 +207,78 @@ Error in process <0.352.0> with exit value:
     stack_size: 28
     reductions: 1350
   neighbours:
+2021-01-07 14:46:06 =ERROR REPORT====
+** Generic server rabbitmq_server terminating 
+** Last message in was {start_consumer,"gholi"}
+** When Server state == {[<0.340.0>],[],[]}
+** Reason for termination ==
+** {function_clause,[{rabbitmq,handle_call,[{start_consumer,"gholi"},{<0.266.0>,#Ref<0.1448953890.1718353921.135064>},{[<0.340.0>],[],[]}],[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,66}]},{gen_server,try_handle_call,4,[{file,"gen_server.erl"},{line,715}]},{gen_server,handle_msg,6,[{file,"gen_server.erl"},{line,744}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,226}]}]}
+** Client <0.266.0> stacktrace
+** [{gen,do_call,4,[{file,"gen.erl"},{line,208}]},{gen_server,call,2,[{file,"gen_server.erl"},{line,234}]},{erl_eval,do_apply,6,[{file,"erl_eval.erl"},{line,684}]},{shell,exprs,7,[{file,"shell.erl"},{line,686}]},{shell,eval_exprs,7,[{file,"shell.erl"},{line,642}]},{shell,eval_loop,3,[{file,"shell.erl"},{line,627}]}]
+2021-01-07 14:46:06 =CRASH REPORT====
+  crasher:
+    initial call: rabbitmq:init/1
+    pid: <0.337.0>
+    registered_name: rabbitmq_server
+    exception error: {function_clause,[{rabbitmq,handle_call,[{start_consumer,"gholi"},{<0.266.0>,#Ref<0.1448953890.1718353921.135064>},{[<0.340.0>],[],[]}],[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,66}]},{gen_server,try_handle_call,4,[{file,"gen_server.erl"},{line,715}]},{gen_server,handle_msg,6,[{file,"gen_server.erl"},{line,744}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,226}]}]}
+    ancestors: [<0.266.0>]
+    message_queue_len: 0
+    messages: []
+    links: []
+    dictionary: [{gen_server_call_timeout,60000}]
+    trap_exit: false
+    status: running
+    heap_size: 1598
+    stack_size: 28
+    reductions: 1103
+  neighbours:
+2021-01-07 14:47:40 =ERROR REPORT====
+** Generic server rabbitmq_server terminating 
+** Last message in was {start_consumer,"gholi"}
+** When Server state == {[<0.340.0>],[],[]}
+** Reason for termination ==
+** {badarg,[{erlang,list_to_atom,[<0.353.0>],[]},{rabbitmq,consume,2,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,125}]},{rabbitmq,handle_call,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,67}]},{gen_server,try_handle_call,4,[{file,"gen_server.erl"},{line,715}]},{gen_server,handle_msg,6,[{file,"gen_server.erl"},{line,744}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,226}]}]}
+** Client <0.266.0> stacktrace
+** [{gen,do_call,4,[{file,"gen.erl"},{line,208}]},{gen_server,call,2,[{file,"gen_server.erl"},{line,234}]},{erl_eval,do_apply,6,[{file,"erl_eval.erl"},{line,684}]},{shell,exprs,7,[{file,"shell.erl"},{line,686}]},{shell,eval_exprs,7,[{file,"shell.erl"},{line,642}]},{shell,eval_loop,3,[{file,"shell.erl"},{line,627}]}]
+2021-01-07 14:47:40 =CRASH REPORT====
+  crasher:
+    initial call: rabbitmq:init/1
+    pid: <0.337.0>
+    registered_name: rabbitmq_server
+    exception error: bad argument: [{erlang,list_to_atom,[<0.353.0>],[]},{rabbitmq,consume,2,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,125}]},{rabbitmq,handle_call,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,67}]},{gen_server,try_handle_call,4,[{file,"gen_server.erl"},{line,715}]},{gen_server,handle_msg,6,[{file,"gen_server.erl"},{line,744}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,226}]}]
+    ancestors: [<0.266.0>]
+    message_queue_len: 0
+    messages: []
+    links: []
+    dictionary: [{rand_seed,{#{bits => 58,jump => #Fun<rand.3.47293030>,next => #Fun<rand.0.47293030>,type => exsss,uniform => #Fun<rand.1.47293030>,uniform_n => #Fun<rand.2.47293030>},[203885946575017013|107033281374194228]}},{gen_server_call_timeout,60000}]
+    trap_exit: false
+    status: running
+    heap_size: 1598
+    stack_size: 28
+    reductions: 1298
+  neighbours:
+2021-01-07 14:49:25 =ERROR REPORT====
+** Generic server rabbitmq_server terminating 
+** Last message in was {start_consumer,"gholi"}
+** When Server state == {[<0.340.0>],[],[]}
+** Reason for termination ==
+** {badarg,[{erlang,register,[<0.353.0>,<0.351.0>],[]},{rabbitmq,consume,2,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,125}]},{rabbitmq,handle_call,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,67}]},{gen_server,try_handle_call,4,[{file,"gen_server.erl"},{line,715}]},{gen_server,handle_msg,6,[{file,"gen_server.erl"},{line,744}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,226}]}]}
+** Client <0.266.0> stacktrace
+** [{gen,do_call,4,[{file,"gen.erl"},{line,208}]},{gen_server,call,2,[{file,"gen_server.erl"},{line,234}]},{erl_eval,do_apply,6,[{file,"erl_eval.erl"},{line,684}]},{shell,exprs,7,[{file,"shell.erl"},{line,686}]},{shell,eval_exprs,7,[{file,"shell.erl"},{line,642}]},{shell,eval_loop,3,[{file,"shell.erl"},{line,627}]}]
+2021-01-07 14:49:25 =CRASH REPORT====
+  crasher:
+    initial call: rabbitmq:init/1
+    pid: <0.337.0>
+    registered_name: rabbitmq_server
+    exception error: bad argument: [{erlang,register,[<0.353.0>,<0.351.0>],[]},{rabbitmq,consume,2,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,125}]},{rabbitmq,handle_call,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,67}]},{gen_server,try_handle_call,4,[{file,"gen_server.erl"},{line,715}]},{gen_server,handle_msg,6,[{file,"gen_server.erl"},{line,744}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,226}]}]
+    ancestors: [<0.266.0>]
+    message_queue_len: 0
+    messages: []
+    links: []
+    dictionary: [{rand_seed,{#{bits => 58,jump => #Fun<rand.3.47293030>,next => #Fun<rand.0.47293030>,type => exsss,uniform => #Fun<rand.1.47293030>,uniform_n => #Fun<rand.2.47293030>},[151277524693754868|128312714651903228]}},{gen_server_call_timeout,60000}]
+    trap_exit: false
+    status: running
+    heap_size: 2586
+    stack_size: 28
+    reductions: 1248
+  neighbours:
