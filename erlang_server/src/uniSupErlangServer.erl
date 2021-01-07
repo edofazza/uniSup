@@ -63,10 +63,6 @@ handle_call({log, {Pid, Username, Password, ClientNodeName}}, _From, _)->
 handle_call({register, {Pid, Username, Password, ClientNodeName}}, _From, _)->
   {reply, mnesiaFunctions:register(Username, Password, ClientNodeName, Pid), _ = '_'};
 
-%%handle_call({contact, Username}, _From, _) ->
-  %%check username
-  %add contact
-  %%true;
 handle_call({history, Username}, _From, _) ->
   {reply, mnesiaFunctions:get_user_related_messages(Username), _ = '_'};
 handle_call(_, _From, _) ->

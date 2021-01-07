@@ -20,5 +20,4 @@ public interface Authenticator {
 
     boolean logout(User u);
 
-    //boolean addContact(String username);
 }
