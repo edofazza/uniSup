@@ -12,29 +12,25 @@ import java.util.concurrent.Executors;
 public abstract class Gateway {
     protected static final String serverNodeName = "unisup_server@localhost"; //configuration parameter
     protected static String serverRegisteredName = "unisup_server"; //configuration parameter
-    protected static String clientNodeName = "unisup_client_node@localhost"; //configuration parameter
+    protected static final String clientNodeName = "unisup_client_node@localhost"; //configuration parameter
+    protected static String myName;
     protected static OtpMbox receiveMessagesMailbox;
     protected static String applicationCookie = "unisup";
     protected static OtpNode clientNode;
-    private static boolean initialized = false;
     private static ExecutorService myExecutor;
 
-    public static void prepareGateway(String username){
-        if(!initialized){
-            initialize(username);
-        }
-    }
 
-    public static void prepareGateway(){
-        prepareGateway("");
-    }
-
-    private static void initialize(String username){
+    protected static void prepareGateway(String username){
         try {
-            clientNodeName = username + "_" + clientNodeName;
-            clientNode = new OtpNode(clientNodeName, applicationCookie);
+            myName = username + "_" + clientNodeName;
+            if (clientNode != null)
+                clientNode.close();
+            clientNode = new OtpNode(myName, applicationCookie);
+            if(myExecutor!=null)
+                myExecutor.shutdown();
             myExecutor= Executors.newCachedThreadPool();
-            initialized=true;
+            if(receiveMessagesMailbox!=null)
+                receiveMessagesMailbox.close();
             receiveMessagesMailbox = clientNode.createMbox(username + "_mailbox");
             receiveMessagesMailbox.registerName(receiveMessagesMailbox.getName());
         }catch (IOException ioe){

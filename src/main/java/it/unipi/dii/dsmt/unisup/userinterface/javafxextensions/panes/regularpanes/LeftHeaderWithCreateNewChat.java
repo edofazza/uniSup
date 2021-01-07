@@ -1,5 +1,7 @@
 package it.unipi.dii.dsmt.unisup.userinterface.javafxextensions.panes.regularpanes;
 
+import it.unipi.dii.dsmt.unisup.communication.AuthGateway;
+import it.unipi.dii.dsmt.unisup.communication.Authenticator;
 import it.unipi.dii.dsmt.unisup.userinterface.CurrentUI;
 import it.unipi.dii.dsmt.unisup.userinterface.enumui.SceneNames;
 import it.unipi.dii.dsmt.unisup.userinterface.javafxextensions.buttons.LogOutButton;
@@ -44,6 +46,8 @@ public class LeftHeaderWithCreateNewChat extends Pane {
     }
 
     private void logOutButtonAction() {
+        Authenticator au = AuthGateway.getInstance();
+        au.logout(CurrentUI.getUser());
         CurrentUI.changeScene(SceneNames.LOGIN);
         CurrentUI.setUser(null);
     }

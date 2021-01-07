@@ -29,7 +29,6 @@ public class AuthGateway extends Gateway implements Authenticator{
 
     @Override
     public List<Chat> getChatHistory(User u) {
-        prepareGateway(u.getUsername());
         Callable<List<Chat>> toRun = new AuthGateway.GetHistoryTask(u);
         List<Chat> result = (List<Chat>)addToExecutor(toRun);
         return result;
@@ -72,7 +71,7 @@ public class AuthGateway extends Gateway implements Authenticator{
            OtpErlangPid pid = mbox.self();
            OtpErlangString username = new OtpErlangString(me.getUsername());
            OtpErlangString password = new OtpErlangString(me.getPassword());
-           OtpErlangString myNodeName = new OtpErlangString(clientNodeName);
+           OtpErlangString myNodeName = new OtpErlangString(myName);
            OtpErlangTuple tuple = new OtpErlangTuple(new OtpErlangObject[]{pid, username, password, myNodeName});
            OtpErlangTuple reqMessage = new OtpErlangTuple(new OtpErlangObject[]{pid, log, tuple});
            mbox.send(serverRegisteredName, serverNodeName, reqMessage);
@@ -148,7 +147,7 @@ public class AuthGateway extends Gateway implements Authenticator{
 
             OtpErlangString username = new OtpErlangString(me.getUsername());
             OtpErlangString password = new OtpErlangString(me.getPassword());
-            OtpErlangString myNodeName = new OtpErlangString(clientNodeName);
+            OtpErlangString myNodeName = new OtpErlangString(myName);
             OtpErlangTuple tuple = new OtpErlangTuple(new OtpErlangObject[]{pid, username, password, myNodeName});
             OtpErlangTuple reqMessage = new OtpErlangTuple(new OtpErlangObject[]{pid, register, tuple});
             mbox.send(serverRegisteredName, serverNodeName, reqMessage);

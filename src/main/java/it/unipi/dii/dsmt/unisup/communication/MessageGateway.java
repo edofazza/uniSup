@@ -10,7 +10,6 @@ public class MessageGateway extends Gateway implements Communicator{
 
     public static MessageGateway getInstance(){
         if(ref==null){
-            prepareGateway();
             ref = new MessageGateway();
         }
         return ref;
