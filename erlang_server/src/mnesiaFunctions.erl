@@ -11,7 +11,8 @@
 
 %% API
 -export([init/0, login/4, register/4, all_user/0, readTest/1, insert_new_message/3,
-  all_messages/0, get_user_related_messages/1, retrieve_nodename/1, retrieve_pid/1]).
+  all_messages/0, get_user_related_messages/1, retrieve_nodename/1, retrieve_pid/1,
+  is_user_present/1]).
 
 -include_lib("stdlib/include/qlc.hrl").
 -include("headers/records.hrl").
@@ -27,7 +28,7 @@ init() ->
       {disc_copies, node()}]),
   mnesia:create_table(unisup_messages, [{attributes, record_info(fields, unisup_messages)},
     {disc_copies, node()}
-    ]).
+  ]).
 
 
 %%%===================================================================
@@ -37,53 +38,64 @@ init() ->
 add_user(Username, Password, NodeName, Pid) ->
   Fun = fun() ->
     mnesia:write(#unisup_users{username = Username,
-                        password = Password,
-                        nodeName = NodeName,
-                        pid = Pid
-                        })
+      password = Password,
+      nodeName = NodeName,
+      pid = Pid
+    })
         end,
-    mnesia:activity(transaction, Fun).
+  mnesia:activity(transaction, Fun).
 
 update_user(Username, NodeName, Pid) ->
   F = fun() ->
-      [User] = mnesia:read(unisup_users, Username),
-      mnesia:write(User#unisup_users{nodeName = NodeName, pid = Pid})
+    [User] = mnesia:read(unisup_users, Username),
+    mnesia:write(User#unisup_users{nodeName = NodeName, pid = Pid})
       end,
   mnesia:activity(transaction, F).
 
 login(Username, Password, NodeName, Pid) ->
   F = fun() ->
-        case mnesia:read({unisup_users, Username}) =:= [] of
-          false -> % User present
-            %% GET PASSWORD
-            [{unisup_users, Username, Pass, _, _}] = mnesia:read({unisup_users, Username}),
+    case mnesia:read({unisup_users, Username}) =:= [] of
+      false -> % User present
+        %% GET PASSWORD
+        [{unisup_users, Username, Pass, _, _}] = mnesia:read({unisup_users, Username}),
 
-            %% CHECK IF THE PASSWORD IS CORRECT
-            case Password =:= Pass of
-               %% If the password is equal to the one inserted then I update the data in Mnesia
-               %% and I will return true. Otherwise, I will return false
-               true ->
-                 update_user(Username, NodeName, Pid),
-                 true;
-               false -> false
-            end;
+        %% CHECK IF THE PASSWORD IS CORRECT
+        case Password =:= Pass of
+          %% If the password is equal to the one inserted then I update the data in Mnesia
+          %% and I will return true. Otherwise, I will return false
           true ->
-            false
-        end
-    end,
-    mnesia:activity(transaction, F).
+            update_user(Username, NodeName, Pid),
+            true;
+          false -> false
+        end;
+      true ->
+        false
+    end
+      end,
+  mnesia:activity(transaction, F).
+
+is_user_present(Username) ->
+  F = fun() ->
+    case mnesia:read({unisup_users, Username}) =:= [] of
+      true ->
+        false;
+      false ->
+        true
+    end
+      end,
+  mnesia:activity(transaction, F).
 
 register(Username, Password, NodeName, Pid) ->
   F = fun() ->
-        case mnesia:read({unisup_users, Username}) =:= [] of
-          true -> % User not present
-            add_user(Username, Password, NodeName, Pid),
-            true;
-          false ->
-            false
-        end
-    end,
-    mnesia:activity(transaction, F).
+    case mnesia:read({unisup_users, Username}) =:= [] of
+      true -> % User not present
+        add_user(Username, Password, NodeName, Pid),
+        true;
+      false ->
+        false
+    end
+      end,
+  mnesia:activity(transaction, F).
 
 readTest(Username) ->
   F = fun() ->
@@ -100,15 +112,15 @@ all_user() ->
 
 retrieve_nodename(Username) ->
   F = fun() ->
-        [{unisup_users, _, _, NodeName, _}] = mnesia:read({unisup_users, Username}),
-        NodeName
+    [{unisup_users, _, _, NodeName, _}] = mnesia:read({unisup_users, Username}),
+    NodeName
       end,
   mnesia:activity(transaction, F).
 
 retrieve_pid(Username) ->
   F = fun() ->
-        [{unisup_users, _, _, _, Pid}] = mnesia:read({unisup_users, Username}),
-        Pid
+    [{unisup_users, _, _, _, Pid}] = mnesia:read({unisup_users, Username}),
+    Pid
       end,
   mnesia:activity(transaction, F).
 
@@ -120,29 +132,30 @@ retrieve_pid(Username) ->
 insert_new_message(Sender, Receiver, Text) ->
   Fun = fun() ->
     %% CHECK IF THE SENDER AND THE RECEIVER DO EXIST
-          case mnesia:read({unisup_users, Sender}) =:= []  of
-            true ->
-              false;
-            false ->
-              case mnesia:read({unisup_users, Receiver}) =:= [] of
-                true ->
-                  false;
-                false ->
-                  add_message(Sender, Receiver, Text),
-                  true
-              end
-          end
+    case mnesia:read({unisup_users, Sender}) =:= []  of
+      true ->
+        false;
+      false ->
+        case mnesia:read({unisup_users, Receiver}) =:= [] of
+          true ->
+            false;
+          false ->
+            add_message(Sender, Receiver, Text)
+        end
+    end
         end,
   mnesia:activity(transaction, Fun).
 
 add_message(Sender, Receiver, Text) ->
   Fun = fun() ->
+    Timestamp = time_format:format_utc_timestamp(),
     mnesia:write(#unisup_messages{
       sender = {Sender, time_format:format_utc_timestamp()},
       receiver = Receiver,
       text = Text,
-      timestamp = time_format:format_utc_timestamp()
-    })
+      timestamp = Timestamp
+    }),
+    Timestamp
         end,
   mnesia:activity(transaction, Fun).
 

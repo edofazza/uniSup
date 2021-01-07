@@ -48,14 +48,6 @@ public class AuthGateway extends Gateway implements Authenticator{
         return true;
     }
 
-    /*@Override
-    public boolean addContact(String username) {
-        Callable<Boolean> toRun = new AuthGateway.NewContactTask(username);
-        boolean result = (Boolean)addToExecutor(toRun);
-        //save into db
-        return result;
-    }*/
-
     private static class LogTask implements Callable<Boolean> {
         private User me;
         private final OtpMbox mbox;
@@ -156,29 +148,5 @@ public class AuthGateway extends Gateway implements Authenticator{
             return response.booleanValue();
         }
     }
-
-    /*
-    private static class NewContactTask implements Callable<Boolean> {
-        private String newContact;
-        private final OtpMbox mbox;
-
-        NewContactTask(String contact){
-            this.newContact=contact;
-            mbox=clientNode.createMbox();
-        }
-
-        @Override
-        public Boolean call() throws Exception {
-            OtpErlangPid pid = mbox.self();
-            OtpErlangAtom contact = new OtpErlangAtom("contact");
-            OtpErlangString contactName = new OtpErlangString(newContact);
-            OtpErlangTuple reqMsg = new OtpErlangTuple(new OtpErlangObject[]{pid, contact, contactName});
-            mbox.send(serverRegisteredName, serverNodeName, reqMsg);
-
-            OtpErlangBoolean response = (OtpErlangBoolean) mbox.receive();
-            return response.booleanValue();
-        }
-    }
-    */
 
 }

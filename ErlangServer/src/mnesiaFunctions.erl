@@ -11,7 +11,8 @@
 
 %% API
 -export([init/0, login/4, register/4, all_user/0, readTest/1, insert_new_message/3,
-  all_messages/0, get_user_related_messages/1, retrieve_nodename/1, retrieve_pid/1]).
+  all_messages/0, get_user_related_messages/1, retrieve_nodename/1, retrieve_pid/1,
+  is_user_present/1]).
 
 -include_lib("stdlib/include/qlc.hrl").
 -include("headers/records.hrl").
@@ -73,6 +74,17 @@ login(Username, Password, NodeName, Pid) ->
     end,
     mnesia:activity(transaction, F).
 
+is_user_present(Username) ->
+  F = fun() ->
+    case mnesia:read({unisup_users, Username}) =:= [] of
+      true ->
+        false;
+      false ->
+        true
+    end
+    end,
+  mnesia:activity(transaction, F).
+
 register(Username, Password, NodeName, Pid) ->
   F = fun() ->
         case mnesia:read({unisup_users, Username}) =:= [] of
@@ -128,8 +140,7 @@ insert_new_message(Sender, Receiver, Text) ->
                 true ->
                   false;
                 false ->
-                  add_message(Sender, Receiver, Text),
-                  true
+                  add_message(Sender, Receiver, Text)
               end
           end
         end,
@@ -137,12 +148,14 @@ insert_new_message(Sender, Receiver, Text) ->
 
 add_message(Sender, Receiver, Text) ->
   Fun = fun() ->
+    Timestamp = time_format:format_utc_timestamp(),
     mnesia:write(#unisup_messages{
       sender = {Sender, time_format:format_utc_timestamp()},
       receiver = Receiver,
       text = Text,
-      timestamp = time_format:format_utc_timestamp()
-    })
+      timestamp = Timestamp
+    }),
+    Timestamp
         end,
   mnesia:activity(transaction, Fun).
 
