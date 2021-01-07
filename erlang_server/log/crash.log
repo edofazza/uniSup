@@ -1,0 +1,209 @@
+2021-01-07 00:18:25 =ERROR REPORT====
+** Generic server consumer_server terminating 
+** Last message in was {init,"gholi"}
+** When Server state == {[<0.340.0>],[]}
+** Reason for termination ==
+** {badarg,[{erlang,spawn,[init_consuming_handler,[<0.351.0>,"gholi"]],[{file,"erlang.erl"},{line,2865}]},{rabbitmq,start_consuming_handler,2,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,27}]},{rabbitmq,consume,2,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,67}]},{rabbitmq,handle_call,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,49}]},{gen_server,try_handle_call,4,[{file,"gen_server.erl"},{line,715}]},{gen_server,handle_msg,6,[{file,"gen_server.erl"},{line,744}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,226}]}]}
+** Client <0.266.0> stacktrace
+** [{gen,do_call,4,[{file,"gen.erl"},{line,208}]},{gen_server,call,2,[{file,"gen_server.erl"},{line,234}]},{erl_eval,do_apply,6,[{file,"erl_eval.erl"},{line,684}]},{shell,exprs,7,[{file,"shell.erl"},{line,686}]},{shell,eval_exprs,7,[{file,"shell.erl"},{line,642}]},{shell,eval_loop,3,[{file,"shell.erl"},{line,627}]}]
+2021-01-07 00:18:25 =CRASH REPORT====
+  crasher:
+    initial call: rabbitmq:init/1
+    pid: <0.337.0>
+    registered_name: consumer_server
+    exception error: bad argument: [{erlang,spawn,[init_consuming_handler,[<0.351.0>,"gholi"]],[{file,"erlang.erl"},{line,2865}]},{rabbitmq,start_consuming_handler,2,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,27}]},{rabbitmq,consume,2,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,67}]},{rabbitmq,handle_call,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,49}]},{gen_server,try_handle_call,4,[{file,"gen_server.erl"},{line,715}]},{gen_server,handle_msg,6,[{file,"gen_server.erl"},{line,744}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,226}]}]
+    ancestors: [<0.266.0>]
+    message_queue_len: 0
+    messages: []
+    links: []
+    dictionary: [{gen_server_call_timeout,60000}]
+    trap_exit: false
+    status: running
+    heap_size: 2586
+    stack_size: 28
+    reductions: 1285
+  neighbours:
+2021-01-07 00:22:39 =ERROR REPORT====
+Error in process <0.423.0> with exit value:
+{badarg,[{erlang,spawn,[loop_consuming,[<0.421.0>]],[{file,"erlang.erl"},{line,2865}]},{rabbitmq,init_consuming_handler,2,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,40}]}]}
+2021-01-07 00:34:46 =ERROR REPORT====
+** Generic server consumer_server terminating 
+** Last message in was {init,"gholi"}
+** When Server state == {[<0.340.0>],[],[]}
+** Reason for termination ==
+** {function_clause,[{rabbitmq,consume,[{[<0.340.0>],[]},"gholi"],[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,59}]},{gen_server,try_handle_call,4,[{file,"gen_server.erl"},{line,715}]},{gen_server,handle_msg,6,[{file,"gen_server.erl"},{line,744}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,226}]}]}
+** Client <0.266.0> stacktrace
+** [{gen,do_call,4,[{file,"gen.erl"},{line,208}]},{gen_server,call,2,[{file,"gen_server.erl"},{line,234}]},{erl_eval,do_apply,6,[{file,"erl_eval.erl"},{line,684}]},{shell,exprs,7,[{file,"shell.erl"},{line,686}]},{shell,eval_exprs,7,[{file,"shell.erl"},{line,642}]},{shell,eval_loop,3,[{file,"shell.erl"},{line,627}]}]
+2021-01-07 00:34:46 =CRASH REPORT====
+  crasher:
+    initial call: rabbitmq:init/1
+    pid: <0.337.0>
+    registered_name: consumer_server
+    exception error: {function_clause,[{rabbitmq,consume,[{[<0.340.0>],[]},"gholi"],[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,59}]},{gen_server,try_handle_call,4,[{file,"gen_server.erl"},{line,715}]},{gen_server,handle_msg,6,[{file,"gen_server.erl"},{line,744}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,226}]}]}
+    ancestors: [<0.266.0>]
+    message_queue_len: 0
+    messages: []
+    links: []
+    dictionary: [{gen_server_call_timeout,60000}]
+    trap_exit: false
+    status: running
+    heap_size: 1598
+    stack_size: 28
+    reductions: 1082
+  neighbours:
+2021-01-07 11:16:17 =SUPERVISOR REPORT====
+     Supervisor: {<0.349.0>,amqp_channel_sup}
+     Context:    child_terminated
+     Reason:     {badarg,[{erlang,size,[undefined],[]},{rabbit_framing_amqp_0_9_1,shortstr_size,1,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_framing_amqp_0_9_1.erl"},{line,178}]},{rabbit_framing_amqp_0_9_1,encode_method_fields,1,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_framing_amqp_0_9_1.erl"},{line,1114}]},{rabbit_binary_generator,build_simple_method_frame,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_binary_generator.erl"},{line,50}]},{rabbit_writer,internal_send_command_async,2,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_writer.erl"},{line,353}]},{rabbit_writer,handle_message,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_writer.erl"},{line,229}]},{rabbit_writer,mainloop1,2,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_writer.erl"},{line,213}]},{rabbit_writer,mainloop,2,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_writer.erl"},{line,204}]}]}
+     Offender:   [{pid,<0.352.0>},{name,writer},{mfargs,{rabbit_writer,start_link,[#Port<0.8>,1,131072,rabbit_framing_amqp_0_9_1,<0.351.0>,{<<"client 127.0.0.1:14546 -> 127.0.0.1:5672">>,1},false,1000000000]}},{restart_type,transient},{shutdown,30000},{child_type,worker}]
+
+2021-01-07 11:16:17 =SUPERVISOR REPORT====
+     Supervisor: {<0.349.0>,amqp_channel_sup}
+     Context:    shutdown
+     Reason:     reached_max_restart_intensity
+     Offender:   [{pid,<0.352.0>},{name,writer},{mfargs,{rabbit_writer,start_link,[#Port<0.8>,1,131072,rabbit_framing_amqp_0_9_1,<0.351.0>,{<<"client 127.0.0.1:14546 -> 127.0.0.1:5672">>,1},false,1000000000]}},{restart_type,transient},{shutdown,30000},{child_type,worker}]
+
+2021-01-07 11:16:17 =ERROR REPORT====
+Error in process <0.352.0> with exit value:
+{badarg,[{erlang,size,[undefined],[]},{rabbit_framing_amqp_0_9_1,shortstr_size,1,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_framing_amqp_0_9_1.erl"},{line,178}]},{rabbit_framing_amqp_0_9_1,encode_method_fields,1,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_framing_amqp_0_9_1.erl"},{line,1114}]},{rabbit_binary_generator,build_simple_method_frame,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_binary_generator.erl"},{line,50}]},{rabbit_writer,internal_send_command_async,2,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_writer.erl"},{line,353}]},{rabbit_writer,handle_message,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_writer.erl"},{line,229}]},{rabbit_writer,mainloop1,2,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_writer.erl"},{line,213}]},{rabbit_writer,mainloop,2,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_writer.erl"},{line,204}]}]}
+2021-01-07 11:18:33 =CRASH REPORT====
+  crasher:
+    initial call: rabbit_writer:enter_mainloop/2
+    pid: <0.352.0>
+    registered_name: []
+    exception error: bad argument: [{erlang,size,[undefined],[]},{rabbit_framing_amqp_0_9_1,shortstr_size,1,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_framing_amqp_0_9_1.erl"},{line,178}]},{rabbit_framing_amqp_0_9_1,encode_method_fields,1,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_framing_amqp_0_9_1.erl"},{line,1114}]},{rabbit_binary_generator,build_simple_method_frame,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_binary_generator.erl"},{line,50}]},{rabbit_writer,internal_send_command_async,2,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_writer.erl"},{line,353}]},{rabbit_writer,handle_message,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_writer.erl"},{line,229}]},{rabbit_writer,mainloop1,2,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_writer.erl"},{line,213}]},{rabbit_writer,mainloop,2,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_writer.erl"},{line,204}]}]
+    ancestors: [<0.349.0>,<0.343.0>,<0.339.0>,<0.338.0>,amqp_sup,<0.330.0>]
+    message_queue_len: 0
+    messages: []
+    links: [<0.349.0>]
+    dictionary: [{process_name,{rabbit_writer,{<<"client 127.0.0.1:14585 -> 127.0.0.1:5672">>,1}}}]
+    trap_exit: false
+    status: running
+    heap_size: 2586
+    stack_size: 28
+    reductions: 674
+  neighbours:
+2021-01-07 11:18:33 =SUPERVISOR REPORT====
+     Supervisor: {<0.349.0>,amqp_channel_sup}
+     Context:    child_terminated
+     Reason:     {badarg,[{erlang,size,[undefined],[]},{rabbit_framing_amqp_0_9_1,shortstr_size,1,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_framing_amqp_0_9_1.erl"},{line,178}]},{rabbit_framing_amqp_0_9_1,encode_method_fields,1,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_framing_amqp_0_9_1.erl"},{line,1114}]},{rabbit_binary_generator,build_simple_method_frame,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_binary_generator.erl"},{line,50}]},{rabbit_writer,internal_send_command_async,2,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_writer.erl"},{line,353}]},{rabbit_writer,handle_message,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_writer.erl"},{line,229}]},{rabbit_writer,mainloop1,2,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_writer.erl"},{line,213}]},{rabbit_writer,mainloop,2,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_writer.erl"},{line,204}]}]}
+     Offender:   [{pid,<0.352.0>},{name,writer},{mfargs,{rabbit_writer,start_link,[#Port<0.8>,1,131072,rabbit_framing_amqp_0_9_1,<0.351.0>,{<<"client 127.0.0.1:14585 -> 127.0.0.1:5672">>,1},false,1000000000]}},{restart_type,transient},{shutdown,30000},{child_type,worker}]
+
+2021-01-07 11:18:33 =SUPERVISOR REPORT====
+     Supervisor: {<0.349.0>,amqp_channel_sup}
+     Context:    shutdown
+     Reason:     reached_max_restart_intensity
+     Offender:   [{pid,<0.352.0>},{name,writer},{mfargs,{rabbit_writer,start_link,[#Port<0.8>,1,131072,rabbit_framing_amqp_0_9_1,<0.351.0>,{<<"client 127.0.0.1:14585 -> 127.0.0.1:5672">>,1},false,1000000000]}},{restart_type,transient},{shutdown,30000},{child_type,worker}]
+
+2021-01-07 11:20:20 =CRASH REPORT====
+  crasher:
+    initial call: rabbit_writer:enter_mainloop/2
+    pid: <0.352.0>
+    registered_name: []
+    exception error: bad argument: [{erlang,size,[undefined],[]},{rabbit_framing_amqp_0_9_1,shortstr_size,1,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_framing_amqp_0_9_1.erl"},{line,178}]},{rabbit_framing_amqp_0_9_1,encode_method_fields,1,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_framing_amqp_0_9_1.erl"},{line,1114}]},{rabbit_binary_generator,build_simple_method_frame,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_binary_generator.erl"},{line,50}]},{rabbit_writer,internal_send_command_async,2,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_writer.erl"},{line,353}]},{rabbit_writer,handle_message,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_writer.erl"},{line,229}]},{rabbit_writer,mainloop1,2,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_writer.erl"},{line,213}]},{rabbit_writer,mainloop,2,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_writer.erl"},{line,204}]}]
+    ancestors: [<0.349.0>,<0.343.0>,<0.339.0>,<0.338.0>,amqp_sup,<0.330.0>]
+    message_queue_len: 0
+    messages: []
+    links: [<0.349.0>]
+    dictionary: [{process_name,{rabbit_writer,{<<"client 127.0.0.1:14600 -> 127.0.0.1:5672">>,1}}}]
+    trap_exit: false
+    status: running
+    heap_size: 2586
+    stack_size: 28
+    reductions: 674
+  neighbours:
+2021-01-07 11:20:20 =SUPERVISOR REPORT====
+     Supervisor: {<0.349.0>,amqp_channel_sup}
+     Context:    child_terminated
+     Reason:     {badarg,[{erlang,size,[undefined],[]},{rabbit_framing_amqp_0_9_1,shortstr_size,1,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_framing_amqp_0_9_1.erl"},{line,178}]},{rabbit_framing_amqp_0_9_1,encode_method_fields,1,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_framing_amqp_0_9_1.erl"},{line,1114}]},{rabbit_binary_generator,build_simple_method_frame,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_binary_generator.erl"},{line,50}]},{rabbit_writer,internal_send_command_async,2,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_writer.erl"},{line,353}]},{rabbit_writer,handle_message,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_writer.erl"},{line,229}]},{rabbit_writer,mainloop1,2,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_writer.erl"},{line,213}]},{rabbit_writer,mainloop,2,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_writer.erl"},{line,204}]}]}
+     Offender:   [{pid,<0.352.0>},{name,writer},{mfargs,{rabbit_writer,start_link,[#Port<0.8>,1,131072,rabbit_framing_amqp_0_9_1,<0.351.0>,{<<"client 127.0.0.1:14600 -> 127.0.0.1:5672">>,1},false,1000000000]}},{restart_type,transient},{shutdown,30000},{child_type,worker}]
+
+2021-01-07 11:20:20 =SUPERVISOR REPORT====
+     Supervisor: {<0.349.0>,amqp_channel_sup}
+     Context:    shutdown
+     Reason:     reached_max_restart_intensity
+     Offender:   [{pid,<0.352.0>},{name,writer},{mfargs,{rabbit_writer,start_link,[#Port<0.8>,1,131072,rabbit_framing_amqp_0_9_1,<0.351.0>,{<<"client 127.0.0.1:14600 -> 127.0.0.1:5672">>,1},false,1000000000]}},{restart_type,transient},{shutdown,30000},{child_type,worker}]
+
+2021-01-07 11:37:06 =CRASH REPORT====
+  crasher:
+    initial call: rabbit_writer:enter_mainloop/2
+    pid: <0.352.0>
+    registered_name: []
+    exception error: bad argument: [{erlang,size,[undefined],[]},{rabbit_framing_amqp_0_9_1,shortstr_size,1,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_framing_amqp_0_9_1.erl"},{line,178}]},{rabbit_framing_amqp_0_9_1,encode_method_fields,1,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_framing_amqp_0_9_1.erl"},{line,1118}]},{rabbit_binary_generator,build_simple_method_frame,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_binary_generator.erl"},{line,50}]},{rabbit_writer,internal_send_command_async,2,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_writer.erl"},{line,353}]},{rabbit_writer,handle_message,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_writer.erl"},{line,229}]},{rabbit_writer,mainloop1,2,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_writer.erl"},{line,213}]},{rabbit_writer,mainloop,2,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_writer.erl"},{line,204}]}]
+    ancestors: [<0.349.0>,<0.343.0>,<0.339.0>,<0.338.0>,amqp_sup,<0.330.0>]
+    message_queue_len: 0
+    messages: []
+    links: [<0.349.0>]
+    dictionary: [{process_name,{rabbit_writer,{<<"client 127.0.0.1:14822 -> 127.0.0.1:5672">>,1}}}]
+    trap_exit: false
+    status: running
+    heap_size: 2586
+    stack_size: 28
+    reductions: 674
+  neighbours:
+2021-01-07 11:37:06 =SUPERVISOR REPORT====
+     Supervisor: {<0.349.0>,amqp_channel_sup}
+     Context:    child_terminated
+     Reason:     {badarg,[{erlang,size,[undefined],[]},{rabbit_framing_amqp_0_9_1,shortstr_size,1,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_framing_amqp_0_9_1.erl"},{line,178}]},{rabbit_framing_amqp_0_9_1,encode_method_fields,1,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_framing_amqp_0_9_1.erl"},{line,1118}]},{rabbit_binary_generator,build_simple_method_frame,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_binary_generator.erl"},{line,50}]},{rabbit_writer,internal_send_command_async,2,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_writer.erl"},{line,353}]},{rabbit_writer,handle_message,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_writer.erl"},{line,229}]},{rabbit_writer,mainloop1,2,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_writer.erl"},{line,213}]},{rabbit_writer,mainloop,2,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_writer.erl"},{line,204}]}]}
+     Offender:   [{pid,<0.352.0>},{name,writer},{mfargs,{rabbit_writer,start_link,[#Port<0.8>,1,131072,rabbit_framing_amqp_0_9_1,<0.351.0>,{<<"client 127.0.0.1:14822 -> 127.0.0.1:5672">>,1},false,1000000000]}},{restart_type,transient},{shutdown,30000},{child_type,worker}]
+
+2021-01-07 11:37:06 =SUPERVISOR REPORT====
+     Supervisor: {<0.349.0>,amqp_channel_sup}
+     Context:    shutdown
+     Reason:     reached_max_restart_intensity
+     Offender:   [{pid,<0.352.0>},{name,writer},{mfargs,{rabbit_writer,start_link,[#Port<0.8>,1,131072,rabbit_framing_amqp_0_9_1,<0.351.0>,{<<"client 127.0.0.1:14822 -> 127.0.0.1:5672">>,1},false,1000000000]}},{restart_type,transient},{shutdown,30000},{child_type,worker}]
+
+2021-01-07 11:37:57 =CRASH REPORT====
+  crasher:
+    initial call: rabbit_writer:enter_mainloop/2
+    pid: <0.352.0>
+    registered_name: []
+    exception error: bad argument: [{erlang,size,[undefined],[]},{rabbit_framing_amqp_0_9_1,shortstr_size,1,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_framing_amqp_0_9_1.erl"},{line,178}]},{rabbit_framing_amqp_0_9_1,encode_method_fields,1,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_framing_amqp_0_9_1.erl"},{line,1118}]},{rabbit_binary_generator,build_simple_method_frame,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_binary_generator.erl"},{line,50}]},{rabbit_writer,internal_send_command_async,2,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_writer.erl"},{line,353}]},{rabbit_writer,handle_message,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_writer.erl"},{line,229}]},{rabbit_writer,mainloop1,2,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_writer.erl"},{line,213}]},{rabbit_writer,mainloop,2,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_writer.erl"},{line,204}]}]
+    ancestors: [<0.349.0>,<0.343.0>,<0.339.0>,<0.338.0>,amqp_sup,<0.330.0>]
+    message_queue_len: 0
+    messages: []
+    links: [<0.349.0>]
+    dictionary: [{process_name,{rabbit_writer,{<<"client 127.0.0.1:14839 -> 127.0.0.1:5672">>,1}}}]
+    trap_exit: false
+    status: running
+    heap_size: 2586
+    stack_size: 28
+    reductions: 674
+  neighbours:
+2021-01-07 11:37:57 =SUPERVISOR REPORT====
+     Supervisor: {<0.349.0>,amqp_channel_sup}
+     Context:    child_terminated
+     Reason:     {badarg,[{erlang,size,[undefined],[]},{rabbit_framing_amqp_0_9_1,shortstr_size,1,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_framing_amqp_0_9_1.erl"},{line,178}]},{rabbit_framing_amqp_0_9_1,encode_method_fields,1,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_framing_amqp_0_9_1.erl"},{line,1118}]},{rabbit_binary_generator,build_simple_method_frame,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_binary_generator.erl"},{line,50}]},{rabbit_writer,internal_send_command_async,2,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_writer.erl"},{line,353}]},{rabbit_writer,handle_message,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_writer.erl"},{line,229}]},{rabbit_writer,mainloop1,2,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_writer.erl"},{line,213}]},{rabbit_writer,mainloop,2,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/_build/default/lib/rabbit_common/src/rabbit_writer.erl"},{line,204}]}]}
+     Offender:   [{pid,<0.352.0>},{name,writer},{mfargs,{rabbit_writer,start_link,[#Port<0.8>,1,131072,rabbit_framing_amqp_0_9_1,<0.351.0>,{<<"client 127.0.0.1:14839 -> 127.0.0.1:5672">>,1},false,1000000000]}},{restart_type,transient},{shutdown,30000},{child_type,worker}]
+
+2021-01-07 11:37:57 =SUPERVISOR REPORT====
+     Supervisor: {<0.349.0>,amqp_channel_sup}
+     Context:    shutdown
+     Reason:     reached_max_restart_intensity
+     Offender:   [{pid,<0.352.0>},{name,writer},{mfargs,{rabbit_writer,start_link,[#Port<0.8>,1,131072,rabbit_framing_amqp_0_9_1,<0.351.0>,{<<"client 127.0.0.1:14839 -> 127.0.0.1:5672">>,1},false,1000000000]}},{restart_type,transient},{shutdown,30000},{child_type,worker}]
+
+2021-01-07 11:47:22 =ERROR REPORT====
+** Generic server consumer_server terminating 
+** Last message in was {remove_channel,<0.351.0>,<0.353.0>}
+** When Server state == {[<0.340.0>],[<0.351.0>],[<0.353.0>]}
+** Reason for termination ==
+** {function_clause,[{lists,delete,[[<0.353.0>],<0.353.0>],[{file,"lists.erl"},{line,376}]},{rabbitmq,handle_call,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,55}]},{gen_server,try_handle_call,4,[{file,"gen_server.erl"},{line,715}]},{gen_server,handle_msg,6,[{file,"gen_server.erl"},{line,744}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,226}]}]}
+** Client <0.353.0> stacktrace
+** [{gen,do_call,4,[{file,"gen.erl"},{line,208}]},{gen_server,call,2,[{file,"gen_server.erl"},{line,234}]},{rabbitmq,loop_consuming,2,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,107}]}]
+2021-01-07 11:47:22 =CRASH REPORT====
+  crasher:
+    initial call: rabbitmq:init/1
+    pid: <0.337.0>
+    registered_name: consumer_server
+    exception error: {function_clause,[{lists,delete,[[<0.353.0>],<0.353.0>],[{file,"lists.erl"},{line,376}]},{rabbitmq,handle_call,3,[{file,"c:/Users/Sina/IdeaProjects/uniSup/erlang_server/src/rabbitmq.erl"},{line,55}]},{gen_server,try_handle_call,4,[{file,"gen_server.erl"},{line,715}]},{gen_server,handle_msg,6,[{file,"gen_server.erl"},{line,744}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,226}]}]}
+    ancestors: [<0.266.0>]
+    message_queue_len: 0
+    messages: []
+    links: []
+    dictionary: [{rand_seed,{#{bits => 58,jump => #Fun<rand.3.47293030>,next => #Fun<rand.0.47293030>,type => exsss,uniform => #Fun<rand.1.47293030>,uniform_n => #Fun<rand.2.47293030>},[17263571788761678|262030547747488220]}},{gen_server_call_timeout,60000}]
+    trap_exit: false
+    status: running
+    heap_size: 2586
+    stack_size: 28
+    reductions: 1350
+  neighbours:

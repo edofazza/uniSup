@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ErlangServer/ErlangServer.iml" filepath="$PROJECT_DIR$/ErlangServer/ErlangServer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/erlang_server/erlang_server.iml" filepath="$PROJECT_DIR$/erlang_server/erlang_server.iml" />
       <module fileurl="file://$PROJECT_DIR$/uniSup.iml" filepath="$PROJECT_DIR$/uniSup.iml" />
     </modules>
   </component>

@@ -1,0 +1,12 @@
+{application,erlang_server,
+             [{description,"An OTP application"},
+              {vsn,"0.1.0"},
+              {registered,[]},
+              {mod,{erlang_server_app,[]}},
+              {applications,[kernel,stdlib,amqp_client]},
+              {env,[]},
+              {modules,[erlang_server_app,erlang_server_sup,listener,
+                        mnesiaFunctions,rabbitmq,time_format,
+                        uniSupErlangServer]},
+              {licenses,["Apache 2.0"]},
+              {links,[]}]}.
