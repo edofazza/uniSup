@@ -36,8 +36,8 @@ request_consuming(Receiver_Username, Receiver_Pid)->
 
 %% @doc terminate the consuming of a user in case of logout or terminated session
 %% @param the username of the User
-terminate_consuming_session(Username)->
-  gen_server:call(rabbitmq_server, {terminate_consuming_session, Username}).
+terminate_consuming_session(Receiver_Username)->
+  gen_server:call(rabbitmq_server, {terminate_consuming_session, Receiver_Username}).
 
 %% @doc delete the user by its username
 %% @param the username of the User
@@ -64,6 +64,14 @@ handle_call({start_consumer, Receiver_Username, Receiver_Pid}, _From, {Connectio
 
 %% @private
 handle_call({terminate_consuming_session, Receiver_Username}, _From, {Connections, Channels, Consumers}) ->
+  {Channel, _} = lists:keyfind(Receiver_Username, 2, Channels),
+  {Consumer, _} = lists:keyfind(Receiver_Username, 2, Consumers),
+  amqp_channel:close(Channel),
+  case is_process_alive(Consumer) of
+    true -> Consumer ! terminate
+  end,
+  io:format("consumer final status: ~p~n", [{Connections, lists:keydelete(Receiver_Username, 2, Channels),
+    lists:keydelete(Receiver_Username,2,Consumers)}]),
   {reply, true, {Connections, lists:keydelete(Receiver_Username, 2, Channels),
     lists:keydelete(Receiver_Username,2,Consumers)}};
 
@@ -163,23 +171,17 @@ loop_consuming(Channel,  {Receiver_Username, Receiver_Pid}) ->
           loop_consuming(Channel, {Receiver_Username, Receiver_Pid});
 
         terminate ->
+          io:format("terminated~n"),
           terminate;
 
         _ ->
           loop_consuming(Channel, {Receiver_Username, Receiver_Pid})
 
-      after 1000 ->
-        terminate_consuming_session(Receiver_Username), %terminate current Receiver session by sending terminate atom
-        case lists:keyfind(status, 1, process_info(Receiver_Pid))  =:=  {status,running} of
-          true ->
-            %request for creating another pulling consumer for the current Receiver
-            request_consuming(Receiver_Username, Receiver_Pid),
-            %to consume the terminate atom message
-            loop_consuming(Channel, {Receiver_Username, Receiver_Pid});
-
-          _ ->
-            amqp_channel:close(Channel),terminate
-        end
+      after 10000 ->
+        %terminate current Receiver session by sending terminate atom
+        terminate_consuming_session(Receiver_Username),
+        %request for creating another pulling consumer for the current Receiver
+        request_consuming(Receiver_Username, Receiver_Pid)
       end;
 
     false ->
@@ -197,7 +199,9 @@ test_g() ->
   receive
     Msg ->
       io:format("this is the content in client side: ~p~n", [Msg])
-  end.
+  end,
+  timer:sleep(5000),
+  terminate_consuming_session(Receiver).
 
 %% @private
 delete_queue(Channel, Queue_Name) ->
