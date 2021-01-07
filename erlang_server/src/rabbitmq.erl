@@ -12,14 +12,14 @@
 -include_lib("eunit/include/eunit.hrl").
 -behavior(gen_server).
 %% API
--export([start_consumer_server/0, start_consuming_handler/3, request_consuming/1, test_g/0]).
+-export([start_rabbitmq_server/0, start_consuming_handler/3, request_consuming/1, test_g/0, push/1]).
 -export([init_consuming_handler/3]).
--export([init/1, handle_call/3]).
+-export([init/1, handle_call/3, handle_cast/2]).
 
 
 %% @doc Spawns the server and registers the local name (unique)
-start_consumer_server() ->
-  gen_server:start({local, consumer_server}, ?MODULE, [consumer_server], []).
+start_rabbitmq_server() ->
+  gen_server:start({local, rabbitmq_server}, ?MODULE, [rabbitmq_server], []).
 
 start_consuming_handler(Channels, Channel, Receiver)->
   {ok, Pid} = init_consuming_handler(Channels, Channel, Receiver),
@@ -28,7 +28,7 @@ start_consuming_handler(Channels, Channel, Receiver)->
 
 %% @private
 %% @doc Initializes the consumer server
-init([consumer_server]) ->
+init([rabbitmq_server]) ->
   Connection = create_connection(),
   io:format("consumer server init: ~p~n", [{[Connection],[], []}]),
   {ok, {[Connection],[], []}}.
@@ -40,10 +40,17 @@ init_consuming_handler(Channels, Channel, Receiver) ->
   {ok, Pid}.
 
 request_consuming(Receiver)->
-  gen_server:call(consumer_server, {init, Receiver}).
+  gen_server:call(rabbitmq_server, {init, Receiver}).
+
+% push the message into the rabbitmq
+% Queue name is equal to the Receiver which is the username of the Receiver
+% the inserted message in rabbitmq has the following format
+% {"Msg_Id":  , "Sender": , "Receiver": , "Text": , "Timestamp": }
+push({Msg_Id, Sender, Receiver, Text, Timestamp}) ->
+  gen_server:call(rabbitmq_server, {push, {Msg_Id, Sender, Receiver, Text, Timestamp}}).
 
 remove_channel(Channel, Consumer) ->
-  gen_server:call(consumer_server, {remove_channel, Channel, Consumer}).
+  gen_server:call(rabbitmq_server, {remove_channel, Channel, Consumer}).
 
 handle_call({init, Receiver}, _From, {Connections, Channels, Consumers}) ->
   {New_Connections, New_Channels, New_Consumers} = consume({Connections, Channels, Consumers}, Receiver),
@@ -51,34 +58,60 @@ handle_call({init, Receiver}, _From, {Connections, Channels, Consumers}) ->
   {reply, consumer_created, {New_Connections, New_Channels,  New_Consumers}};
 
 handle_call({remove_channel, Channel, Consumer}, _From, {Connections, Channels, Consumers}) ->
-  io:format(is_process_alive(Consumer)),
-  {reply, channel_deleted, {Connections, lists:delete(Channel, Channels), lists:delete(Consumer, Consumers)}}.
+  {reply, channel_deleted, {Connections, lists:delete(Channel, Channels), lists:delete(Consumer, Consumers)}};
 
-%%handle_call(remove_consumer, _From, {Connections, Channels, Consumers}) ->
+handle_call({push, {Msg_Id, Sender, Receiver, Text, Timestamp}}, _From, {Connections, Channels, Consumers}) ->
+  Map = create_map({Msg_Id, Sender, Receiver, Text, Timestamp}),
+  Payload = jsx:encode(Map),
+  Publish = #'basic.publish'{exchange = <<>>, routing_key = list_to_binary(Receiver)},
+  Props = #'P_basic'{delivery_mode = 2}, %% persistent message
+  Msg = #amqp_msg{props = Props, payload = Payload},
+  {New_Connections, Connection} = get_connection(Connections),
+  {ok, Channel} = amqp_connection:open_channel(Connection),
+  amqp_channel:cast(Channel, Publish, Msg),
+  {reply, pushed, {New_Connections, Channels, Consumers}}.
 
-close_connection(Connection) ->
-  amqp_connection:close(Connection).
+handle_cast(terminate, {Connections, _Channels, Consumers}) ->
+  [remove_consumer(C) || C <- Consumers],
+  [amqp_connection:close(L) || L <- Connections],
+  {noreply, {[],[], []}};
 
-%%handle_cast(close_connection, ) ->
+handle_cast(reset, _State) ->
+  Connection = create_connection(),
+  {restarted, {[Connection],[], []}}.
+
+remove_consumer(Consumer) ->
+  Consumer ! server_shutdown.
+
+close_connections([L]) ->
+  amqp_connection:close(L),
+  ok;
+close_connections([H|T]) ->
+  amqp_connection:close(H),
+  close_connections(T).
 
 create_connection() ->
   {ok, Connection} = amqp_connection:start(#amqp_params_network{ host="localhost"}),
   io:format("New Connection created: ~p~n", [Connection]),
   Connection.
 
-consume({Connections, Channels, Consumers}, Receiver) ->
+get_connection(Connections) ->
   Connection = lists:nth(rand:uniform(length(Connections)), Connections),
   case is_process_alive(Connection) of
     false ->
-      create_connection(),
+      New_Connection = create_connection(),
       lists:delete(Connection, Connections),
-      consume({Connections ++ [Connection], Channels, Consumers}, Receiver);
-
+      get_connection(Connections ++ [New_Connection]);
     true ->
-      {ok, Channel} = amqp_connection:open_channel(Connection),
-      {ok, Pid} = start_consuming_handler(Channels, Channel, Receiver),
-      {Connections, Channels ++ [Channel], Consumers ++ [Pid]}
+      {Connections, Connection}
   end.
+
+consume({Connections, Channels, Consumers}, Receiver) ->
+  {New_Connections, Connection} = get_connection(Connections),
+  {ok, Channel} = amqp_connection:open_channel(Connection),
+  {ok, Pid} = start_consuming_handler(Channels, Channel, Receiver),
+  {New_Connections, Channels ++ [Channel], Consumers ++ [Pid]}.
+
 
 loop_consuming(Channel, Receiver) ->
   case is_process_alive(Channel) of
@@ -101,7 +134,11 @@ loop_consuming(Channel, Receiver) ->
           loop_consuming(Channel, Receiver);
 
         _ ->
-          loop_consuming(Channel, Receiver)
+          loop_consuming(Channel, Receiver);
+
+        server_shutdown ->
+          shut_down
+
       after 5000 ->
         amqp_channel:close(Channel),
         remove_channel(Channel, self()),
@@ -116,7 +153,7 @@ loop_consuming(Channel, Receiver) ->
 
 test_g() ->
   Receiver = "gholi",
-  start_consumer_server(),
+  start_rabbitmq_server(),
   request_consuming(Receiver).
 
 delete_queue(Channel, Queue_Name) ->
@@ -131,18 +168,7 @@ create_queue(Channel, Queue_Name) ->
   },
   #'queue.declare_ok'{} = amqp_channel:call(Channel, Declare).
 
-% push the message into the rabbitmq
-% Queue name is equal to the Receiver which is the username of the Receiver
-% the inserted message in rabbitmq has the following format
-% {"Msg_Id":  , "Sender": , "Receiver": , "Text": , "Timestamp": }
-push(Channel, {Msg_Id, Sender, Receiver, Text, Timestamp}) ->
-  Map = create_map({Msg_Id, Sender, Receiver, Text, Timestamp}),
-  io:format(Receiver),
-  Payload = jsx:encode(Map),
-  Publish = #'basic.publish'{exchange = <<>>, routing_key = list_to_binary(Receiver)},
-  Props = #'P_basic'{delivery_mode = 2}, %% persistent message
-  Msg = #amqp_msg{props = Props, payload = Payload},
-  amqp_channel:cast(Channel, Publish, Msg).
+
 
 create_map({Msg_Id, Sender, Receiver, Text, Timestamp}) ->
   #{<<"Msg_Id">> => list_to_binary(Msg_Id),
