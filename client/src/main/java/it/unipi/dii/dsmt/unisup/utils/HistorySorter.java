@@ -6,6 +6,8 @@ import java.util.*;
 import java.util.concurrent.*;
 
 public class HistorySorter {
+    private final int HOWMANY = 6;
+
     private List<Chat> histories= new ArrayList<>();
     private ExecutorService myExecutor;
 
@@ -20,14 +22,14 @@ public class HistorySorter {
     public List<Chat> sort(){
         List<Chat> toReturn = new ArrayList<>();
         List<Future<Chat>> futures= new ArrayList<>();
-        int howMany = histories.size();
-        myExecutor = Executors.newFixedThreadPool(howMany);
-        for(int i=0; i<howMany; i++){
+
+        myExecutor = Executors.newFixedThreadPool(HOWMANY);
+        for(int i=0; i<HOWMANY; i++){
             Callable<Chat> ordinator = new SortTask(histories.get(i));
             Future<Chat> future = myExecutor.submit(ordinator);
             futures.add(future);
         }
-        for(int i=0; i<howMany; i++){
+        for(int i=0; i<HOWMANY; i++){
             try{
                 Chat c = futures.get(i).get();
                 toReturn.add(c);

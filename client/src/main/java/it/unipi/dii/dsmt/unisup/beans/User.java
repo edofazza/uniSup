@@ -39,7 +39,7 @@ public class User {
 
         String contact = m.getReceiver().equals(username) ? m.getSender() : m.getReceiver();
         Chat chat = null;
-        
+
         for (Chat c: chatList) {
             if (c.getUsernameContact().equals(contact)) {
                 chatAlreadyPresent = true;
