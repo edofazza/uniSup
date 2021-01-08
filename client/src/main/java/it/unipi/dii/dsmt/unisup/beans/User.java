@@ -1,5 +1,6 @@
 package it.unipi.dii.dsmt.unisup.beans;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class User {
@@ -34,7 +35,26 @@ public class User {
     }
 
     public void insertMessage(Message m) {
-        System.out.println(m.getText());
+        boolean chatAlreadyPresent = false;
+
+        String contact = m.getReceiver().equals(username) ? m.getSender() : m.getReceiver();
+        Chat chat = null;
+        
+        for (Chat c: chatList) {
+            if (c.getUsernameContact().equals(contact)) {
+                chatAlreadyPresent = true;
+                chat = c;
+                break;
+            }
+        }
+
+        if (!chatAlreadyPresent) {
+            List<Message> list = new ArrayList<>();
+            list.add(m);
+            Chat newChat = new Chat(contact, list);
+            chatList.add(newChat);
+        } else
+            chat.addMessageToHistory(m);
     }
 
     public boolean userAlreadyPresent(String contact) {
