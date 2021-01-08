@@ -1,6 +1,7 @@
 package it.unipi.dii.dsmt.unisup.userinterface.javafxextensions.panes.regularpanes;
 
 import it.unipi.dii.dsmt.unisup.beans.Message;
+import it.unipi.dii.dsmt.unisup.userinterface.CurrentUI;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -42,7 +43,7 @@ public class MessagePane extends Pane {
 
         root = new VBox();
         for (Label l: labels) {// check if the message is sent by me or not
-            if (message.getSender() == "me") { // TODO
+            if (message.getSender().equals(CurrentUI.getUser())) {
                 root.setStyle("-fx-background-color: #282e32;");
             } else {
                 root.setStyle("-fx-background-color: #074740;");

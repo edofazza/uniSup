@@ -1,11 +1,14 @@
 package it.unipi.dii.dsmt.unisup.userinterface;
 
+import it.unipi.dii.dsmt.unisup.beans.Message;
 import it.unipi.dii.dsmt.unisup.beans.User;
+import it.unipi.dii.dsmt.unisup.communication.MessageGateway;
 import it.unipi.dii.dsmt.unisup.userinterface.enumui.SceneNames;
 import it.unipi.dii.dsmt.unisup.userinterface.scenes.LogIn;
 import it.unipi.dii.dsmt.unisup.userinterface.scenes.UniSupScene;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+
 
 public class CurrentUI {
     private static UniSupScene nodeWindow;
@@ -56,5 +59,19 @@ public class CurrentUI {
      */
     protected static void userExit() {
         userLogged = null;
+    }
+
+    private static void startListener() {
+       while (true) {
+           MessageGateway messageGateway = MessageGateway.getInstance();
+           Message m = messageGateway.receiveMessage();
+
+           // INSERT IT INTO USER
+           if (userLogged == null)
+               return;
+
+           userLogged.insertMessage(m);
+       }
+
     }
 }

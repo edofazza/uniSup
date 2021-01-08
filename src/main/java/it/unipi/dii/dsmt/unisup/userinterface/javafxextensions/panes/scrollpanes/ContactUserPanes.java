@@ -1,11 +1,13 @@
 package it.unipi.dii.dsmt.unisup.userinterface.javafxextensions.panes.scrollpanes;
 
+import it.unipi.dii.dsmt.unisup.beans.Chat;
+import it.unipi.dii.dsmt.unisup.userinterface.CurrentUI;
 import it.unipi.dii.dsmt.unisup.userinterface.javafxextensions.panes.regularpanes.ContactSingleResultPane;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 
 public class ContactUserPanes extends ScrollPane {
-    private VBox root;
+    private static VBox root;
 
     public ContactUserPanes(int x, int y, int width, int height) {
         relocate(x, y);
@@ -19,15 +21,15 @@ public class ContactUserPanes extends ScrollPane {
         insertContacts();
     }
 
-    private void clearResults() {
+    private static void clearResults() {
         root.getChildren().clear();
     }
 
-    private void insertContacts() {
+    public static void insertContacts() {
         clearResults();
 
-        for (int i = 0; i < 4; i++) {
-            ContactSingleResultPane contactSingleResultPane = new ContactSingleResultPane("Scrooge McDuck " + i, "Last message test super long goofy" + i);
+        for (Chat c: CurrentUI.getUser().getChatList()) {
+            ContactSingleResultPane contactSingleResultPane = new ContactSingleResultPane(c);
             root.getChildren().add(contactSingleResultPane);
         }
     }

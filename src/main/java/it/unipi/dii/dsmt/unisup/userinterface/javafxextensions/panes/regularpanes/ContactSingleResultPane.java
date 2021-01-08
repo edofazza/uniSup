@@ -7,22 +7,19 @@ import it.unipi.dii.dsmt.unisup.userinterface.javafxextensions.labels.LastMessag
 import it.unipi.dii.dsmt.unisup.userinterface.javafxextensions.panes.scrollpanes.ChatScrollPane;
 import javafx.scene.layout.Pane;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ContactSingleResultPane extends Pane {
-    private String contactName;
-    private String lastMessage;
+    private Chat chat;
 
-    public ContactSingleResultPane(String contactName, String lastMessage) {
-        this.contactName = contactName;
-        this.lastMessage = lastMessage;
+    public ContactSingleResultPane(Chat chat) {
+        this.chat = chat;
 
-        ContactNameForContactList contactNameForContactList = new ContactNameForContactList("~ " + contactName);
+        ContactNameForContactList contactNameForContactList = new ContactNameForContactList("~ " + chat.getUsernameContact());
         setPrefSize(330, 70);
         setStyle("-fx-border-color: transparent transparent grey transparent;");
 
-        LastMessageLabel lastMessageLabel = new LastMessageLabel(lastMessage);
+        LastMessageLabel lastMessageLabel = new LastMessageLabel(chat.getHistory().get(0).getText());
 
         getChildren().addAll(contactNameForContactList, lastMessageLabel);
 
@@ -30,20 +27,7 @@ public class ContactSingleResultPane extends Pane {
     }
 
     private void seeMessages() {
-        RightHeader.changeTextContactName(contactName);
-
-        List<Message> messages = new ArrayList<>();
-
-        for (int i = 0; i < 10; i++) {
-            Message message;
-            if ( i % 2 == 0)
-                message = new Message("me", contactName, "qwertyuiopoiuytfdsfdghdgmgffsgsjgididifjdifjdijfidjffjdifjidjfidjdijididifidjfidjfidjfjdijfdijfidfjdi");
-            else
-                message = new Message(contactName, "me", "PIPPO PIPPO PIPPO PIPPO PIPPO PIPPO PIPPO PIPPO PIPPO PIPPO PIPPO PIPPO PIPPO PIPPO PIPPO PIPPO PIPPO PIPPO");
-            messages.add(message);
-        }
-
-        Chat chat = new Chat(contactName, messages);
+        RightHeader.changeTextContactName(chat.getUsernameContact());
 
         ChatScrollPane.addChat(chat);
     }
