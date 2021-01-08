@@ -26,7 +26,7 @@ public class CurrentUI {
         root = nodeWindow.getNodes();
 
         Scene scene = new Scene(root, 1040, 700);
-        scene.getStylesheets().add("file:css/UniSup.css");
+        scene.getStylesheets().add("file:client/css/UniSup.css");
         return scene;
     }
 
