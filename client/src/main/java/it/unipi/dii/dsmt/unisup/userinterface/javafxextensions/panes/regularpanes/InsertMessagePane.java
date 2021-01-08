@@ -35,7 +35,7 @@ public class InsertMessagePane extends Pane {
 
         if (chat == null)
             return;
-        
+
         Message message = new Message(CurrentUI.getUser().getUsername(), chat.getUsernameContact(), messageArea.getText());
         MessageGateway
                 .getInstance()
