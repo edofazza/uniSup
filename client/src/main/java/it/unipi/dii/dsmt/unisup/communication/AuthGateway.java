@@ -143,7 +143,7 @@ public class AuthGateway extends Gateway implements Authenticator{
             OtpErlangString password = new OtpErlangString(me.getPassword());
             OtpErlangString myNodeName = new OtpErlangString(myName);
             OtpErlangTuple tuple = new OtpErlangTuple(new OtpErlangObject[]{pid, username, password, myNodeName});
-            OtpErlangTuple reqMessage = new OtpErlangTuple(new OtpErlangObject[]{pid, register, tuple});
+            OtpErlangTuple reqMessage = new OtpErlangTuple(new OtpErlangObject[]{receiveMessagesMailbox.self(), register, tuple});
             mbox.send(serverRegisteredName, serverNodeName, reqMessage);
 
             OtpErlangAtom response = (OtpErlangAtom) mbox.receive();
