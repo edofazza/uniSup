@@ -16,14 +16,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NewMessageContactGroup extends Group {
-    private FieldRelatedLabel contact;
+    private TextField receiverTextField;
     private TextArea textArea;
     private InvalidFormEntryLabel invalidFormEntryLabel;
 
     public NewMessageContactGroup() {
-        contact = new FieldRelatedLabel("Receiver username:", 10, 30);
+        FieldRelatedLabel contact = new FieldRelatedLabel("Receiver username:", 10, 30);
 
-        TextField receiverTextField = new TextField();
+        receiverTextField = new TextField();
         receiverTextField.relocate(80, 55);
 
         FieldRelatedLabel message = new FieldRelatedLabel("Message:", 10, 120);
@@ -53,7 +53,8 @@ public class NewMessageContactGroup extends Group {
         }
 
         // create new message
-        Message message = new Message(CurrentUI.getUser().getUsername(), contact.getText(), textArea.getText());
+        Message message = new Message(CurrentUI.getUser().getUsername(), receiverTextField.getText(), textArea.getText());
+        System.out.println(receiverTextField.getText());
 
         // send to the server
         MessageGateway messageGateway = MessageGateway.getInstance();

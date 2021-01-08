@@ -85,7 +85,6 @@ public class LogIn extends UniSupScene {
     private void logInButtonAction() {
 
         User user = new User(usernameTF.getText(), passwordTF.getText());
-        new XMLParser().storeUserInformation(user);
 
         Authenticator auth = AuthGateway.getInstance();
         boolean result = auth.login(user);

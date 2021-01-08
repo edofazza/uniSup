@@ -56,6 +56,7 @@ handle_call({message, {Msg_Id, Sender, Receiver, Text}}, _From, _)->
       %rabbitmq:push({Msg_Id, Sender, Receiver, Text, Timestamp}), %%PIDs??
       {reply, {ack, Msg_Id},  _ = '_'};
     false ->
+      io:format("FUCK"),
       {reply, {nack, Msg_Id},  _ = '_'}
   end;
 
