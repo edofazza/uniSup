@@ -2,36 +2,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>uniSup</artifactId>
+        <groupId>it.unipi.dii.dsmt</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>it.unipi.dii.dsmt</groupId>
-    <artifactId>uniSup</artifactId>
-    <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
-    <modules>
-        <module>client</module>
-    </modules>
-    <name>uniSup</name>
-
-    <properties>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <junit.version>5.7.0</junit.version>
-    </properties>
-
-    <repositories>
-        <!--<repository>
-          <id>repo1-jinterface</id>
-          <name>repository for Erlang jinterface</name>
-          <url>https://mvnrepository.com</url>
-        </repository>
-        -->
-        <repository>
-            <id>repo2-jinterface</id>
-            <name>repository2 for Erlang jinterface</name>
-            <url>https://clojars.org/repo/</url>
-        </repository>
-    </repositories>
+    <artifactId>client</artifactId>
 
     <dependencies>
         <dependency>
@@ -72,16 +50,4 @@
 
     </dependencies>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.openjfx</groupId>
-                <artifactId>javafx-maven-plugin</artifactId>
-                <version>0.0.5</version>
-                <configuration>
-                    <mainClass>HelloFX</mainClass>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 </project>
