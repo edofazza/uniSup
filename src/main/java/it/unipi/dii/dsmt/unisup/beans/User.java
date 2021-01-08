@@ -34,7 +34,7 @@ public class User {
     }
 
     public void insertMessage(Message m) {
-        System.out.println("okay");
+        System.out.println(m.getText());
     }
 
     public boolean userAlreadyPresent(String contact) {
