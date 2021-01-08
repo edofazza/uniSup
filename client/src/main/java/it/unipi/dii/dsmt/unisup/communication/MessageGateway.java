@@ -53,7 +53,7 @@ public class MessageGateway extends Gateway implements Communicator{
             OtpErlangTuple reqMsg = new OtpErlangTuple(new OtpErlangObject[] {mbox.self(), message, messageInfo});
             mbox.send(serverRegisteredName, serverNodeName, reqMsg);
 
-            OtpErlangObject ack = mbox.receive();
+            OtpErlangObject ack = mbox.receive(timeout);
             if(ack==null) //timeout expired
                 return false;
 
