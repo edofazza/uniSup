@@ -4,7 +4,7 @@ import it.unipi.dii.dsmt.unisup.beans.Message;
 
 public interface Communicator {
 
-    boolean sendMessage(Message m, long timeout);
+    boolean sendMessage(Message m, int timeout);
 
     Message receiveMessage();
 }

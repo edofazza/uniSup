@@ -16,7 +16,7 @@ public class MessageGateway extends Gateway implements Communicator{
     }
 
     @Override
-    public boolean sendMessage(Message m, long timeout) {
+    public boolean sendMessage(Message m, int timeout) {
         Callable<Boolean> toRun = new SendTask(m, timeout);
         boolean result = (Boolean)addToExecutor(toRun);
         //save into db
@@ -34,9 +34,9 @@ public class MessageGateway extends Gateway implements Communicator{
     private static class SendTask implements Callable<Boolean> {
         private Message toSend;
         private final OtpMbox mbox;
-        private final long timeout;
+        private final int timeout;
 
-        SendTask(Message m, long timeout){
+        SendTask(Message m, int timeout){
             toSend=m;
             mbox = clientNode.createMbox();
             this.timeout = timeout;
