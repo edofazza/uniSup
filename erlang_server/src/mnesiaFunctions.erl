@@ -24,10 +24,11 @@ init() ->
   mnesia:create_schema([node()]),
   mnesia:start(),
   mnesia:create_table(unisup_users,
-    [{attributes, record_info(fields, unisup_users)},
-      {disc_copies, node()}]),
-  mnesia:create_table(unisup_messages, [{attributes, record_info(fields, unisup_messages)},
-    {disc_copies, node()}
+    [{attributes, record_info(fields, unisup_users)}
+      %{disc_copies, node()}
+    ]),
+  mnesia:create_table(unisup_messages, [{attributes, record_info(fields, unisup_messages)}
+    %{disc_copies, node()}
   ]).
 
 
