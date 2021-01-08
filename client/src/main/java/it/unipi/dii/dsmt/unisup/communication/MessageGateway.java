@@ -45,7 +45,7 @@ public class MessageGateway extends Gateway implements Communicator{
         @Override
         public Boolean call() throws Exception {
             OtpErlangAtom message = new OtpErlangAtom("message");
-            OtpErlangInt messageID = new OtpErlangInt(toSend.getMessageId());
+            OtpErlangLong messageID = new OtpErlangLong(toSend.getMessageId());
             OtpErlangString sender = new OtpErlangString(toSend.getSender());
             OtpErlangString receiver = new OtpErlangString(toSend.getReceiver());
             OtpErlangString text = new OtpErlangString(toSend.getText());
@@ -53,14 +53,14 @@ public class MessageGateway extends Gateway implements Communicator{
             OtpErlangTuple reqMsg = new OtpErlangTuple(new OtpErlangObject[] {mbox.self(), message, messageInfo});
             mbox.send(serverRegisteredName, serverNodeName, reqMsg);
 
-            OtpErlangObject ack = mbox.receive(timeout);
+            OtpErlangObject ack = mbox.receive();
             if(ack==null) //timeout expired
                 return false;
 
             OtpErlangTuple response = (OtpErlangTuple)ack;
             OtpErlangAtom ackAtom = (OtpErlangAtom) response.elementAt(0);
-            OtpErlangInt ackedId = (OtpErlangInt) response.elementAt(1);
-            if(!ackAtom.atomValue().equals("ack") || ackedId.intValue()!=toSend.getMessageId())
+            OtpErlangLong ackedId = (OtpErlangLong) response.elementAt(1);
+            if(!ackAtom.atomValue().equals("ack") || ackedId.longValue()!=toSend.getMessageId())
                 return false;
             return true;
         }
