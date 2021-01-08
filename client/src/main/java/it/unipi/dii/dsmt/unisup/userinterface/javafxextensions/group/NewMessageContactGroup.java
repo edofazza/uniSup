@@ -48,8 +48,10 @@ public class NewMessageContactGroup extends Group {
 
     private void sendButtonAction() {
         // check if the user in present in one of the chat
-        if (CurrentUI.getUser().userAlreadyPresent(CurrentUI.getUser().getUsername())) {
+        if (CurrentUI.getUser().userAlreadyPresent(receiverTextField.getText())) {
             invalidFormEntryLabel.setText("Receiver already in contacts");
+            invalidFormEntryLabel.setVisible(true);
+            return;
         }
 
         // create new message
@@ -63,7 +65,7 @@ public class NewMessageContactGroup extends Group {
         List<Message> messages = new ArrayList<>();
         messages.add(message);
         // create a chat and add it to the contact list
-        Chat chat = new Chat(CurrentUI.getUser().getUsername(), messages);
+        Chat chat = new Chat(receiverTextField.getText(), messages);
 
         CurrentUI.getUser().addChat(chat);
 

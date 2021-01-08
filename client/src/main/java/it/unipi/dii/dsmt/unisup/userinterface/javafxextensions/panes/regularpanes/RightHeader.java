@@ -15,7 +15,7 @@ public class RightHeader extends Pane {
     }
 
     public void initContactName() {
-        contactName = new ContactNameLabel("~ Donald Duck");
+        contactName = new ContactNameLabel("");
 
         getChildren().add(contactName);
     }

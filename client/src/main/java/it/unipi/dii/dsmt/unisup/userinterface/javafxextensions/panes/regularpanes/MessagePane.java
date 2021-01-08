@@ -19,7 +19,7 @@ public class MessagePane extends Pane {
 
         // FORMAT AND INSERT TEXT
         String text = message.getText();
-        int size = text.length() - 1;
+        int size = text.length();
 
 
 

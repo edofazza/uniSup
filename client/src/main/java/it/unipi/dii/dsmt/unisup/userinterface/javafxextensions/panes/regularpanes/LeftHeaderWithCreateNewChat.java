@@ -30,7 +30,7 @@ public class LeftHeaderWithCreateNewChat extends Pane {
 
     private void writeButtonAction() {
         Scene scene = new Scene(new NewMessageContactGroup(), 400, 260);
-        scene.getStylesheets().add("file:css/UniSup.css");
+        scene.getStylesheets().add("file:client/css/UniSup.css");
 
         Stage secondaryStage = new Stage();
         secondaryStage.setTitle("UniSup");
