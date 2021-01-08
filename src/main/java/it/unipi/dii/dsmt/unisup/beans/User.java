@@ -45,4 +45,7 @@ public class User {
         return false;
     }
 
+    public void addChat(Chat chat) {
+        chatList.add(chat);
+    }
 }

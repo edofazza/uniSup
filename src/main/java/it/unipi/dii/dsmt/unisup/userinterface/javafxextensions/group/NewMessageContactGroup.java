@@ -64,6 +64,8 @@ public class NewMessageContactGroup extends Group {
         // create a chat and add it to the contact list
         Chat chat = new Chat(CurrentUI.getUser().getUsername(), messages);
 
+        CurrentUI.getUser().addChat(chat);
+
         ContactUserPanes.insertContacts();
     }
 }
