@@ -32,6 +32,10 @@ public class InsertMessagePane extends Pane {
 
     private void sendButtonAction() {
         Chat chat = ChatScrollPane.getChat();
+
+        if (chat == null)
+            return;
+        
         Message message = new Message(CurrentUI.getUser().getUsername(), chat.getUsernameContact(), messageArea.getText());
         MessageGateway
                 .getInstance()
