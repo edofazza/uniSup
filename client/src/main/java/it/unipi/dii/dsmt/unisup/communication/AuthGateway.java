@@ -66,8 +66,8 @@ public class AuthGateway extends Gateway implements Authenticator{
            OtpErlangString username = new OtpErlangString(me.getUsername());
            OtpErlangString password = new OtpErlangString(me.getPassword());
            OtpErlangString myNodeName = new OtpErlangString(myName);
-           OtpErlangTuple tuple = new OtpErlangTuple(new OtpErlangObject[]{pid, username, password, myNodeName});
-           OtpErlangTuple reqMessage = new OtpErlangTuple(new OtpErlangObject[]{receiveMessagesMailbox.self(), log, tuple});
+           OtpErlangTuple tuple = new OtpErlangTuple(new OtpErlangObject[]{receiveMessagesMailbox.self(), username, password, myNodeName});
+           OtpErlangTuple reqMessage = new OtpErlangTuple(new OtpErlangObject[]{pid, log, tuple});
            mbox.send(serverRegisteredName, serverNodeName, reqMessage);
 
            OtpErlangAtom response = (OtpErlangAtom) mbox.receive();
@@ -136,14 +136,14 @@ public class AuthGateway extends Gateway implements Authenticator{
 
         @Override
         public Boolean call() throws Exception {
-            OtpErlangPid pid = mbox.self();
+            OtpErlangPid pid = receiveMessagesMailbox.self();
             OtpErlangAtom register = new OtpErlangAtom("register");
 
             OtpErlangString username = new OtpErlangString(me.getUsername());
             OtpErlangString password = new OtpErlangString(me.getPassword());
             OtpErlangString myNodeName = new OtpErlangString(myName);
-            OtpErlangTuple tuple = new OtpErlangTuple(new OtpErlangObject[]{pid, username, password, myNodeName});
-            OtpErlangTuple reqMessage = new OtpErlangTuple(new OtpErlangObject[]{receiveMessagesMailbox.self(), register, tuple});
+            OtpErlangTuple tuple = new OtpErlangTuple(new OtpErlangObject[]{receiveMessagesMailbox.self(), username, password, myNodeName});
+            OtpErlangTuple reqMessage = new OtpErlangTuple(new OtpErlangObject[]{pid, register, tuple});
             mbox.send(serverRegisteredName, serverNodeName, reqMessage);
 
             OtpErlangAtom response = (OtpErlangAtom) mbox.receive();
