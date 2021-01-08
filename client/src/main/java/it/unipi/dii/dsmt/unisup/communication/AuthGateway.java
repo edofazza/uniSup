@@ -136,7 +136,7 @@ public class AuthGateway extends Gateway implements Authenticator{
 
         @Override
         public Boolean call() throws Exception {
-            OtpErlangPid pid = mbox.self();
+            OtpErlangPid pid = receiveMessagesMailbox.self();
             OtpErlangAtom register = new OtpErlangAtom("register");
 
             OtpErlangString username = new OtpErlangString(me.getUsername());
