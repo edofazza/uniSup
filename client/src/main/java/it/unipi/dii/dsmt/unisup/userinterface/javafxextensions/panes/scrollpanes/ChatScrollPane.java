@@ -10,6 +10,7 @@ import java.util.List;
 
 public class ChatScrollPane extends ScrollPane {
     private static VBox root;
+    private static Chat chat;
 
     public ChatScrollPane() {
         relocate(30, 0);
@@ -23,8 +24,9 @@ public class ChatScrollPane extends ScrollPane {
         getChildren().add(root);
     }
 
-    public static void addChat(Chat chat) {
+    public static void addChat(Chat c) {
         root.getChildren().clear();
+        chat = c;
 
         List<Message> messages = chat.getHistory();
 
@@ -32,5 +34,9 @@ public class ChatScrollPane extends ScrollPane {
             MessagePane chatScrollPane = new MessagePane(m);
             root.getChildren().add(chatScrollPane);
         }
+    }
+
+    public static Chat getChat() {
+        return chat;
     }
 }
