@@ -3,6 +3,7 @@ package it.unipi.dii.dsmt.unisup.userinterface.scenes;
 import it.unipi.dii.dsmt.unisup.beans.User;
 import it.unipi.dii.dsmt.unisup.communication.AuthGateway;
 import it.unipi.dii.dsmt.unisup.communication.Authenticator;
+import it.unipi.dii.dsmt.unisup.communication.MessageGateway;
 import it.unipi.dii.dsmt.unisup.userinterface.CurrentUI;
 import it.unipi.dii.dsmt.unisup.userinterface.enumui.SceneNames;
 import it.unipi.dii.dsmt.unisup.userinterface.javafxextensions.buttons.RegularButton;
@@ -92,6 +93,11 @@ public class LogIn extends UniSupScene {
 
         if(result) {
             CurrentUI.setUser(user);
+
+            // LOAD THE CHATS
+            AuthGateway authGateway = AuthGateway.getInstance();
+            user.setChatList(authGateway.getChatHistory(user));
+
             CurrentUI.changeScene(SceneNames.HOMEPAGE);
         } else {
             invalidFormEntryLabel.setText("Username/Password not correct");
