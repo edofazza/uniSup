@@ -1,6 +1,7 @@
 package it.unipi.dii.dsmt.unisup.beans;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class User {
@@ -13,7 +14,7 @@ public class User {
         this.username=username;
         this.password=password;
 
-        this.chatList = new ArrayList<>(); // TODO: load msgs
+        this.chatList = Collections.synchronizedList(new ArrayList<>()); // TODO: load msgs
     }
 
     public String getUsername() {
@@ -29,7 +30,7 @@ public class User {
     }
 
     public void setChatList(List<Chat> chatList) {
-        this.chatList = chatList;
+        this.chatList = Collections.synchronizedList(chatList);
     }
 
     public void setPassword(String password) {
@@ -41,12 +42,14 @@ public class User {
 
         String contact = m.getReceiver().equals(username) ? m.getSender() : m.getReceiver();
         Chat chat = null;
-
-        for (Chat c: chatList) {
-            if (c.getUsernameContact().equals(contact)) {
-                chatAlreadyPresent = true;
-                chat = c;
-                break;
+        //loop need explicit synchronization
+        synchronized (chatList) {
+            for (Chat c : chatList) {
+                if (c.getUsernameContact().equals(contact)) {
+                    chatAlreadyPresent = true;
+                    chat = c;
+                    break;
+                }
             }
         }
 
