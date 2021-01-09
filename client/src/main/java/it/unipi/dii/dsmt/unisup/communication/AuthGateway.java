@@ -4,6 +4,7 @@ import com.ericsson.otp.erlang.*;
 import it.unipi.dii.dsmt.unisup.beans.Chat;
 import it.unipi.dii.dsmt.unisup.beans.Message;
 import it.unipi.dii.dsmt.unisup.beans.User;
+import it.unipi.dii.dsmt.unisup.utils.HistorySorter;
 
 import java.time.Instant;
 import java.util.*;
@@ -121,7 +122,8 @@ public class AuthGateway extends Gateway implements Authenticator{
                 Chat c = new Chat(entry.getKey(), entry.getValue());
                 toReturn.add(c);
             }
-            return toReturn;
+            HistorySorter h = new HistorySorter(toReturn);
+            return h.sort();
         }
     }
 
