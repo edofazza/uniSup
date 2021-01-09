@@ -21,6 +21,7 @@ public class CurrentUI {
      */
     public Scene initScene() {
         /*   LogIn   */
+        startListener();
 
         nodeWindow = new LogIn();
         root = nodeWindow.getNodes();
@@ -61,17 +62,24 @@ public class CurrentUI {
         userLogged = null;
     }
 
-    private static void startListener() {
-       while (true) {
-           MessageGateway messageGateway = MessageGateway.getInstance();
-           Message m = messageGateway.receiveMessage();
+    private void startListener() {
+        new Thread(new ListenerTask()).start();
+    }
 
-           // INSERT IT INTO USER
-           if (userLogged == null)
-               return;
+    class ListenerTask implements Runnable {
 
-           userLogged.insertMessage(m);
-       }
+        @Override
+        public void run() {
+            while (true) {
+                MessageGateway messageGateway = MessageGateway.getInstance();
+                Message m = messageGateway.receiveMessage();
 
+                // INSERT IT INTO USER
+                if (userLogged == null)
+                    return;
+
+                userLogged.insertMessage(m);
+            }
+        }
     }
 }
