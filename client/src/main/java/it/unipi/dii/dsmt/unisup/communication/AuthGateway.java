@@ -98,8 +98,8 @@ public class AuthGateway extends Gateway implements Authenticator{
             TreeMap<String, ArrayList<Message>> tree = new TreeMap<>();
             for(OtpErlangObject o: response.elements()){
                 OtpErlangTuple message = (OtpErlangTuple)o;
-                String sender = "a";//((OtpErlangString)message.elementAt(0)).stringValue();
-                String receiver = "b";//((OtpErlangString)message.elementAt(1)).stringValue();
+                String sender = ((OtpErlangString)message.elementAt(0)).stringValue();
+                String receiver = ((OtpErlangString)message.elementAt(1)).stringValue();
                 String text = ((OtpErlangString)message.elementAt(2)).stringValue();
                 Instant timestamp = Instant.parse(((OtpErlangString)message.elementAt(3)).stringValue());
                 Message m = new Message(sender, receiver, text, timestamp);
@@ -120,6 +120,8 @@ public class AuthGateway extends Gateway implements Authenticator{
             }
             for(Map.Entry<String, ArrayList<Message>> entry : tree.entrySet()){
                 Chat c = new Chat(entry.getKey(), entry.getValue());
+                System.out.println(c.getUsernameContact());
+                c.getHistory().forEach((m) -> System.out.println(m.getMessageId() + m.getSender() + m.getReceiver() + m.getText() + m.getTimestamp()) );
                 toReturn.add(c);
             }
             HistorySorter h = new HistorySorter(toReturn);

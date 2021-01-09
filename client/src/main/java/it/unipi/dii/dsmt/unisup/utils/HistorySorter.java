@@ -26,12 +26,12 @@ public class HistorySorter {
         List<Future<Chat>> futures= new ArrayList<>();
 
         myExecutor = Executors.newFixedThreadPool(HOWMANY);
-        for(int i=0; i<HOWMANY; i++){
+        for(int i=0; i<histories.size(); i++){
             Callable<Chat> ordinator = new SortTask(histories.get(i));
             Future<Chat> future = myExecutor.submit(ordinator);
             futures.add(future);
         }
-        for(int i=0; i<HOWMANY; i++){
+        for(int i=0; i<histories.size(); i++){
             try{
                 Chat c = futures.get(i).get();
                 toReturn.add(c);
