@@ -19,16 +19,19 @@ public class MessageGateway extends Gateway implements Communicator{
     public boolean sendMessage(Message m, int timeout) {
         Callable<Boolean> toRun = new SendTask(m, timeout);
         boolean result = (Boolean)addToExecutor(toRun);
-        //save into db
         return result;
     }
 
     @Override
     public Message receiveMessage() {
-        Callable<Message> toRun = new ReceiveTask();
-        Message result = (Message)addToExecutor(toRun);
-        //save into db
-        return result;
+        try {
+            OtpErlangTuple incomingMessage = (OtpErlangTuple) receiveMessagesMailbox.receive();
+            String sender = ((OtpErlangString)incomingMessage.elementAt(0)).stringValue();
+            String receiver = ((OtpErlangString)incomingMessage.elementAt(1)).stringValue();
+            String text = ((OtpErlangString)incomingMessage.elementAt(2)).stringValue();
+            return new Message(sender, receiver, text);
+        }catch (Exception e) {}
+        return null;
     }
 
     private static class SendTask implements Callable<Boolean> {
@@ -66,16 +69,4 @@ public class MessageGateway extends Gateway implements Communicator{
         }
     }
 
-    //TODO: to review once implemented RabbitMQ APIs, adding also timestamps
-    private static class ReceiveTask implements Callable<Message> {
-
-        @Override
-        public Message call() throws Exception {
-            OtpErlangTuple incomingMessage = (OtpErlangTuple)receiveMessagesMailbox.receive();
-            String sender = ((OtpErlangString)incomingMessage.elementAt(0)).stringValue();
-            String receiver = ((OtpErlangString)incomingMessage.elementAt(1)).stringValue();
-            String text = ((OtpErlangString)incomingMessage.elementAt(2)).stringValue();
-            return new Message(sender, receiver, text);
-        }
-    }
 }

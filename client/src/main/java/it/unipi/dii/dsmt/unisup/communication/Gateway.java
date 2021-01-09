@@ -4,10 +4,7 @@ import com.ericsson.otp.erlang.OtpMbox;
 import com.ericsson.otp.erlang.OtpNode;
 
 import java.io.IOException;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
 public abstract class Gateway {
     protected static final String serverNodeName = "unisup_server@localhost"; //configuration parameter
@@ -42,7 +39,6 @@ public abstract class Gateway {
         try {
             return myExecutor.submit(task).get();
         } catch (InterruptedException e) {
-            e.printStackTrace();
             return null;
         } catch (ExecutionException e) {
             e.printStackTrace();
@@ -52,6 +48,13 @@ public abstract class Gateway {
 
     public void stopExecutor(){
         myExecutor.shutdown();
+        try {
+            if (!myExecutor.awaitTermination(800, TimeUnit.MILLISECONDS)) {
+                myExecutor.shutdownNow();
+            }
+        } catch (InterruptedException e) {
+            myExecutor.shutdownNow();
+        }
     }
 
     public void setApplicationCookie(String cookie){

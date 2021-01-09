@@ -96,10 +96,10 @@ public class AuthGateway extends Gateway implements Authenticator{
             OtpErlangList response = (OtpErlangList)mbox.receive();
             ArrayList<Chat> toReturn = new ArrayList<>();
             TreeMap<String, ArrayList<Message>> tree = new TreeMap<>();
-            for(Iterator<OtpErlangObject> i=response.iterator(); i.hasNext(); ){
-                OtpErlangTuple message = (OtpErlangTuple)i.next();
-                String sender = ((OtpErlangString)message.elementAt(0)).stringValue();
-                String receiver = ((OtpErlangString)message.elementAt(1)).stringValue();
+            for(OtpErlangObject o: response.elements()){
+                OtpErlangTuple message = (OtpErlangTuple)o;
+                String sender = "a";//((OtpErlangString)message.elementAt(0)).stringValue();
+                String receiver = "b";//((OtpErlangString)message.elementAt(1)).stringValue();
                 String text = ((OtpErlangString)message.elementAt(2)).stringValue();
                 Instant timestamp = Instant.parse(((OtpErlangString)message.elementAt(3)).stringValue());
                 Message m = new Message(sender, receiver, text, timestamp);
