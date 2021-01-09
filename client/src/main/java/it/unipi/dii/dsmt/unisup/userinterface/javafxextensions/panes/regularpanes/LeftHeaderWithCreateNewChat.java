@@ -49,6 +49,6 @@ public class LeftHeaderWithCreateNewChat extends Pane {
         Authenticator au = AuthGateway.getInstance();
         au.logout(CurrentUI.getUser());
         CurrentUI.changeScene(SceneNames.LOGIN);
-        CurrentUI.setUser(null);
+        CurrentUI.userExit();
     }
 }

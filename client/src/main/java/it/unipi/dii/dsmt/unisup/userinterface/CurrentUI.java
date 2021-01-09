@@ -14,6 +14,8 @@ public class CurrentUI {
     private static UniSupScene nodeWindow;
     private static Group root;
     private static User userLogged;
+    private static boolean listenerStarted = false;
+    private static Thread thread;
 
     /**
      * Create the default scene (<em>LogIn</em>) and set the dimension of it
@@ -21,8 +23,6 @@ public class CurrentUI {
      */
     public Scene initScene() {
         /*   LogIn   */
-        startListener();
-
         nodeWindow = new LogIn();
         root = nodeWindow.getNodes();
 
@@ -37,6 +37,10 @@ public class CurrentUI {
      */
 
     public static void changeScene(SceneNames sn) {
+        listenerStarted = !listenerStarted;
+
+        if (listenerStarted)
+            startListener();
 
         root.getChildren().clear();
         nodeWindow = sn.createNewScene(sn);
@@ -58,15 +62,18 @@ public class CurrentUI {
     /**
      * Removes the user stored in memory (<code>userLogged</code>) when the user logged out (in order to avoid error and to be coherent).
      */
-    protected static void userExit() {
+    public static void userExit() {
         userLogged = null;
+        thread.interrupt();
+        thread = null;
     }
 
-    private void startListener() {
-        new Thread(new ListenerTask()).start();
+    private static void startListener() {
+        thread = new Thread(new ListenerTask());
+        thread.start();
     }
 
-    class ListenerTask implements Runnable {
+    static class ListenerTask implements Runnable {
 
         @Override
         public void run() {
