@@ -73,6 +73,7 @@ public class CurrentUI {
         thread.start();
     }
 
+
     static class ListenerTask implements Runnable {
 
         @Override
