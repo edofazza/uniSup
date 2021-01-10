@@ -27,7 +27,6 @@ public class MessagePane extends Pane {
 
         List<Label> labels = new ArrayList<>();
         for (int i = 0; size > 0 ; size -= 48, i++) {
-            System.out.println(size);
             if (50 < size) {
                 formattedText = text.substring(48 * i, 48 + 48 * i);
                 Label labelText = new Label(formattedText);
@@ -43,14 +42,15 @@ public class MessagePane extends Pane {
 
         root = new VBox();
         for (Label l: labels) {// check if the message is sent by me or not
-            if (message.getSender().equals(CurrentUI.getUser())) {
-                root.setStyle("-fx-background-color: #282e32;");
-            } else {
-                root.setStyle("-fx-background-color: #074740;");
-                root.setLayoutX(200);
-            }
             l.setStyle("-fx-text-fill: white; -fx-font-size: 14;");
             root.getChildren().add(l);
+        }
+
+        if (message.getReceiver().equals(CurrentUI.getUser().getUsername())) {
+            root.setStyle("-fx-background-color: #282e32;");
+        } else {
+            root.setStyle("-fx-background-color: #074740;");
+            root.setLayoutX(200);
         }
 
         getChildren().add(root);
