@@ -1,6 +1,6 @@
 -module(amqp_ssl).
 
--include("../../amqp_client_internal.hrl").
+-include("amqp_client_internal.hrl").
 
 -include_lib("public_key/include/public_key.hrl").
 
