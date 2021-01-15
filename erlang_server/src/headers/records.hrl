@@ -1,7 +1,7 @@
 -record(unisup_messages, {sender,
                receiver,
                text,
-               timestamp    % An incremented value or a real date
+               timestamp
               }).
 
 -record(unisup_users, {username,

@@ -11,9 +11,10 @@
 \contentsline {subsubsection}{\numberline {3.2.2}Technologies}{5}{subsubsection.3.2.2}%
 \contentsline {subsection}{\numberline {3.3}The Server}{5}{subsection.3.3}%
 \contentsline {subsubsection}{\numberline {3.3.1}Role of the Server}{5}{subsubsection.3.3.1}%
-\contentsline {subsubsection}{\numberline {3.3.2}Persistent Data Storing}{5}{subsubsection.3.3.2}%
-\contentsline {subsubsection}{\numberline {3.3.3}Queueing}{5}{subsubsection.3.3.3}%
-\contentsline {subsection}{\numberline {3.4}Synchronization Management}{5}{subsection.3.4}%
-\contentsline {subsubsection}{\numberline {3.4.1}Client-Side}{5}{subsubsection.3.4.1}%
-\contentsline {subsubsection}{\numberline {3.4.2}Server-Side}{5}{subsubsection.3.4.2}%
-\contentsline {subsection}{\numberline {3.5}Sequence UML Diagrams}{5}{subsection.3.5}%
+\contentsline {subsubsection}{\numberline {3.3.2}Implementation of the Server}{5}{subsubsection.3.3.2}%
+\contentsline {subsubsection}{\numberline {3.3.3}Persistent Data Storing}{5}{subsubsection.3.3.3}%
+\contentsline {subsubsection}{\numberline {3.3.4}Queueing}{6}{subsubsection.3.3.4}%
+\contentsline {subsection}{\numberline {3.4}Synchronization Management}{6}{subsection.3.4}%
+\contentsline {subsubsection}{\numberline {3.4.1}Client-Side}{6}{subsubsection.3.4.1}%
+\contentsline {subsubsection}{\numberline {3.4.2}Server-Side}{6}{subsubsection.3.4.2}%
+\contentsline {subsection}{\numberline {3.5}Sequence UML Diagrams}{6}{subsection.3.5}%
