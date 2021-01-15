@@ -1,0 +1,41 @@
+\section{Analysis Stage}
+\subsection{Main Use Cases}
+\begin{itemize}
+	\item An \textit{unregistered user} can
+	\begin{itemize}
+		\item Sign up using a non-duplicate username and a custom password
+	\end{itemize}
+	\item A \textit{registered (not logged) user} ( can
+	\begin{itemize}
+		\item Login using his/her own credentials
+	\end{itemize}
+	
+	\item A \textit{logged user} ( can
+	\begin{itemize}
+		\item Visualize his/her list of \textbf{contacts}
+		\item Send a new \textbf{message} to the selected \textbf{contact}
+		\item Send a new \textbf{message}  to a new \textbf{contact}
+		\item If a \textbf{message}  is received, visualize it thanks to the real-time interface update
+		\item Logout
+\end{itemize}
+	\item The \textit{system} should
+	\begin{itemize}
+		\item Correctly forward each \textbf{message} to the correct receiver
+		\item Store \textbf{messages} whose destination is an offline user: those messages will be forwarded when the receiver is online again
+		\item Store all the \textbf{message} histories and send them to the specific \textbf{user} each time he/she logs in
+	\end{itemize}
+\end{itemize}
+
+\subsection{Size and Scope of the Application}
+As cited in the Introduction (chapter 1), the application has been designed for working within limited entities/environments, for example among close friends attending the same University. 
+This is mainly because the selected approaches and technologies (for more details see next chapters) are not very scalable and they are suitable for a limited number of nodes.
+Anyway, the following properties are guaranteed:
+
+
+\begin{itemize}
+	\item No message can ever be lost, regardless the fact that the receiving user is online
+	\item The application is totally OS-independent
+	\item The GUI provides a user-friendly experience and makes application easy to use d
+	\item Within small clusters, the application ensures good performance
+\end{itemize}
+

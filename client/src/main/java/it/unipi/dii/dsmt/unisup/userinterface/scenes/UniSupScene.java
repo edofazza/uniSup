@@ -4,7 +4,6 @@ import javafx.scene.Group;
 
 public class UniSupScene {
     protected static Group sceneNodes = new Group();
-    private static String currentTitle;
 
     /**
      * Get the sceneNodes attribute.

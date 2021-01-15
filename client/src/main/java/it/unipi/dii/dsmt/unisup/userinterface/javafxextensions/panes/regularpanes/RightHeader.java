@@ -6,12 +6,14 @@ import javafx.scene.layout.Pane;
 public class RightHeader extends Pane {
     private static ContactNameLabel contactName;
 
+    private final String STYLE = "-fx-background-color: #2b3033";
+
     public RightHeader(int x, int y, int width, int height) {
         initContactName();
 
         relocate(x, y);
         setPrefSize(width, height);
-        setStyle("-fx-background-color: #2b3033");
+        setStyle(STYLE);
     }
 
     public void initContactName() {

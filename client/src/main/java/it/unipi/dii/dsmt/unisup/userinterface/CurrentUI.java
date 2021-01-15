@@ -17,6 +17,9 @@ public class CurrentUI {
     private static boolean listenerStarted = false;
     private static Thread thread;
 
+    private final double SCENE_WIDTH = 1040;
+    private final double SCENE_HEIGHT = 700;
+
     /**
      * Create the default scene (<em>LogIn</em>) and set the dimension of it
      * @return the scene created
@@ -26,7 +29,7 @@ public class CurrentUI {
         nodeWindow = new LogIn();
         root = nodeWindow.getNodes();
 
-        Scene scene = new Scene(root, 1040, 700);
+        Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
         scene.getStylesheets().add("file:client/css/UniSup.css");
         return scene;
     }

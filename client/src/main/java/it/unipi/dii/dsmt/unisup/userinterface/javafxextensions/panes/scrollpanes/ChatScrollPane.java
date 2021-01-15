@@ -12,13 +12,20 @@ public class ChatScrollPane extends ScrollPane {
     private static VBox root;
     private static Chat chat;
 
+    private final int X_POS = 30;
+    private final int Y_POS = 0;
+    private final int WIDTH = 550;
+    private final int HEIGHT = 530;
+    private final String STYLE = "-fx-background: #151e24;";
+    private final double SPACING = 15;
+
     public ChatScrollPane() {
-        relocate(30, 0);
-        setPrefSize(550, 530);
-        setStyle("-fx-background: #151e24;");
+        relocate(X_POS, Y_POS);
+        setPrefSize(WIDTH, HEIGHT);
+        setStyle(STYLE);
 
         root = new VBox();
-        root.setSpacing(15);
+        root.setSpacing(SPACING);
         setContent(root);
 
         getChildren().add(root);

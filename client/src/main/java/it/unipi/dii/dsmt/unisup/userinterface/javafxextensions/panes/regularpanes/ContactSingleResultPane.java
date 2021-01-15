@@ -9,12 +9,16 @@ import javafx.scene.layout.Pane;
 public class ContactSingleResultPane extends Pane {
     private Chat chat;
 
+    private final double WIDTH = 330;
+    private final double HEIGHT = 70;
+    private final String STYLE = "-fx-border-color: transparent transparent grey transparent;";
+
     public ContactSingleResultPane(Chat chat) {
         this.chat = chat;
 
         ContactNameForContactList contactNameForContactList = new ContactNameForContactList("~ " + chat.getUsernameContact());
-        setPrefSize(330, 70);
-        setStyle("-fx-border-color: transparent transparent grey transparent;");
+        setPrefSize(WIDTH, HEIGHT);
+        setStyle(STYLE);
 
         LastMessageLabel lastMessageLabel = new LastMessageLabel(chat.getHistory().get(chat.getHistory().size() - 1).getText());
 

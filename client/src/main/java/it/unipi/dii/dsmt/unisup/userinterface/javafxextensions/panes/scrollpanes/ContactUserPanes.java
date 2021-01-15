@@ -9,10 +9,12 @@ import javafx.scene.layout.VBox;
 public class ContactUserPanes extends ScrollPane {
     private static VBox root;
 
+    private final String STYLE = "-fx-background: #151e24;";
+
     public ContactUserPanes(int x, int y, int width, int height) {
         relocate(x, y);
         setPrefSize(width, height);
-        setStyle("-fx-background: #151e24;");
+        setStyle(STYLE);
 
         root = new VBox();
         root.setSpacing(5);
