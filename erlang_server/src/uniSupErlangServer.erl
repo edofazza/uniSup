@@ -8,6 +8,7 @@
 %%%-------------------------------------------------------------------
 -module(uniSupErlangServer).
 -author("Mirco Ramo").
+-import(rabbitmq, []).
 
 -behaviour(gen_server).
 
@@ -64,7 +65,7 @@ handle_call({message, {Msg_Id, Sender, Receiver, Text}}, _From, _)->
 handle_call({log, {Pid, Username, Password, ClientNodeName}}, _From, _)->
   case mnesiaFunctions:login(Username, Password, ClientNodeName, Pid) of
     true->
-      case rabbitmq:request_consuming() of
+      case rabbitmq:request_consuming(Username, Pid) of
       %case consumer_created of
         consumer_created -> {reply, true, _ = '_'};
         _ -> {reply, false, _ = '_'}
