@@ -219,7 +219,7 @@ create_queue(Channel, Queue_Name) ->
 %% @private
 %% @doc create a map from the input tuple
 create_map({Msg_Id, Sender, Receiver, Text, Timestamp}) ->
-  #{<<"Msg_Id">> => list_to_binary(Msg_Id),
+  #{<<"Msg_Id">> => integer_to_binary(Msg_Id),
     <<"Sender">> => list_to_binary(Sender),
     <<"Receiver">> => list_to_binary(Receiver),
     <<"Text">> => list_to_binary(Text),
