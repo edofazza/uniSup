@@ -25,11 +25,16 @@ public class MessageGateway extends Gateway implements Communicator{
     @Override
     public Message receiveMessage() {
         try {
-            OtpErlangTuple incomingMessage = (OtpErlangTuple) receiveMessagesMailbox.receive();
-            String sender = ((OtpErlangString)incomingMessage.elementAt(0)).stringValue();
-            String receiver = ((OtpErlangString)incomingMessage.elementAt(1)).stringValue();
-            String text = ((OtpErlangString)incomingMessage.elementAt(2)).stringValue();
-            return new Message(sender, receiver, text);
+            OtpErlangTuple incomingMessage;
+            while(!Thread.currentThread().isInterrupted()){
+                incomingMessage = (OtpErlangTuple) receiveMessagesMailbox.receive(5000);
+                if(incomingMessage!=null){
+                    String sender = ((OtpErlangString)incomingMessage.elementAt(0)).stringValue();
+                    String receiver = ((OtpErlangString)incomingMessage.elementAt(1)).stringValue();
+                    String text = ((OtpErlangString)incomingMessage.elementAt(2)).stringValue();
+                    return new Message(sender, receiver, text);
+                }
+            }
         }catch (Exception e) {}
         return null;
     }
