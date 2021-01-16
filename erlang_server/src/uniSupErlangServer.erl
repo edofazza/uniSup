@@ -54,7 +54,7 @@ handle_call({message, {Msg_Id, Sender, Receiver, Text}}, _From, _)->
       _ReceiverPid = mnesiaFunctions:retrieve_pid(Receiver),
       _ReceiverNodeName = mnesiaFunctions:retrieve_nodename(Receiver),
       Timestamp = mnesiaFunctions:insert_new_message(Sender, Receiver, Text),
-      rabbitmq:push({Msg_Id, Sender, Receiver, Text, Timestamp}), %%PIDs??
+      rabbitmq:push({Msg_Id, Sender, Receiver, Text, Timestamp}),
       {reply, {ack, Msg_Id},  _ = '_'};
     false ->
       io:format("FUCK"),
@@ -66,7 +66,6 @@ handle_call({log, {Pid, Username, Password, ClientNodeName}}, _From, _)->
   case mnesiaFunctions:login(Username, Password, ClientNodeName, Pid) of
     true->
       case rabbitmq:request_consuming(Username, Pid) of
-      %case consumer_created of
         consumer_created -> {reply, true, _ = '_'};
         _ -> {reply, false, _ = '_'}
       end;
@@ -85,7 +84,6 @@ handle_call({history, Username}, _From, _) ->
 %% @doc handles logout: terminates rabbitMQ consuming session
 handle_call({logout, Username}, _From, _) ->
   {reply, rabbitmq:terminate_consuming_session(Username), _='_'};
-  %{reply, true, _='_'};
 
 handle_call(_, _From, _) ->
   {reply, false, _ = '_'}.
