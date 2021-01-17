@@ -1,5 +1,8 @@
 package it.unipi.dii.dsmt.unisup.beans;
 
+import it.unipi.dii.dsmt.unisup.userinterface.javafxextensions.panes.scrollpanes.ChatScrollPane;
+import it.unipi.dii.dsmt.unisup.userinterface.javafxextensions.panes.scrollpanes.ContactUserPanes;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -60,6 +63,10 @@ public class User {
             chatList.add(newChat);
         } else
             chat.addMessageToHistory(m);
+
+        // RELOAD EVERYTHING IN THE SCENE, EVEN THE CHAT IS CURRENTLY DISPLAYING
+        ContactUserPanes.insertContacts();
+        ChatScrollPane.addChat(ChatScrollPane.getChat());
     }
 
     public boolean userAlreadyPresent(String contact) {
