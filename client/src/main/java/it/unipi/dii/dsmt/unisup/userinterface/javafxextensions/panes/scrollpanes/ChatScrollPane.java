@@ -32,6 +32,9 @@ public class ChatScrollPane extends ScrollPane {
     }
 
     public static void addChat(Chat c) {
+        if (c == null)
+            return;
+
         root.getChildren().clear();
         chat = c;
 
