@@ -155,7 +155,6 @@ loop_consuming(Channel,  {Receiver_Username, Receiver_Pid}) ->
       receive
         #'basic.consume_ok'{} ->
           io:format("basic.consume_ok~n"),
-          ok,
           loop_consuming(Channel, {Receiver_Username, Receiver_Pid});
 
         #'basic.cancel_ok'{} ->
@@ -167,7 +166,8 @@ loop_consuming(Channel,  {Receiver_Username, Receiver_Pid}) ->
 %%          io:format("this is consumer tag~p~n", [Tag]),
 %%          io:format("basic.deliver~n"),
           amqp_channel:cast(Channel, #'basic.ack'{delivery_tag = Tag}),
-          Receiver_Pid ! Msg,
+%%          io:format("this is consumed msg ~p~n", [decode_map(jsx:decode(Msg))]),
+          Receiver_Pid ! decode_map(jsx:decode(Msg)),
           loop_consuming(Channel, {Receiver_Username, Receiver_Pid});
 
         terminate ->
@@ -177,7 +177,7 @@ loop_consuming(Channel,  {Receiver_Username, Receiver_Pid}) ->
         _ ->
           loop_consuming(Channel, {Receiver_Username, Receiver_Pid})
 
-      after 100000 ->
+      after 300000 ->
         %terminate current Receiver session by sending terminate atom
         terminate_consuming_session(Receiver_Username),
         %request for creating another pulling consumer for the current Receiver
@@ -225,5 +225,13 @@ create_map({Msg_Id, Sender, Receiver, Text, Timestamp}) ->
     <<"Text">> => list_to_binary(Text),
     <<"Timestamp">> => list_to_binary(Timestamp)
   }.
+
+decode_map(Map) ->
+  Msg_Id = binary_to_integer(maps:get(<<"Msg_Id">>,Map)),
+  Sender = binary_to_list(maps:get(<<"Sender">>,Map)),
+  Receiver = binary_to_list(maps:get(<<"Receiver">>,Map)),
+  Text = binary_to_list(maps:get(<<"Text">>,Map)),
+  Timestamp = binary_to_list(maps:get(<<"Timestamp">>,Map)),
+  {Msg_Id, Sender, Receiver, Text, Timestamp}.
 
 
