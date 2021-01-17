@@ -163,9 +163,9 @@ loop_consuming(Channel,  {Receiver_Username, Receiver_Pid}) ->
           cancel;
 
         {#'basic.deliver'{delivery_tag = Tag}, {amqp_msg,_, Msg}} ->
-          io:format("this is the content in server side: ~p~n", [Msg]),
-          io:format("this is consumer tag~p~n", [Tag]),
-          io:format("basic.deliver~n"),
+%%          io:format("this is the content in server side: ~p~n", [Msg]),
+%%          io:format("this is consumer tag~p~n", [Tag]),
+%%          io:format("basic.deliver~n"),
           amqp_channel:cast(Channel, #'basic.ack'{delivery_tag = Tag}),
           Receiver_Pid ! Msg,
           loop_consuming(Channel, {Receiver_Username, Receiver_Pid});
@@ -177,7 +177,7 @@ loop_consuming(Channel,  {Receiver_Username, Receiver_Pid}) ->
         _ ->
           loop_consuming(Channel, {Receiver_Username, Receiver_Pid})
 
-      after 10000 ->
+      after 100000 ->
         %terminate current Receiver session by sending terminate atom
         terminate_consuming_session(Receiver_Username),
         %request for creating another pulling consumer for the current Receiver

@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="javafx-corretto-1.8">
+    <CLASSES />
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$USER_HOME$/.jdks/corretto-1.8.0_275" />
+    </SOURCES>
+  </library>
+</component>
