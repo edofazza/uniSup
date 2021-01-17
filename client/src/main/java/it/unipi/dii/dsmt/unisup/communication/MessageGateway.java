@@ -3,6 +3,7 @@ package it.unipi.dii.dsmt.unisup.communication;
 import com.ericsson.otp.erlang.*;
 import it.unipi.dii.dsmt.unisup.beans.Message;
 
+import java.time.Instant;
 import java.util.concurrent.Callable;
 
 public class MessageGateway extends Gateway implements Communicator{
@@ -32,10 +33,15 @@ public class MessageGateway extends Gateway implements Communicator{
                     String sender = ((OtpErlangString)incomingMessage.elementAt(0)).stringValue();
                     String receiver = ((OtpErlangString)incomingMessage.elementAt(1)).stringValue();
                     String text = ((OtpErlangString)incomingMessage.elementAt(2)).stringValue();
-                    return new Message(sender, receiver, text);
+                    Instant timestamp = Instant.parse (((OtpErlangString)incomingMessage.elementAt(3)).stringValue());
+                    return new Message(sender, receiver, text, timestamp);
                 }
+                else
+                    continue;
             }
-        }catch (Exception e) {}
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
