@@ -3,3 +3,4 @@ out/
 *.class
 *.beam
 /erlang_server/log/
+/erlang_server/_build/

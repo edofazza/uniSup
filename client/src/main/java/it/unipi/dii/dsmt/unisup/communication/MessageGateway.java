@@ -30,11 +30,13 @@ public class MessageGateway extends Gateway implements Communicator{
             while(!Thread.currentThread().isInterrupted()){
                 incomingMessage = (OtpErlangTuple) receiveMessagesMailbox.receive(5000);
                 if(incomingMessage!=null){
-                    String sender = ((OtpErlangString)incomingMessage.elementAt(0)).stringValue();
-                    String receiver = ((OtpErlangString)incomingMessage.elementAt(1)).stringValue();
-                    String text = ((OtpErlangString)incomingMessage.elementAt(2)).stringValue();
-                    Instant timestamp = Instant.parse (((OtpErlangString)incomingMessage.elementAt(3)).stringValue());
-                    return new Message(sender, receiver, text, timestamp);
+                    String sender = ((OtpErlangString)incomingMessage.elementAt(1)).stringValue();
+                    String receiver = ((OtpErlangString)incomingMessage.elementAt(2)).stringValue();
+                    String text = ((OtpErlangString)incomingMessage.elementAt(3)).stringValue();
+                    Instant timestamp = Instant.parse (((OtpErlangString)incomingMessage.elementAt(4)).stringValue());
+                    Message m = new Message(sender, receiver, text, timestamp);
+                    System.out.println(m.getSender() + " " + m.getReceiver() + " " + m.getTimestamp() + "\n" + m.getText());
+                    return m;
                 }
                 else
                     continue;
