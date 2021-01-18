@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane focusTraversable="true" prefHeight="237.0" prefWidth="588.0" style="-fx-background-color: White;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.dii.dsmt.unisup.controller.SendMessageController">
+   <top>
+      <Pane prefHeight="89.0" prefWidth="703.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label focusTraversable="false" layoutX="51.0" layoutY="33.0" prefHeight="44.0" prefWidth="183.0" text="Send Message To">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <TextField fx:id="usernameField" layoutX="234.0" layoutY="36.0" prefHeight="38.0" prefWidth="306.0" promptText="Write the username">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </TextField>
+         </children>
+      </Pane>
+   </top>
+   <center>
+<Pane prefHeight="105.0" prefWidth="493.0" BorderPane.alignment="CENTER">
+  <children>
+      <TextArea fx:id="messageTextArea" layoutX="50.0" layoutY="21.0" prefHeight="100.0" prefWidth="392.0" promptText="Write a message..." wrapText="true" />
+      <Button fx:id="sendBtn" layoutX="471.0" layoutY="50.0" mnemonicParsing="false" stylesheets="@button.css" text="Send">
+          <font>
+              <Font size="19.0" />
+          </font>
+          <cursor>
+              <Cursor fx:constant="HAND" />
+          </cursor>
+      </Button>
+  </children>
+</Pane>
+   </center>
+</BorderPane>

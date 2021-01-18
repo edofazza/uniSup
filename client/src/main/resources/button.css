@@ -1,0 +1,148 @@
+#logoutBtn {
+    -fx-background-color:
+            linear-gradient(#f67e7e, #f31e1e),
+            radial-gradient(center 50% -40%, radius 200%, #f37979 45%, #f71c17 50%);
+    -fx-background-radius: 6, 5;
+    -fx-background-insets: 0, 1;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
+    -fx-text-fill: #395306;
+}
+
+#logoutBtn:hover {
+    -fx-background-color:
+            linear-gradient(#f8a8a8, #e50e0e),
+            radial-gradient(center 50% -40%, radius 200%, #f5a6a6 45%, #de0a0a 50%);
+}
+
+#logoutBtn:pressed {
+    -fx-background-color:
+            linear-gradient(#fad4c2, #ff0000),
+            radial-gradient(center 50% -40%, radius 200%, #f5d2b6 45%, #ff0000 50%);
+}
+
+
+#newMessageBtn {
+    -fx-background-color:
+            linear-gradient(#f0ff35, #a9ff00),
+            radial-gradient(center 50% -40%, radius 200%, #b8ee36 45%, #80c800 50%);
+    -fx-background-radius: 6, 5;
+    -fx-background-insets: 0, 1;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
+    -fx-text-fill: #395306;
+}
+
+#newMessageBtn:hover {
+    -fx-background-color:
+            linear-gradient(#b6fc65, #80f835),
+            radial-gradient(center 50% -40%, radius 200%, #86ee60 45%, #65cb1c 50%);
+}
+
+#newMessageBtn:pressed {
+    -fx-background-color:
+            linear-gradient(#ffc700, #25ff00),
+            radial-gradient(center 50% -40%, radius 200%, #3aff00 45%, #64ff00 50%);
+}
+
+#sendBtn {
+    -fx-background-color:
+            linear-gradient(#00fde4, #00aeff),
+            radial-gradient(center 50% -40%, radius 200%, #36e8ee 45%, #00c8b7 50%);
+    -fx-background-radius: 6, 5;
+    -fx-background-insets: 0, 1;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
+    -fx-text-fill: #395306;
+}
+
+#sendBtn:hover {
+    -fx-background-color:
+            linear-gradient(#65e5fc, #35b4f8),
+            radial-gradient(center 50% -40%, radius 200%, #60eed9 45%, #1ca8cb 50%);
+}
+
+#sendBtn:pressed {
+    -fx-background-color:
+            linear-gradient(#00e1ff, #007bff),
+            radial-gradient(center 50% -40%, radius 200%, #00ffa6 45%, #00e1ff 50%);
+}
+
+#loginBtn {
+    -fx-background-image: url("images/login.png");
+    -fx-background-size: 65px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+    -fx-text-fill: #828282;
+}
+
+
+#loginBtn:hover, #loginBtn:focused {
+    -fx-background-image: url("images/login.png");
+    -fx-background-size: 65px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-border-color: transparent, #1e71fa;
+    -fx-border-width: 2, 2;
+    -fx-border-style: dotted ;
+    -fx-background-color: #f1f2f3;
+    -fx-border-radius: 0, 0;
+    -fx-border-insets: 1 1 1 1, 0;
+}
+
+#loginBtn:pressed{
+    -fx-background-image: url("images/login.png");
+    -fx-background-size: 65px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-border-color: transparent, #1e71fa;
+    -fx-border-width: 2, 2;
+    -fx-border-style: dotted ;
+    -fx-background-color: #e7eeec;
+    -fx-border-radius: 0, 0;
+    -fx-border-insets: 1 1 1 1, 0;
+}
+
+
+#registerBtn {
+    -fx-background-image: url("images/register.png");
+    -fx-background-size: 65px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+    -fx-text-fill: #828282;
+}
+
+
+#registerBtn:hover, #registerBtn:focused  {
+    -fx-background-image: url("images/register.png");
+    -fx-background-size: 65px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-border-color: transparent, #1e71fa;
+    -fx-border-width: 2, 2;
+    -fx-border-style: dotted ;
+    -fx-background-color: #f1f2f3;
+    -fx-border-radius: 0, 0;
+    -fx-border-insets: 1 1 1 1, 0;
+}
+
+#registerBtn:pressed {
+    -fx-background-image: url("images/register.png");
+    -fx-background-size: 65px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-border-color: transparent, #1e71fa;
+    -fx-border-width: 2, 2;
+    -fx-border-style: dotted ;
+    -fx-background-color: #e7eeec;
+    -fx-border-radius: 0, 0;
+    -fx-border-insets: 1 1 1 1, 0;
+}
+
+
+
