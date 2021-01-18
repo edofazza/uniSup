@@ -819,3 +819,20 @@ Error in process <0.352.0> with exit value:
     stack_size: 28
     reductions: 653
   neighbours:
+2021-01-18 10:48:25 =CRASH REPORT====
+  crasher:
+    initial call: rabbitmq:init/1
+    pid: <0.273.0>
+    registered_name: []
+    exception error: {{badmatch,{error,econnrefused}},[{rabbitmq,create_connection,0,[{file,"/Users/edoardo/Documents/GitHub/uniSup/erlang_server/src/rabbitmq.erl"},{line,117}]},{rabbitmq,init,1,[{file,"/Users/edoardo/Documents/GitHub/uniSup/erlang_server/src/rabbitmq.erl"},{line,56}]},{gen_server,init_it,2,[{file,"gen_server.erl"},{line,417}]},{gen_server,init_it,6,[{file,"gen_server.erl"},{line,385}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,226}]}]}
+    ancestors: [unisup_gen_server,<0.9.0>]
+    message_queue_len: 0
+    messages: []
+    links: []
+    dictionary: [{gen_server_call_timeout,60000}]
+    trap_exit: false
+    status: running
+    heap_size: 1598
+    stack_size: 28
+    reductions: 1456
+  neighbours:

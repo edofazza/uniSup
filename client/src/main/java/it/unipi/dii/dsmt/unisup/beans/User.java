@@ -13,6 +13,8 @@ public class User {
 
     private List<Chat> chatList;
 
+    public boolean needToUpdate = false;
+
     public User(String username, String password){
         this.username=username;
         this.password=password;
@@ -65,8 +67,9 @@ public class User {
             chat.addMessageToHistory(m);
 
         // RELOAD EVERYTHING IN THE SCENE, EVEN THE CHAT IS CURRENTLY DISPLAYING
-        ContactUserPanes.insertContacts();
-        ChatScrollPane.addChat(ChatScrollPane.getChat());
+        //ContactUserPanes.insertContacts();
+        //ChatScrollPane.addChat(ChatScrollPane.getChat());
+        needToUpdate = true;
     }
 
     public boolean userAlreadyPresent(String contact) {
