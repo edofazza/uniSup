@@ -33,10 +33,5 @@ public class Chat {
 
     public void addMessageToHistory(Message m){
         history.add(m);
-
-        //while (CurrentUI.getUser().needToUpdate) {
-            //ContactUserPanes.insertContacts();
-            ChatScrollPane.addChat(ChatScrollPane.getChat());
-            CurrentUI.getUser().needToUpdate = false;
     }
 }

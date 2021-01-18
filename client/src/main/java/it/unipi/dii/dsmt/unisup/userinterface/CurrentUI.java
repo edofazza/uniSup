@@ -4,8 +4,11 @@ import it.unipi.dii.dsmt.unisup.beans.Message;
 import it.unipi.dii.dsmt.unisup.beans.User;
 import it.unipi.dii.dsmt.unisup.communication.MessageGateway;
 import it.unipi.dii.dsmt.unisup.userinterface.enumui.SceneNames;
+import it.unipi.dii.dsmt.unisup.userinterface.javafxextensions.panes.scrollpanes.ChatScrollPane;
+import it.unipi.dii.dsmt.unisup.userinterface.javafxextensions.panes.scrollpanes.ContactUserPanes;
 import it.unipi.dii.dsmt.unisup.userinterface.scenes.LogIn;
 import it.unipi.dii.dsmt.unisup.userinterface.scenes.UniSupScene;
+import javafx.concurrent.Task;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 
@@ -76,7 +79,7 @@ public class CurrentUI {
         thread.start();
     }
 
-
+/*
     static class ListenerTask implements Runnable {
 
         @Override
@@ -93,4 +96,39 @@ public class CurrentUI {
             }
         }
     }
+
+ */
+    static class ListenerTask extends Task<Boolean> {
+ /*
+        @Override
+        public void run() {
+            while (true) {
+                MessageGateway messageGateway = MessageGateway.getInstance();
+                Message m = messageGateway.receiveMessage();
+
+                // INSERT IT INTO USER
+                if (userLogged == null)
+                    return;
+
+                userLogged.insertMessage(m);
+            }
+        }*/
+
+    @Override
+    protected Boolean call() throws Exception {
+        while (true) {
+            // INSERT IT INTO USER
+            if (userLogged == null)
+                continue;
+
+            MessageGateway messageGateway = MessageGateway.getInstance();
+            Message m = messageGateway.receiveMessage();
+
+            ContactUserPanes.insertContacts();
+            ChatScrollPane.addChat(ChatScrollPane.getChat());
+
+            userLogged.insertMessage(m);
+        }
+    }
+}
 }
