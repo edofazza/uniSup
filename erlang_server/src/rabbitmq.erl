@@ -166,7 +166,7 @@ loop_consuming(Channel,  {Receiver_Username, Receiver_Pid}) ->
 %%          io:format("this is consumer tag~p~n", [Tag]),
 %%          io:format("basic.deliver~n"),
           amqp_channel:cast(Channel, #'basic.ack'{delivery_tag = Tag}),
-%%          io:format("this is consumed msg ~p~n", [decode_map(jsx:decode(Msg))]),
+          io:format("this is consumed msg ~p~n", [decode_map(jsx:decode(Msg))]),
           Receiver_Pid ! decode_map(jsx:decode(Msg)),
           loop_consuming(Channel, {Receiver_Username, Receiver_Pid});
 
