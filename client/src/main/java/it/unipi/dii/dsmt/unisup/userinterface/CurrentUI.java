@@ -5,12 +5,13 @@ import it.unipi.dii.dsmt.unisup.beans.User;
 import it.unipi.dii.dsmt.unisup.communication.MessageGateway;
 import it.unipi.dii.dsmt.unisup.userinterface.enumui.SceneNames;
 import it.unipi.dii.dsmt.unisup.userinterface.javafxextensions.panes.scrollpanes.ChatScrollPane;
-import it.unipi.dii.dsmt.unisup.userinterface.javafxextensions.panes.scrollpanes.ContactUserPanes;
 import it.unipi.dii.dsmt.unisup.userinterface.scenes.LogIn;
 import it.unipi.dii.dsmt.unisup.userinterface.scenes.UniSupScene;
 import javafx.concurrent.Task;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+
+import java.util.List;
 
 
 public class CurrentUI {
@@ -79,7 +80,7 @@ public class CurrentUI {
         thread.start();
     }
 
-/*
+
     static class ListenerTask implements Runnable {
 
         @Override
@@ -93,28 +94,24 @@ public class CurrentUI {
                     return;
 
                 userLogged.insertMessage(m);
+                new Thread(new ListenerTaskJavaFx()).start();
             }
         }
     }
 
- */
-    static class ListenerTask extends Task<Boolean> {
-        
-    @Override
-    protected Boolean call() throws Exception {
-        while (true) {
-            // INSERT IT INTO USER
-            if (userLogged == null)
-                continue;
 
-            MessageGateway messageGateway = MessageGateway.getInstance();
-            Message m = messageGateway.receiveMessage();
+    static class ListenerTaskJavaFx extends Task<Boolean> {
 
-            ContactUserPanes.insertContacts();
-            ChatScrollPane.addChat(ChatScrollPane.getChat());
+        @Override
+        protected Boolean call() throws Exception {
 
-            userLogged.insertMessage(m);
+            //ContactUserPanes.insertContacts();
+
+
+            List<Message> c = userLogged.getChatList().get(0).getHistory();
+            System.out.println("Il messaggio ricevuto è " + c.get(c.size()-1).getText());
+            ChatScrollPane.addChat(userLogged.getChatList().get(0));
+            return true;
         }
     }
-}
 }

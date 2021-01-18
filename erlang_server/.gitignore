@@ -18,7 +18,4 @@ _build
 rebar3.crashdump
 *~
 /_build/
-/_build/default/lib/goldrush/ebin/
-/_build/default/lib/credentials_obfuscation/ebin/
-/_build/default/lib/ranch/ebin/
-/_build/**/ebin/
+
