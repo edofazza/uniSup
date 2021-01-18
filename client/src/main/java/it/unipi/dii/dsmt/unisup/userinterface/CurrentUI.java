@@ -16,7 +16,6 @@ import java.util.List;
 
 
 public class CurrentUI {
-    private static TextField ghost = new TextField("");
     private static UniSupScene nodeWindow;
     private static Group root;
     private static User userLogged;
@@ -34,8 +33,6 @@ public class CurrentUI {
         /*   LogIn   */
         nodeWindow = new LogIn();
         root = nodeWindow.getNodes();
-
-        ghost.textProperty().addListener(e -> ChatScrollPane.addChat(userLogged.getChatList().get(0)));
 
         Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
         scene.getStylesheets().add("file:client/css/UniSup.css");
@@ -114,8 +111,8 @@ public class CurrentUI {
 
             List<Message> c = userLogged.getChatList().get(0).getHistory();
             System.out.println("Il messaggio ricevuto è " + c.get(c.size()-1).getText());
+            ChatScrollPane.ghost.setText("A");
 
-            ghost.setText("Pippo");
             return true;
         }
     }
