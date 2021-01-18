@@ -4,9 +4,11 @@ import it.unipi.dii.dsmt.unisup.beans.Message;
 import it.unipi.dii.dsmt.unisup.beans.User;
 import it.unipi.dii.dsmt.unisup.communication.MessageGateway;
 import it.unipi.dii.dsmt.unisup.userinterface.enumui.SceneNames;
+import it.unipi.dii.dsmt.unisup.userinterface.javafxextensions.panes.scrollpanes.ChatScrollPane;
+import it.unipi.dii.dsmt.unisup.userinterface.javafxextensions.panes.scrollpanes.ContactUserPanes;
 import it.unipi.dii.dsmt.unisup.userinterface.scenes.LogIn;
 import it.unipi.dii.dsmt.unisup.userinterface.scenes.UniSupScene;
-import javafx.concurrent.Task;
+import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 
@@ -76,6 +78,7 @@ public class CurrentUI {
 
     private static void startListener() {
         thread = new Thread(new ListenerTask());
+        thread.setDaemon(true);
         thread.start();
     }
 
@@ -84,6 +87,8 @@ public class CurrentUI {
 
         @Override
         public void run() {
+            Runnable updater = new ListenerTaskJavaFx();
+
             while (true) {
                 MessageGateway messageGateway = MessageGateway.getInstance();
                 Message m = messageGateway.receiveMessage();
@@ -93,21 +98,20 @@ public class CurrentUI {
                     return;
 
                 userLogged.insertMessage(m);
-                new Thread(new ListenerTaskJavaFx()).start();
+                Platform.runLater(updater);
             }
         }
     }
 
 
-    static class ListenerTaskJavaFx extends Task<Boolean> {
+    static class ListenerTaskJavaFx implements Runnable {
 
         @Override
-        protected Boolean call() throws Exception {
+        public void run(){
             List<Message> c = userLogged.getChatList().get(0).getHistory();
             System.out.println("Il messaggio ricevuto è " + c.get(c.size()-1).getText());
-            CurrentUI.changeScene(SceneNames.HOMEPAGE);
-
-            return true;
+            ContactUserPanes.insertContacts();
+            ChatScrollPane.addChat(ChatScrollPane.getChat());
         }
     }
 }
