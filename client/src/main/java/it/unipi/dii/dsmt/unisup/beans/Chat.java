@@ -1,5 +1,9 @@
 package it.unipi.dii.dsmt.unisup.beans;
 
+import it.unipi.dii.dsmt.unisup.userinterface.CurrentUI;
+import it.unipi.dii.dsmt.unisup.userinterface.javafxextensions.panes.scrollpanes.ChatScrollPane;
+import it.unipi.dii.dsmt.unisup.userinterface.javafxextensions.panes.scrollpanes.ContactUserPanes;
+
 import java.util.*;
 
 public class Chat {
@@ -29,5 +33,10 @@ public class Chat {
 
     public void addMessageToHistory(Message m){
         history.add(m);
+
+        //while (CurrentUI.getUser().needToUpdate) {
+            //ContactUserPanes.insertContacts();
+            ChatScrollPane.addChat(ChatScrollPane.getChat());
+            CurrentUI.getUser().needToUpdate = false;
     }
 }
