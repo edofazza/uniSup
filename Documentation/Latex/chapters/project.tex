@@ -1,9 +1,16 @@
 \section{Project Stage}
 \subsection{System Architecture}
 
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=\textwidth]{img/dag.png}  
+%\end{figure}
+
 \begin{figure}[H]
+	\begin{subfigure}{\textwidth}
 	\centering
-	\includegraphics[width=\textwidth]{img/dag.png}  
+		\includegraphics[width=0.3\linewidth]{img/dag.png} 
+	\end{subfigure}
 \end{figure}
 
 As shown in the previous picture, the application is based on a client-server architecture, in which each client, in order to send a \textbf{message} to a \textbf{user}, contacts the main server which is in charge of determining receiver’s physical address and forward the \textbf{message} if it is online.
@@ -69,9 +76,39 @@ The information is store in two tables named \textit{unisup\_users} and \textit{
 
 
 \subsubsection{Queueing}
+To provide the common messaging behavior for our application, we considered using queuing system by exploiting \textit{RabbitMQ}. Each user must have a queue for receiving the messages. Explicitly, each \textbf{user}  is a consumer, and consumes messages from the queue corresponding to his/her username. In this way, we can also manage the synchronization issue related receive a message. The first message comes into the \textit{queues} will be consumed and delivered to the user first, so we have FIFO queues. Since all the communication pass through the server in our application, we need to send the request for consuming to the server when a user gets online. Accordingly, when a user sends a message to another one, the message should be sent to the server and then the server passes it to the receiver queue. Finally, the \textit{queues} must be persistent since we do not want to the not consumed messages when the connection between server and \textit{RabbitMQ} goes down. 
+In the following example, user A (Sender) sends a message to \textbf{user} B (Receiver). \textbf{User}  A does not care if the B is online or not.  Request for Consuming will be sent to the server automatically after the B gets online. 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{img/rabbitMQ.png}  
+\end{figure}
+
+\subsubsection{Queueing Architecture}
+We used direct exchange of \textit{RabbitMQ} , since our messaging system only contains one to one communication, so we do not consider the possibility of creating channels or groups.
+We run a process to handle each user request (sending or consuming). This process adopts \textit{gen\_server} behavior to provide several functionalities to the application. After the initialization, the process would react to one of the following commands:
+
+\begin{enumerate}
+	\item \textbf{Reset}: The process will be restarted and re-initialized. 
+	\item \textbf{Stop}: The process will be killed, so no more request will be handled. We use this command when stopping the whole server application. 
+	\item \textbf{Push}: The input message will be converted to dictionary of binary entries and encoded. Then it will be sent to the receiver queue. If the push was successful, pushed atom will be returned. 
+	\item \textbf{Delete User}: The queue of the user will be deleted. 
+	\item \textbf{Request Consuming}: When a user sends this request, we must dedicate a channel and consuming process to the user. The channel is required for communication between the consuming process and RabbitMQ, because it connects to the specified queue. The consuming process receives any message from the channel. Then the incoming message will be sent to the user (Receiver) process id.
+	\item \textbf{Terminate Consuming}: When the user logouts, we must close its channel. Otherwise, the opening channels may cause the overhead in our server.
+\end{enumerate}
+
+In addition, after a certain amount of time (in our case it is thirty minutes), we refreshed the channels by deleting and creating another one. In practice, the heartbeat connection between  \textit{RabbitMQ}  and the server will determine to close the connection after not receiving any data for a certain period. Therefore, we must also check if the connection is dead, recreate the connection and channel again. 
 
 \subsection{Synchronization Management}
 \subsubsection{Client-Side}
 \subsubsection{Server-Side}
 
 \subsection{Sequence UML Diagrams}
+
+\subsection{Rebar3}
+Since our server is implemented in erlang, we realized that we can use Rebar3 to manage our application in proper way. Rebar3 is a build tool and package management for creating and deploying erlang applications [1 – 2]. To use \textbf{amqp} (\textit{RabbitMQ}) and \textbf{jsx} (\textit{JSON}) libraries, we added the dependencies in \textit{Rebar3 config file}, so all of them work under a unified project. To compile and run our server application we simply run the following command
+
+\begin{lstlisting}[language=python]
+	$ rebar3 shell --name unisup_server@localhost --setcookie unisup --script src/run\_listener.escript
+\end{lstlisting}
+

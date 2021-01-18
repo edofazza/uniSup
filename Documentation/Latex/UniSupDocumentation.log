@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2021.1.15)  16 JAN 2021 22:09
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2021.1.15)  18 JAN 2021 19:18
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -480,7 +480,8 @@ File: l3backend-pdfmode.def 2020-03-12 L3 backend support: PDF mode
 \l__kernel_color_stack_int=\count310
 \l__pdf_internal_box=\box62
 )
-(./UniSupDocumentation.aux)
+(./UniSupDocumentation.aux (./chapters/introduction.aux)
+(./chapters/analysis.aux) (./chapters/project.aux))
 \openout1 = `UniSupDocumentation.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 62.
@@ -601,8 +602,8 @@ LaTeX Info: Redefining \nameref on input line 62.
 pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./img/marchio_unipi_pant541-
 eps-converted-to.pdf): PDF inclusion: found PDF version <1.7>, but at most vers
 ion <1.5> allowed
-<img/marchio_unipi_pant541-eps-converted-to.pdf, id=4, 565.11125pt x 301.125pt>
-
+<img/marchio_unipi_pant541-eps-converted-to.pdf, id=88, 565.11125pt x 301.125pt
+>
 File: img/marchio_unipi_pant541-eps-converted-to.pdf Graphic file (type pdf)
 <use img/marchio_unipi_pant541-eps-converted-to.pdf>
 Package pdftex.def Info: img/marchio_unipi_pant541-eps-converted-to.pdf  used o
@@ -611,10 +612,7 @@ n input line 66.
 [1
 
 {/usr/local/texlive/2020/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./img/m
-archio_unipi_pant541-eps-converted-to.pdf>]
-
-Package hyperref Warning: old toc file detected, not used; run LaTeX again.
-
+archio_unipi_pant541-eps-converted-to.pdf>] (./UniSupDocumentation.toc)
 \tf@toc=\write4
 \openout4 = `UniSupDocumentation.toc'.
 
@@ -643,58 +641,66 @@ Underfull \hbox (badness 10000) in paragraph at lines 15--91
 \openout2 = `chapters/project.aux'.
 
  (./chapters/project.tex
-<img/dag.png, id=40, 291.0875pt x 431.6125pt>
+<img/dag.png, id=140, 291.0875pt x 431.6125pt>
 File: img/dag.png Graphic file (type png)
 <use img/dag.png>
-Package pdftex.def Info: img/dag.png  used on input line 6.
-(pdftex.def)             Requested size: 452.9679pt x 671.69266pt.
+Package pdftex.def Info: img/dag.png  used on input line 12.
+(pdftex.def)             Requested size: 135.89174pt x 201.49461pt.
  [4
 
 
-]
-Overfull \vbox (45.10117pt too high) has occurred while \output is active []
+ <./img/dag.png>]
+[5]
+<img/rabbitMQ.png, id=157, 442.2924pt x 210.5466pt>
+File: img/rabbitMQ.png Graphic file (type png)
+<use img/rabbitMQ.png>
+Package pdftex.def Info: img/rabbitMQ.png  used on input line 84.
+(pdftex.def)             Requested size: 452.9679pt x 215.63174pt.
+ [6] [7 <./img/rabbitMQ.png>]
+(/usr/local/texlive/2020/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2020/03/24 1.8d listings language file
+)
+LaTeX Font Info:    Trying to load font information for TS1+cmtt on input line 
+112.
 
-
-[5 <./img/dag.png>] [6] [7]) [8]
+(/usr/local/texlive/2020/texmf-dist/tex/latex/base/ts1cmtt.fd
+File: ts1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
+)) [8]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 96.
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 96.
- (./UniSupDocumentation.aux
-(./chapters/introduction.aux) (./chapters/analysis.aux) (./chapters/project.aux
-))
+
+(./UniSupDocumentation.aux (./chapters/introduction.aux)
+(./chapters/analysis.aux) (./chapters/project.aux))
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 96.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 96.
-
-
-Package rerunfilecheck Warning: File `UniSupDocumentation.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `UniSupDocumentation.out':
-(rerunfilecheck)             Before: D41D8CD98F00B204E9800998ECF8427E;0
-(rerunfilecheck)             After:  5F4B41E0E36E6B092535FA0A767117C4;1288.
+Package rerunfilecheck Info: File `UniSupDocumentation.out' has not changed.
+(rerunfilecheck)             Checksum: DD6487AB9280C07BC11BFF003060179C;1425.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 96.
  ) 
 Here is how much of TeX's memory you used:
- 11774 strings out of 480608
- 180131 string characters out of 5903630
- 491700 words of memory out of 5000000
- 27419 multiletter control sequences out of 15000+600000
- 538973 words of font info for 46 fonts, out of 8000000 for 9000
+ 12280 strings out of 480608
+ 185493 string characters out of 5903630
+ 673612 words of memory out of 5000000
+ 27894 multiletter control sequences out of 15000+600000
+ 539904 words of font info for 50 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 41i,12n,45p,587b,396s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 41i,12n,46p,1054b,1504s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2020/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc
 }</usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb>
 </usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><
 /usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb>
 </usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></
 usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></us
-r/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr
-/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/
-local/texlive/2020/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb>
-Output written on UniSupDocumentation.pdf (9 pages, 237508 bytes).
+r/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/l
+ocal/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/lo
+cal/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/loc
+al/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb></usr/local
+/texlive/2020/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb></usr/local/t
+exlive/2020/texmf-dist/fonts/type1/public/cm-super/sftt0900.pfb>
+Output written on UniSupDocumentation.pdf (9 pages, 326597 bytes).
 PDF statistics:
- 119 PDF objects out of 1000 (max. 8388607)
- 94 compressed objects within 1 object stream
- 33 named destinations out of 1000 (max. 500000)
- 11 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 235 PDF objects out of 1000 (max. 8388607)
+ 203 compressed objects within 3 object streams
+ 44 named destinations out of 1000 (max. 500000)
+ 184 words of extra memory for PDF output out of 10000 (max. 10000000)
 

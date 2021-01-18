@@ -13,7 +13,9 @@
 \BOOKMARK [3][-]{subsubsection.3.3.2}{Implementation of the Server}{subsection.3.3}% 13
 \BOOKMARK [3][-]{subsubsection.3.3.3}{Persistent Data Storing}{subsection.3.3}% 14
 \BOOKMARK [3][-]{subsubsection.3.3.4}{Queueing}{subsection.3.3}% 15
-\BOOKMARK [2][-]{subsection.3.4}{Synchronization Management}{section.3}% 16
-\BOOKMARK [3][-]{subsubsection.3.4.1}{Client-Side}{subsection.3.4}% 17
-\BOOKMARK [3][-]{subsubsection.3.4.2}{Server-Side}{subsection.3.4}% 18
-\BOOKMARK [2][-]{subsection.3.5}{Sequence UML Diagrams}{section.3}% 19
+\BOOKMARK [3][-]{subsubsection.3.3.5}{Queueing Architecture}{subsection.3.3}% 16
+\BOOKMARK [2][-]{subsection.3.4}{Synchronization Management}{section.3}% 17
+\BOOKMARK [3][-]{subsubsection.3.4.1}{Client-Side}{subsection.3.4}% 18
+\BOOKMARK [3][-]{subsubsection.3.4.2}{Server-Side}{subsection.3.4}% 19
+\BOOKMARK [2][-]{subsection.3.5}{Sequence UML Diagrams}{section.3}% 20
+\BOOKMARK [2][-]{subsection.3.6}{Rebar3}{section.3}% 21
