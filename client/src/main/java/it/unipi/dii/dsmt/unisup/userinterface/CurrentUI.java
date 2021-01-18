@@ -99,21 +99,7 @@ public class CurrentUI {
 
  */
     static class ListenerTask extends Task<Boolean> {
- /*
-        @Override
-        public void run() {
-            while (true) {
-                MessageGateway messageGateway = MessageGateway.getInstance();
-                Message m = messageGateway.receiveMessage();
-
-                // INSERT IT INTO USER
-                if (userLogged == null)
-                    return;
-
-                userLogged.insertMessage(m);
-            }
-        }*/
-
+        
     @Override
     protected Boolean call() throws Exception {
         while (true) {
