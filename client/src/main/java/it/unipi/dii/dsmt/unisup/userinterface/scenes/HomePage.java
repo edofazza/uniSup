@@ -8,7 +8,7 @@ import it.unipi.dii.dsmt.unisup.userinterface.javafxextensions.panes.scrollpanes
 public class HomePage extends UniSupScene {
     public HomePage() {
         displayContainer();
-
+        
         while (CurrentUI.getUser().needToUpdate) {
             ContactUserPanes.insertContacts();
             ChatScrollPane.addChat(ChatScrollPane.getChat());

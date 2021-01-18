@@ -13,7 +13,7 @@ public class User {
 
     private List<Chat> chatList;
 
-    public boolean needToUpdate = false;
+    public volatile boolean needToUpdate = false;
 
     public User(String username, String password){
         this.username=username;
