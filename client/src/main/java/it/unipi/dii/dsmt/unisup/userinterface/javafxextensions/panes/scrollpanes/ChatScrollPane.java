@@ -11,8 +11,6 @@ import javafx.scene.layout.VBox;
 import java.util.List;
 
 public class ChatScrollPane extends ScrollPane {
-    public static TextField ghost = new TextField("");
-
     private static VBox root;
     private static Chat chat;
 
@@ -27,9 +25,6 @@ public class ChatScrollPane extends ScrollPane {
         relocate(X_POS, Y_POS);
         setPrefSize(WIDTH, HEIGHT);
         setStyle(STYLE);
-
-        ghost.textProperty().addListener(e -> ChatScrollPane.addChat(CurrentUI.getUser().getChatList().get(0)));
-        ghost.setVisible(false);
 
         root = new VBox();
         root.setSpacing(SPACING);

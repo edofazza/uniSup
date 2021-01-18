@@ -4,13 +4,11 @@ import it.unipi.dii.dsmt.unisup.beans.Message;
 import it.unipi.dii.dsmt.unisup.beans.User;
 import it.unipi.dii.dsmt.unisup.communication.MessageGateway;
 import it.unipi.dii.dsmt.unisup.userinterface.enumui.SceneNames;
-import it.unipi.dii.dsmt.unisup.userinterface.javafxextensions.panes.scrollpanes.ChatScrollPane;
 import it.unipi.dii.dsmt.unisup.userinterface.scenes.LogIn;
 import it.unipi.dii.dsmt.unisup.userinterface.scenes.UniSupScene;
 import javafx.concurrent.Task;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.TextField;
 
 import java.util.List;
 
@@ -105,13 +103,9 @@ public class CurrentUI {
 
         @Override
         protected Boolean call() throws Exception {
-
-            //ContactUserPanes.insertContacts();
-
-
             List<Message> c = userLogged.getChatList().get(0).getHistory();
             System.out.println("Il messaggio ricevuto è " + c.get(c.size()-1).getText());
-            ChatScrollPane.ghost.setText("A");
+            CurrentUI.changeScene(SceneNames.HOMEPAGE);
 
             return true;
         }
