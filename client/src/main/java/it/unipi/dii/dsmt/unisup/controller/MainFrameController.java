@@ -12,6 +12,8 @@ import it.unipi.dii.dsmt.unisup.userinterface.javafxextensions.panes.scrollpanes
 import it.unipi.dii.dsmt.unisup.userinterface.javafxextensions.panes.scrollpanes.ContactUserPanes;
 import it.unipi.dii.dsmt.unisup.utils.Mediator;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -41,7 +43,7 @@ public class MainFrameController {
     private TextArea messageTextArea;
 
     private final int TIMEOUT = 5000;
-
+    private ObservableList<Chat> msgObsList;
 
     @FXML
     private void initialize() {
@@ -49,6 +51,16 @@ public class MainFrameController {
         //TODO load chats and messages
         startReceiveThread();
         Mediator.setMessagesList(this.messagesList);
+        //TODO: the following method is imp to load data (sina), I know there is a method to load data
+        //TODO: but I dont know how to use it. we have a object called msgObsList which is the model of the view
+        //TODO: I add all the data into it.
+        loadData();
+    }
+    //example of loading data
+    private void loadData() {
+        msgObsList = FXCollections.observableArrayList();
+        msgObsList.addAll(CurrentUI.getUser().getChatList());
+        messagesList.setItems(msgObsList);
     }
 
     private void setActionCommands() {

@@ -1,7 +1,9 @@
 package it.unipi.dii.dsmt.unisup.userinterface;
 
+import it.unipi.dii.dsmt.unisup.NewMain;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.util.Optional;
@@ -14,9 +16,11 @@ public class PopUp {
         alert.setContentText(context);
         alert.setResizable(false);
         alert.initOwner(alert.getOwner());
-
         Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
         stage.setAlwaysOnTop(true);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initOwner(NewMain.getStage());
+        stage.getIcons().add(new javafx.scene.image.Image("/images/logo.png"));
         stage.toFront(); // not sure if necessary
         if (!alertType.equals(Alert.AlertType.CONFIRMATION))
             alert.showAndWait();

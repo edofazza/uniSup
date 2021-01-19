@@ -14,11 +14,11 @@ public class NewMain extends Application {
     private static Stage guiStage;
     private static User userLogged;
 
-    private static Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+    private static final Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
     public final static int DEF_FRAME_WIDTH = 950;
     public final static int DEF_FRAME_HEIGHT = 600;
     public final static int LOG_FRAME_WIDTH = 420;
-    public final static int LOG_FRAME_HEIGHT = 450;
+    public final static int LOG_FRAME_HEIGHT = 522;
 
     public static void main(String[] args) {
         launch(args);
