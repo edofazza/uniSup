@@ -39,7 +39,7 @@ public class LoginController {
 
                 // LOAD THE CHATS
                 AuthGateway authGateway = AuthGateway.getInstance();
-                user.setChatList(authGateway.getChatHistory(user));
+                NewMain.getUserLogged().setChatList(authGateway.getChatHistory(user));
 
                 NewMain.changeStage("MainFrame");
             }
