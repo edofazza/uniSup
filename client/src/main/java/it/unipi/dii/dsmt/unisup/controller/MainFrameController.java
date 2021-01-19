@@ -3,11 +3,14 @@ package it.unipi.dii.dsmt.unisup.controller;
 import it.unipi.dii.dsmt.unisup.NewMain;
 import it.unipi.dii.dsmt.unisup.beans.Chat;
 import it.unipi.dii.dsmt.unisup.beans.Message;
+import it.unipi.dii.dsmt.unisup.beans.User;
 import it.unipi.dii.dsmt.unisup.communication.AuthGateway;
 import it.unipi.dii.dsmt.unisup.communication.Authenticator;
 import it.unipi.dii.dsmt.unisup.communication.MessageGateway;
 import it.unipi.dii.dsmt.unisup.userinterface.CurrentUI;
 import it.unipi.dii.dsmt.unisup.userinterface.javafxextensions.panes.scrollpanes.ChatScrollPane;
+import it.unipi.dii.dsmt.unisup.userinterface.javafxextensions.panes.scrollpanes.ContactUserPanes;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -38,6 +41,7 @@ public class MainFrameController {
     @FXML
     private void initialize() {
         setActionCommands();
+        startReceiveThread();
     }
 
     private void setActionCommands() {
@@ -74,6 +78,8 @@ public class MainFrameController {
             String textMessage = "GOOFIE"; //TODO take the message text from the text area
             Chat chat = ChatScrollPane.getChat(); //TODO get the actual chat
 
+            //TODO if the receiver already is in the list, the message should not be sent and an error label should appear
+
             if (chat == null)
                 return;
 
@@ -90,5 +96,42 @@ public class MainFrameController {
             //TODO empty chat area
             //TODO visualize the new chat
         });
+    }
+
+    private void startReceiveThread(){
+        Thread thread = new Thread(new MainFrameController.ListenerTask());
+        thread.setDaemon(true);
+        thread.start();
+    }
+
+    static class ListenerTask implements Runnable {
+
+        @Override
+        public void run() {
+            Runnable updater = new MainFrameController.ListenerTaskJavaFx();
+
+            while (true) {
+                MessageGateway messageGateway = MessageGateway.getInstance();
+                Message m = messageGateway.receiveMessage();
+
+                User userLogged = CurrentUI.getUser(); //TODO get the actual user
+                // INSERT IT INTO USER
+                if (userLogged == null)
+                    return;
+
+                userLogged.insertMessage(m);
+                Platform.runLater(updater);
+            }
+        }
+    }
+
+
+    static class ListenerTaskJavaFx implements Runnable {
+
+        @Override
+        public void run(){
+            ContactUserPanes.insertContacts(); //TODO update the contact list on the left of the UI
+            ChatScrollPane.addChat(ChatScrollPane.getChat()); //TODO update chats and refresh the display
+        }
     }
 }
