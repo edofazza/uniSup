@@ -51,8 +51,6 @@ public class SendMessageController {
             String textMessage = messageTextArea.getText();
             Chat chat = new Chat(receiverUsername, new ArrayList<>());
 
-            //TODO check that the receiver is not on the contact list
-
             Message message = new Message(senderUsername, receiverUsername, textMessage);
             MessageGateway
                     .getInstance()
