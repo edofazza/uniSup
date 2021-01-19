@@ -5,8 +5,10 @@ import it.unipi.dii.dsmt.unisup.beans.User;
 import it.unipi.dii.dsmt.unisup.communication.AuthGateway;
 import it.unipi.dii.dsmt.unisup.communication.Authenticator;
 import it.unipi.dii.dsmt.unisup.userinterface.CurrentUI;
+import it.unipi.dii.dsmt.unisup.userinterface.PopUp;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
@@ -30,8 +32,8 @@ public class LoginController {
 
     private void setActionCommands() {
         loginBtn.setOnAction(e ->{
-            String username = "GOOFIE"; //TODO take the actual username from the TextField
-            String password = "GOOFIE"; //TODO take the actual username from the TextField
+            String username = usernameField.getText();
+            String password = passwordField.getText();
             User user = new User(username, password);
             Authenticator au = AuthGateway.getInstance();
             if(au.login(user)) {
@@ -47,20 +49,20 @@ public class LoginController {
                 }
             }
             else{
-                //TODO display the error label
+                PopUp.showPopUpMessage("Login Error", "The username/password is wrong!", "", Alert.AlertType.ERROR);
             }
         });
         registerBtn.setOnAction(e ->{
-            String username = "GOOFIE"; //TODO take the actual username from the TextField
-            String password = "GOOFIE"; //TODO take the actual username from the TextField
+            String username = usernameField.getText();
+            String password = passwordField.getText();
             Authenticator auth = AuthGateway.getInstance();
             User user = new User(username,password);
             boolean result = auth.register(user);
 
             if (result) {
-                //TODO display success label
+                PopUp.showPopUpMessage("Registration successfully", "You have been registered to the application.", "", Alert.AlertType.INFORMATION);
             } else {
-                //TODO display error label
+                PopUp.showPopUpMessage("Registration Error", "The username is already taken.", "Select another.", Alert.AlertType.ERROR);
             }
         });
     }
