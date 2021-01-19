@@ -10,6 +10,7 @@ import it.unipi.dii.dsmt.unisup.communication.MessageGateway;
 import it.unipi.dii.dsmt.unisup.userinterface.CurrentUI;
 import it.unipi.dii.dsmt.unisup.userinterface.javafxextensions.panes.scrollpanes.ChatScrollPane;
 import it.unipi.dii.dsmt.unisup.userinterface.javafxextensions.panes.scrollpanes.ContactUserPanes;
+import it.unipi.dii.dsmt.unisup.utils.Mediator;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
