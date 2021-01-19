@@ -48,7 +48,10 @@ public class MainFrameController {
     @FXML
     private void initialize() {
         setActionCommands();
-        //TODO load chats and messages
+
+        // TODO load chats and messages
+        // TODO ANSWER (by Edoardo): Already done in the LoginController when the user logs in
+
         startReceiveThread();
         Mediator.setMessagesList(this.messagesList);
         //TODO: the following method is imp to load data (sina), I know there is a method to load data
@@ -59,22 +62,22 @@ public class MainFrameController {
     //example of loading data
     private void loadData() {
         msgObsList = FXCollections.observableArrayList();
-        msgObsList.addAll(CurrentUI.getUser().getChatList());
+        msgObsList.addAll(NewMain.getUserLogged().getChatList());
         messagesList.setItems(msgObsList);
     }
 
     private void setActionCommands() {
         logoutBtn.setOnAction(e ->{
             Authenticator au = AuthGateway.getInstance();
-            au.logout(CurrentUI.getUser()); //logs out the user sending a stop consumer request
-            CurrentUI.userExit(); //TODO here remove the user object from the data structure that holds the current logged user
-                try {
-                    NewMain.getStage().setScene(new Scene(NewMain.loadFXML("LoginFrame")));
-                } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
+            au.logout(NewMain.getUserLogged()); //logs out the user sending a stop consumer request
+            NewMain.userExit(); //TODO here remove the user object from the data structure that holds the current logged user
+
+            NewMain.changeStage("LoginFrame");
+
             //TODO if I'm forgetting something at logout time, please add it. If not, remove this TODO
         });
+
+
         newMessageBtn.setOnAction(event ->{
             final Stage dialog;
             try {
@@ -92,10 +95,14 @@ public class MainFrameController {
             }
             //TODO if Mirco(me) understood well, there is no business logic here. If not, please add it or tell me
         });
+
+
         sendBtn.setOnAction(e ->{
-            String senderUsername = "GOOFIE"; //TODO take the username of the sender (CurrentUI can help you)
+            String senderUsername = NewMain.getUserLogged().getUsername();
             String receiverUsername = "GOOFIE"; //TODO take the username of the receiver
-            String textMessage = "GOOFIE"; //TODO take the message text from the text area
+            // TODO to get the receiver you need to store the Chat in some way, then you can retrieve the needed data
+
+            String textMessage = messageTextArea.getText(); //TODO take the message text from the text area
             Chat chat = new Chat(receiverUsername); //TODO substitute this line with the one to get the correct chat.
                                                     //Chat.java and User.java have useful methods to do it
 
@@ -115,6 +122,7 @@ public class MainFrameController {
             chat.addMessageToHistory(message); //adds the message to the chat model
 
             //TODO empty text area
+            messageTextArea.setText("");
             //TODO visualize the new chat
             //TODO if I'm forgetting something when we send a message to a ALREADY EXISTING CONTACT, please add it. If not, remove this TODO
         });
@@ -137,7 +145,7 @@ public class MainFrameController {
                 MessageGateway messageGateway = MessageGateway.getInstance();
                 Message m = messageGateway.receiveMessage();
 
-                User userLogged = CurrentUI.getUser(); //TODO get the actual user from the data structure of the currently logged user
+                User userLogged = NewMain.getUserLogged(); //TODO get the actual user from the data structure of the currently logged user
                 // INSERT IT INTO USER
                 if (userLogged == null)
                     return;

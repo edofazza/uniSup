@@ -67,4 +67,10 @@ public class NewMain extends Application {
     public static User getUserLogged() {
         return userLogged;
     }
+
+    public static void userExit() {
+        userLogged = null;
+        //thread.interrupt();
+        //thread = null;
+    }
 }

@@ -1,6 +1,7 @@
 package it.unipi.dii.dsmt.unisup.controller;
 
 
+import it.unipi.dii.dsmt.unisup.NewMain;
 import it.unipi.dii.dsmt.unisup.beans.Chat;
 import it.unipi.dii.dsmt.unisup.beans.Message;
 import it.unipi.dii.dsmt.unisup.utils.Mediator;
@@ -16,6 +17,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
 import java.util.function.Predicate;
 
 public class SendMessageController {
@@ -29,8 +31,8 @@ public class SendMessageController {
     private final int TIMEOUT = 5000;
 
 
-
     private ListView<Chat> messagesList;
+
     @FXML
     private void initialize() {
 //TODO add a close button and connect it with handle close button action
@@ -48,25 +50,20 @@ public class SendMessageController {
 
     private void setActionCommands() {
         sendBtn.setOnAction((e ->{
-            String senderUsername = "GOOFIE"; //TODO take the username of the sender (CurrentUI can help you)
-            String receiverUsername = "GOOFIE"; //TODO take the username of the receiver
-            String textMessage = "GOOFIE"; //TODO take the message text from the text area
+            if (messageTextArea.getText().equals("") || NewMain.getUserLogged().userAlreadyPresent(usernameField.getText()))
+                return;
 
-            //TODO check that the receiver is not on the contact list
-       sendBtn.setOnAction(this::sendMessage);
-            //TODO check that the receiver is not on the contact list. User.java and Chat.java have awesome methods to perform this check
-
-            Chat chat = new Chat(receiverUsername); //The chat with this contact should be empty
+            String senderUsername = NewMain.getUserLogged().getUsername();
+            String receiverUsername = usernameField.getText();
+            String textMessage = messageTextArea.getText();
+            Chat chat = new Chat(receiverUsername, new ArrayList<>());
 
             Message message = new Message(senderUsername, receiverUsername, textMessage);
-            MessageGateway
-                    .getInstance()
-                    .sendMessage(
-                            message,
-                            TIMEOUT
-                    );
+            MessageGateway messageGateway = MessageGateway.getInstance();
+            messageGateway.sendMessage(message, TIMEOUT);
 
             chat.addMessageToHistory(message);
+            NewMain.getUserLogged().addChat(chat);
             //TODO update ListView of chats
             //TODO add the new chat on the chat list of the user object
             //TODO if I'm forgetting something when we send a message to a NEW CONTACT, please add it. If not, remove this TODO
@@ -75,6 +72,7 @@ public class SendMessageController {
 
     }
 
+    /*
     private void sendMessage(ActionEvent e) {
         //check if the usernameField is empty
         String username = usernameField.getText();
@@ -92,6 +90,6 @@ public class SendMessageController {
             //close the popup
            handleCloseButtonAction(e);
         }
-    }
+    }*/
 
 }

@@ -32,33 +32,30 @@ public class LoginController {
 
     private void setActionCommands() {
         loginBtn.setOnAction(e ->{
-            String username = "GOOFIE"; //TODO take the actual username from the TextField
-            String password = "GOOFIE"; //TODO take the actual username from the TextField
-            username = usernameField.getText();
-            password = passwordField.getText();
+            String username = usernameField.getText();
+            String password = passwordField.getText();
+            
             User user = new User(username, password); //We instantiate a new User Object for the current user
             Authenticator au = AuthGateway.getInstance();
             if(au.login(user)) {     //Tries to login
-                CurrentUI.setUser(user); //TODO set the logged user as current user in a data structure (better if static)
+                NewMain.setUser(user); //TODO set the logged user as current user in a data structure (better if static)
 
                 // LOAD THE CHATS
                 AuthGateway authGateway = AuthGateway.getInstance();
-                user.setChatList(authGateway.getChatHistory(user)); //Retrieves chat history of the logged user and add them to the chat list.
-                                                                    //So, every time you need them, pick them from the user object
+                NewMain.getUserLogged().setChatList(authGateway.getChatHistory(user));  // Retrieves chat history of the logged user and add them to the chat list.
+                                                                                        //So, every time you need them, pick them from the user object
+
                 //TODO if I'm forgetting something at login time, please add it. If not, remove this TODO
-                try {
-                    NewMain.getStage().setScene(new Scene(NewMain.loadFXML("MainFrame")));
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
-                }
+                NewMain.changeStage("MainFrame");
             }
             else{
                 PopUp.showPopUpMessage("Login Error", "The username/password is wrong!", "", Alert.AlertType.ERROR);
             }
         });
         registerBtn.setOnAction(e ->{
-            String username = "GOOFIE"; //TODO take the actual username from the TextField
-            String password = "GOOFIE"; //TODO take the actual username from the TextField
+            String username = usernameField.getText();
+            String password = passwordField.getText();
+
             Authenticator auth = AuthGateway.getInstance();
             User user = new User(username,password);
             boolean result = auth.register(user);
