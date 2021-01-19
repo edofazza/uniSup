@@ -3,29 +3,18 @@ package it.unipi.dii.dsmt.unisup.controller;
 import it.unipi.dii.dsmt.unisup.NewMain;
 import it.unipi.dii.dsmt.unisup.beans.Chat;
 import it.unipi.dii.dsmt.unisup.beans.Message;
-import it.unipi.dii.dsmt.unisup.beans.User;
-import it.unipi.dii.dsmt.unisup.communication.AuthGateway;
-import it.unipi.dii.dsmt.unisup.communication.Authenticator;
 import it.unipi.dii.dsmt.unisup.communication.MessageGateway;
-import it.unipi.dii.dsmt.unisup.userinterface.CurrentUI;
-import it.unipi.dii.dsmt.unisup.userinterface.javafxextensions.panes.scrollpanes.ChatScrollPane;
-import it.unipi.dii.dsmt.unisup.userinterface.javafxextensions.panes.scrollpanes.ContactUserPanes;
 import it.unipi.dii.dsmt.unisup.utils.Mediator;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
-import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
 
-import javax.xml.soap.Text;
 import java.io.IOException;
 
 public class MainFrameController {
@@ -52,7 +41,6 @@ public class MainFrameController {
         // TODO load chats and messages
         // TODO ANSWER (by Edoardo): Already done in the LoginController when the user logs in
 
-        startReceiveThread();
         Mediator.setMessagesList(this.messagesList);
         //TODO: the following method is imp to load data (sina), I know there is a method to load data
         //TODO: but I dont know how to use it. we have a object called msgObsList which is the model of the view
@@ -68,8 +56,6 @@ public class MainFrameController {
 
     private void setActionCommands() {
         logoutBtn.setOnAction(e ->{
-            Authenticator au = AuthGateway.getInstance();
-            au.logout(NewMain.getUserLogged()); //logs out the user sending a stop consumer request
             NewMain.userExit(); //TODO here remove the user object from the data structure that holds the current logged user
 
             NewMain.changeStage("LoginFrame");
@@ -128,48 +114,6 @@ public class MainFrameController {
         });
     }
 
-    //This is a very important and delicate point of the app. Please modify ONLY on TODOs
-    private void startReceiveThread(){
-        Thread thread = new Thread(new MainFrameController.ListenerTask());
-        thread.setDaemon(true);
-        thread.start();
-    }
-
-    static class ListenerTask implements Runnable {
-
-        @Override
-        public void run() {
-            Runnable updater = new MainFrameController.ListenerTaskJavaFx();
-
-            while (true) {
-                MessageGateway messageGateway = MessageGateway.getInstance();
-                Message m = messageGateway.receiveMessage();
-
-                User userLogged = NewMain.getUserLogged(); //TODO get the actual user from the data structure of the currently logged user
-                // INSERT IT INTO USER
-                if (userLogged == null)
-                    return;
-
-                userLogged.insertMessage(m);
-                Platform.runLater(updater);
-            }
-        }
-    }
 
 
-    static class ListenerTaskJavaFx implements Runnable {
-
-        @Override
-        public void run(){
-            //TODO update the contact list visualization
-            //TODO update chats
-            //TODO refresh the display, if the message has been received in an open chat, add it
-            //TODO if the message has been received in a different chat from the one showed now, update only the chat without visualizing it
-            //Maybe later, we will implement a notification mechanism for messages received in other chats different from the one opened
-            //TODO if I'm forgetting something here, please CONTACT MIRCO
-//            ContactUserPanes.insertContacts(); //TODO update the contact list on the left of the UI
-//            ChatScrollPane.addChat(ChatScrollPane.getChat()); //TODO update chats and refresh the display
-
-        }
-    }
 }

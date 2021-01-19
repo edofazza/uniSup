@@ -4,15 +4,11 @@ import it.unipi.dii.dsmt.unisup.NewMain;
 import it.unipi.dii.dsmt.unisup.beans.User;
 import it.unipi.dii.dsmt.unisup.communication.AuthGateway;
 import it.unipi.dii.dsmt.unisup.communication.Authenticator;
-import it.unipi.dii.dsmt.unisup.userinterface.CurrentUI;
 import it.unipi.dii.dsmt.unisup.userinterface.PopUp;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-
-import java.io.IOException;
 
 public class LoginController {
 
@@ -44,6 +40,7 @@ public class LoginController {
                 AuthGateway authGateway = AuthGateway.getInstance();
                 NewMain.getUserLogged().setChatList(authGateway.getChatHistory(user));  // Retrieves chat history of the logged user and add them to the chat list.
                                                                                         //So, every time you need them, pick them from the user object
+                startReceiveThread();
 
                 //TODO if I'm forgetting something at login time, please add it. If not, remove this TODO
                 NewMain.changeStage("MainFrame");
@@ -68,6 +65,12 @@ public class LoginController {
                 PopUp.showPopUpMessage("Registration Error", "The username is already taken.", "Select another.", Alert.AlertType.ERROR);
             }
         });
+    }
+
+    private void startReceiveThread(){
+        Thread thread = NewMain.getReceiveThread();
+        thread.setDaemon(true);
+        thread.start();
     }
 
 }
