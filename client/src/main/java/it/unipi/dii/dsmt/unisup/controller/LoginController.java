@@ -34,7 +34,7 @@ public class LoginController {
             User user = new User(username, password); //We instantiate a new User Object for the current user
             Authenticator au = AuthGateway.getInstance();
             if(au.login(user)) {     //Tries to login
-                NewMain.setUser(user); //TODO set the logged user as current user in a data structure (better if static)
+                NewMain.setUser(user);
 
                 // LOAD THE CHATS
                 AuthGateway authGateway = AuthGateway.getInstance();
@@ -42,7 +42,6 @@ public class LoginController {
                                                                                         //So, every time you need them, pick them from the user object
                 startReceiveThread();
 
-                //TODO if I'm forgetting something at login time, please add it. If not, remove this TODO
                 NewMain.changeStage("MainFrame");
             }
             else{
