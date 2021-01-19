@@ -125,5 +125,4 @@ public class NewMain extends Application {
             //Maybe later, we will implement a notification mechanism for messages received in other chats different from the one opened
         }
     }
-
 }
