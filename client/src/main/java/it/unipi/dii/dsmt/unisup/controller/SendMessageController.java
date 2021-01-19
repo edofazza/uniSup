@@ -48,6 +48,8 @@ public class SendMessageController {
                 return;
             }
 
+            System.out.println(NewMain.getUserLogged().getUsername());
+
             String senderUsername = NewMain.getUserLogged().getUsername();
             String receiverUsername = usernameField.getText();
             String textMessage = messageTextArea.getText();
@@ -60,7 +62,6 @@ public class SendMessageController {
             chat.addMessageToHistory(message);
             NewMain.getUserLogged().addChat(chat);
             //TODO update ListView of chats
-            //TODO if I'm forgetting something when we send a message to a NEW CONTACT, please add it. If not, remove this TODO
             handleCloseButtonAction(new ActionEvent());
         }));
 

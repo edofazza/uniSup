@@ -81,8 +81,10 @@ public class NewMain extends Application {
             au.logout(getUserLogged()); //logs out the user sending a stop consumer request
             userLogged = null;
         }
-        receiveThread.interrupt();
-        receiveThread = null;
+        if(receiveThread!=null) {
+            receiveThread.interrupt();
+            receiveThread = null;
+        }
     }
 
     public static Thread getReceiveThread(){
@@ -118,10 +120,9 @@ public class NewMain extends Application {
 
         @Override
         public void run(){
-            //TODO update the contact list visualization
+            //TODO update the contact list
             //TODO refresh the display, if the message has been received in an open chat, add it
             //Maybe later, we will implement a notification mechanism for messages received in other chats different from the one opened
-            //TODO if I'm forgetting something here, please CONTACT MIRCO
         }
     }
 

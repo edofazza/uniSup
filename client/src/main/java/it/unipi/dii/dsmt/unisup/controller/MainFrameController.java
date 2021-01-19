@@ -45,16 +45,18 @@ public class MainFrameController {
         msgObsList = FXCollections.observableArrayList();
         msgObsList.addAll(NewMain.getUserLogged().getChatList());
         messagesList.setItems(msgObsList);
+        //TODO fill the message history
+        //TODO Save the currently showed chat
     }
 
     private void setActionCommands() {
+
         //TODO: missing handler on click on a chat, it should display the messages
+
+
         logoutBtn.setOnAction(e ->{
             NewMain.userExit();
-
             NewMain.changeStage("LoginFrame");
-
-            //TODO if I'm forgetting something at logout time, please add it. If not, remove this TODO
         });
 
 
@@ -73,7 +75,6 @@ public class MainFrameController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            //TODO if Mirco(me) understood well, there is no business logic here. If not, please add it or tell me
         });
 
 
@@ -86,8 +87,6 @@ public class MainFrameController {
             Chat chat = new Chat(receiverUsername); //TODO substitute this line with the one to get the correct chat.
             //TODO the chat to use is the one referenced
 
-            //TODO there should be impossible to send a message here in a non-existing chat,
-            //so, if needed, substitute the following 2 lines with the correct control
             if (chat == null || textMessage.equals(""))
                 return;
 
@@ -102,7 +101,7 @@ public class MainFrameController {
             chat.addMessageToHistory(message); //adds the message to the chat model
 
             messageTextArea.setText("");
-            //TODO visualize the new chat
+            //TODO visualize the new history view of the messages
             //TODO if I'm forgetting something when we send a message to a ALREADY EXISTING CONTACT, please add it. If not, remove this TODO
         });
     }
