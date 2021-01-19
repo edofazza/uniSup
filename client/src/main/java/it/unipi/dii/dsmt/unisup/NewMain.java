@@ -61,6 +61,11 @@ public class NewMain extends Application {
 
     public static void changeStage(String sceneToLoad) {
         try {
+            if (userLogged != null)
+                guiStage.setTitle("UniSup -  " + userLogged.getUsername());
+            else
+                guiStage.setTitle("UniSup");
+
             guiStage.setScene(new Scene(NewMain.loadFXML(sceneToLoad)));
         } catch (IOException e) {
             e.printStackTrace();
