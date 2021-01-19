@@ -41,6 +41,7 @@ public class MainFrameController {
     @FXML
     private void initialize() {
         setActionCommands();
+        //TODO load chats and messages
         startReceiveThread();
     }
 
@@ -77,8 +78,6 @@ public class MainFrameController {
             String receiverUsername = "GOOFIE"; //TODO take the username of the receiver
             String textMessage = "GOOFIE"; //TODO take the message text from the text area
             Chat chat = ChatScrollPane.getChat(); //TODO get the actual chat
-
-            //TODO if the receiver already is in the list, the message should not be sent and an error label should appear
 
             if (chat == null)
                 return;
