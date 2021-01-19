@@ -7,7 +7,6 @@ import it.unipi.dii.dsmt.unisup.utils.Mediator;
 import it.unipi.dii.dsmt.unisup.beans.Chat;
 import it.unipi.dii.dsmt.unisup.beans.Message;
 import it.unipi.dii.dsmt.unisup.communication.MessageGateway;
-import it.unipi.dii.dsmt.unisup.userinterface.javafxextensions.panes.scrollpanes.ChatScrollPane;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -53,10 +52,11 @@ public class SendMessageController {
             String senderUsername = "GOOFIE"; //TODO take the username of the sender (CurrentUI can help you)
             String receiverUsername = "GOOFIE"; //TODO take the username of the receiver
             String textMessage = "GOOFIE"; //TODO take the message text from the text area
-            Chat chat = ChatScrollPane.getChat(); //TODO get the actual chat
 
             //TODO check that the receiver is not on the contact list
        sendBtn.setOnAction(this::sendMessage);
+
+            Chat chat = new Chat(receiverUsername);
 
             Message message = new Message(senderUsername, receiverUsername, textMessage);
             MessageGateway
