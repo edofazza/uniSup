@@ -37,7 +37,6 @@ public class SendMessageController {
         usernameField.setFocusTraversable(true);
         usernameField.requestFocus();
         setActionCommands();
-        messagesList = Mediator.getMessagesList();
     }
 
     @FXML
@@ -55,8 +54,9 @@ public class SendMessageController {
 
             //TODO check that the receiver is not on the contact list
        sendBtn.setOnAction(this::sendMessage);
+            //TODO check that the receiver is not on the contact list. User.java and Chat.java have awesome methods to perform this check
 
-            Chat chat = new Chat(receiverUsername);
+            Chat chat = new Chat(receiverUsername); //The chat with this contact should be empty
 
             Message message = new Message(senderUsername, receiverUsername, textMessage);
             MessageGateway
@@ -67,7 +67,9 @@ public class SendMessageController {
                     );
 
             chat.addMessageToHistory(message);
-
+            //TODO update ListView of chats
+            //TODO add the new chat on the chat list of the user object
+            //TODO if I'm forgetting something when we send a message to a NEW CONTACT, please add it. If not, remove this TODO
             handleCloseButtonAction(new ActionEvent());
         }));
 

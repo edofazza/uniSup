@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MessagePane extends Pane {
-    private Message message; // TODO
+    private Message message;
     private VBox root;
 
     private final String TEXT_STYLE = "-fx-text-fill: white; -fx-font-size: 14;";
