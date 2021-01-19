@@ -1,6 +1,9 @@
 package it.unipi.dii.dsmt.unisup.controller;
 
 import it.unipi.dii.dsmt.unisup.NewMain;
+import it.unipi.dii.dsmt.unisup.beans.Chat;
+import it.unipi.dii.dsmt.unisup.beans.Message;
+import it.unipi.dii.dsmt.unisup.utils.Mediator;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -23,7 +26,7 @@ public class MainFrameController {
     @FXML
     private Button logoutBtn;
     @FXML
-    private ListView messagesList;
+    private ListView<Chat> messagesList;
     @FXML
     private ListView historyList;
     @FXML
@@ -33,6 +36,7 @@ public class MainFrameController {
     @FXML
     private void initialize() {
         setActionCommands();
+        Mediator.setMessagesList(this.messagesList);
     }
 
     private void setActionCommands() {

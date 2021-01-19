@@ -34,4 +34,9 @@ public class Chat {
     public void addMessageToHistory(Message m){
         history.add(m);
     }
+
+    @Override
+    public String toString() {
+        return  usernameContact;
+    }
 }
