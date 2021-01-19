@@ -1,5 +1,6 @@
 package it.unipi.dii.dsmt.unisup;
 
+import it.unipi.dii.dsmt.unisup.beans.User;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -11,11 +12,14 @@ import java.io.IOException;
 
 public class NewMain extends Application {
     private static Stage guiStage;
+    private static User userLogged;
+
     private static Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
     public final static int DEF_FRAME_WIDTH = 950;
     public final static int DEF_FRAME_HEIGHT = 600;
     public final static int LOG_FRAME_WIDTH = 420;
     public final static int LOG_FRAME_HEIGHT = 450;
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -43,7 +47,24 @@ public class NewMain extends Application {
         }
         return fxmlLoader.load();
     }
+
     public static Stage getStage() {
         return guiStage;
+    }
+
+    public static void changeStage(String sceneToLoad) {
+        try {
+            guiStage.setScene(new Scene(NewMain.loadFXML(sceneToLoad)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void setUser(User user) {
+        userLogged = user;
+    }
+
+    public static User getUserLogged() {
+        return userLogged;
     }
 }

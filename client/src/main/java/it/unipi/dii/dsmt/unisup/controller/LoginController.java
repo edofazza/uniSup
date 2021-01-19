@@ -30,29 +30,27 @@ public class LoginController {
 
     private void setActionCommands() {
         loginBtn.setOnAction(e ->{
-            String username = "GOOFIE"; //TODO take the actual username from the TextField
-            String password = "GOOFIE"; //TODO take the actual username from the TextField
+            String username = usernameField.getText();
+            String password = passwordField.getText();
             User user = new User(username, password);
             Authenticator au = AuthGateway.getInstance();
             if(au.login(user)) {
-                CurrentUI.setUser(user);
+                NewMain.setUser(user);
 
                 // LOAD THE CHATS
                 AuthGateway authGateway = AuthGateway.getInstance();
                 user.setChatList(authGateway.getChatHistory(user));
-                try {
-                    NewMain.getStage().setScene(new Scene(NewMain.loadFXML("MainFrame")));
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
-                }
+
+                NewMain.changeStage("MainFrame");
             }
             else{
                 //TODO display the error label
             }
         });
+
         registerBtn.setOnAction(e ->{
-            String username = "GOOFIE"; //TODO take the actual username from the TextField
-            String password = "GOOFIE"; //TODO take the actual username from the TextField
+            String username = usernameField.getText();
+            String password = passwordField.getText();
             Authenticator auth = AuthGateway.getInstance();
             User user = new User(username,password);
             boolean result = auth.register(user);

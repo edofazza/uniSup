@@ -50,12 +50,10 @@ public class MainFrameController {
             Authenticator au = AuthGateway.getInstance();
             au.logout(CurrentUI.getUser());
             CurrentUI.userExit();
-                try {
-                    NewMain.getStage().setScene(new Scene(NewMain.loadFXML("LoginFrame")));
-                } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
+
+            NewMain.changeStage("LoginFrame");
         });
+
         newMessageBtn.setOnAction(event ->{
             final Stage dialog;
             try {
@@ -73,14 +71,16 @@ public class MainFrameController {
             }
 
         });
+
         sendBtn.setOnAction(e ->{
-            String senderUsername = "GOOFIE"; //TODO take the username of the sender (CurrentUI can help you)
-            String receiverUsername = "GOOFIE"; //TODO take the username of the receiver
-            String textMessage = "GOOFIE"; //TODO take the message text from the text area
             Chat chat = ChatScrollPane.getChat(); //TODO get the actual chat
 
-            if (chat == null)
+            if (chat == null || messageTextArea.getText().equals(""))
                 return;
+
+            String senderUsername = NewMain.getUserLogged().getUsername();
+            String receiverUsername = "GOOFIE"; //TODO take the username of the receiver (from the chat currently selected)
+            String textMessage = messageTextArea.getText();
 
             Message message = new Message(senderUsername, receiverUsername, textMessage);
             MessageGateway
@@ -92,8 +92,10 @@ public class MainFrameController {
 
             chat.addMessageToHistory(message);
 
-            //TODO empty chat area
-            //TODO visualize the new chat
+            messageTextArea.setText("");
+
+            //TODO visualize the new chat (Mirco)
+            // (by Edoardo) I think it's automatically done by the ListView
         });
     }
 
@@ -113,7 +115,7 @@ public class MainFrameController {
                 MessageGateway messageGateway = MessageGateway.getInstance();
                 Message m = messageGateway.receiveMessage();
 
-                User userLogged = CurrentUI.getUser(); //TODO get the actual user
+                User userLogged = NewMain.getUserLogged();
                 // INSERT IT INTO USER
                 if (userLogged == null)
                     return;

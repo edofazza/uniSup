@@ -1,15 +1,19 @@
 package it.unipi.dii.dsmt.unisup.controller;
 
 
+import it.unipi.dii.dsmt.unisup.NewMain;
 import it.unipi.dii.dsmt.unisup.beans.Chat;
 import it.unipi.dii.dsmt.unisup.beans.Message;
 import it.unipi.dii.dsmt.unisup.communication.MessageGateway;
+import it.unipi.dii.dsmt.unisup.userinterface.CurrentUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+
+import java.util.ArrayList;
 
 public class SendMessageController {
     @FXML
@@ -39,13 +43,15 @@ public class SendMessageController {
 
     private void setActionCommands() {
         sendBtn.setOnAction((e ->{
-            String senderUsername = "GOOFIE"; //TODO take the username of the sender (CurrentUI can help you)
-            String receiverUsername = "GOOFIE"; //TODO take the username of the receiver
-            String textMessage = "GOOFIE"; //TODO take the message text from the text area
+            if (messageTextArea.getText().equals("") || CurrentUI.getUser().userAlreadyPresent(usernameField.getText()))
+                return;
+
+            String senderUsername = NewMain.getUserLogged().getUsername();
+            String receiverUsername = usernameField.getText();
+            String textMessage = messageTextArea.getText();
+            Chat chat = new Chat(receiverUsername, new ArrayList<>());
 
             //TODO check that the receiver is not on the contact list
-
-            Chat chat = new Chat(receiverUsername);
 
             Message message = new Message(senderUsername, receiverUsername, textMessage);
             MessageGateway
@@ -56,6 +62,7 @@ public class SendMessageController {
                     );
 
             chat.addMessageToHistory(message);
+            NewMain.getUserLogged().addChat(chat);
 
             handleCloseButtonAction(new ActionEvent());
         }));
