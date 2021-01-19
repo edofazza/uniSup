@@ -5,17 +5,19 @@ import it.unipi.dii.dsmt.unisup.beans.Chat;
 import it.unipi.dii.dsmt.unisup.beans.Message;
 import it.unipi.dii.dsmt.unisup.communication.MessageGateway;
 import it.unipi.dii.dsmt.unisup.utils.Mediator;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+
+import static it.unipi.dii.dsmt.unisup.utils.Mediator.updateMessageHistoryView;
 
 public class MainFrameController {
     @FXML
@@ -25,34 +27,50 @@ public class MainFrameController {
     @FXML
     private Button logoutBtn;
     @FXML
-    private ListView<Chat> messagesList;
+    private ListView<Chat> contactList;
     @FXML
-    private ListView historyList;
+    private ListView<Message> historyList;
     @FXML
     private TextArea messageTextArea;
+    @FXML
+    private Label usernameLbl;
 
     private final int TIMEOUT = 5000;
-    private ObservableList<Chat> msgObsList;
+    private ObservableList<Chat> contactObsList;
+    private ObservableList<Message> histObsList;
+    private Chat selectedChat;
 
     @FXML
     private void initialize() {
+        contactList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        usernameLbl.setText(NewMain.getUserLogged().getUsername());
         setActionCommands();
-        Mediator.setMessagesList(messagesList);
         loadData();
+        Mediator.setContactList(contactList);
+        Mediator.setContactObsList(contactObsList);
+        Mediator.setHistoryList(historyList);
+        Mediator.setHistObsList(histObsList);
     }
     //example of loading data
     private void loadData() {
-        msgObsList = FXCollections.observableArrayList();
-        msgObsList.addAll(NewMain.getUserLogged().getChatList());
-        messagesList.setItems(msgObsList);
-        //TODO fill the message history
-        //TODO Save the currently showed chat
+        contactObsList = FXCollections.observableArrayList();
+        contactObsList.addAll(NewMain.getUserLogged().getChatList());
+        contactList.setItems(contactObsList);
+
+        histObsList = FXCollections.observableArrayList();
+        //TODO sort the contact list according to their message history timestamp
+        //by default the most current is selected
+        if (contactObsList.size() > 0) {
+            selectedChat = contactObsList.get(0);
+            Mediator.setSelectedChat(selectedChat);
+            histObsList.addAll(selectedChat.getHistory());
+        }
+        historyList.setItems(histObsList);
     }
 
     private void setActionCommands() {
 
-        //TODO: missing handler on click on a chat, it should display the messages
-
+        contactList.setOnMouseClicked(this::updateMessageHistory);
 
         logoutBtn.setOnAction(e ->{
             NewMain.userExit();
@@ -80,15 +98,10 @@ public class MainFrameController {
 
         sendBtn.setOnAction(e ->{
             String senderUsername = NewMain.getUserLogged().getUsername();
-            String receiverUsername = "GOOFIE"; //TODO take the username of the receiver
-            //TODO to get the receiver you need to store the Chat in some way, then you can retrieve the needed data
-
+            String receiverUsername = selectedChat.getUsernameContact();
             String textMessage = messageTextArea.getText();
-            Chat chat = new Chat(receiverUsername); //TODO substitute this line with the one to get the correct chat.
-            //TODO the chat to use is the one referenced
 
-            if (chat == null || textMessage.equals(""))
-                return;
+            if (textMessage.isEmpty() || textMessage.trim().isEmpty()) return;
 
             Message message = new Message(senderUsername, receiverUsername, textMessage);
             MessageGateway
@@ -98,14 +111,33 @@ public class MainFrameController {
                             TIMEOUT
                     ); //it actually sends the message
 
-            chat.addMessageToHistory(message); //adds the message to the chat model
+            selectedChat.addMessageToHistory(message); //adds the message to the chat model
 
             messageTextArea.setText("");
-            //TODO visualize the new history view of the messages
-            //TODO if I'm forgetting something when we send a message to a ALREADY EXISTING CONTACT, please add it. If not, remove this TODO
+            updateMessageHistoryView();
         });
     }
 
+    private void updateMessageHistory(MouseEvent e) {
+        if (contactList.getItems().size() == 0) return;
+        selectedChat = contactList.getSelectionModel().getSelectedItem();
+        Mediator.setSelectedChat(selectedChat);
+        //TODO make the string more beautiful --> toString method in Message
+        Platform.runLater(()->{
+            histObsList.clear();
+            histObsList.addAll(selectedChat.getHistory());
+            historyList.setItems(histObsList);
+        });
+
+    }
+
+    private void updateContactListView(){
+        Platform.runLater(()->{
+            contactObsList.clear();
+            contactObsList.addAll(NewMain.getUserLogged().getChatList());
+            contactList.setItems(contactObsList);
+        });
+    }
 
 
 }

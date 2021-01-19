@@ -6,6 +6,9 @@ import it.unipi.dii.dsmt.unisup.beans.Chat;
 import it.unipi.dii.dsmt.unisup.beans.Message;
 import it.unipi.dii.dsmt.unisup.communication.MessageGateway;
 import it.unipi.dii.dsmt.unisup.userinterface.PopUp;
+import it.unipi.dii.dsmt.unisup.utils.Mediator;
+import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -61,8 +64,15 @@ public class SendMessageController {
 
             chat.addMessageToHistory(message);
             NewMain.getUserLogged().addChat(chat);
-            //TODO update ListView of chats
             handleCloseButtonAction(new ActionEvent());
+            //
+            ObservableList<Chat> contactObsList = Mediator.getContactObsList();
+            ListView<Chat> contactList = Mediator.getContactList();
+            Platform.runLater(()->{
+                contactObsList.clear();
+                contactObsList.addAll(NewMain.getUserLogged().getChatList());
+                contactList.setItems(contactObsList);
+            });
         }));
 
     }

@@ -1,0 +1,8 @@
+#historyList .list-cell {
+    -fx-alignment: center-right;
+    -fx-font-size: 15px;
+}
+
+#contactList .list-cell {
+    -fx-font-size: 20px;
+}

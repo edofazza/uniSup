@@ -58,4 +58,9 @@ public class Message {
     public int getMessageId() {
         return messageId;
     }
+
+    @Override
+    public String toString() {
+        return  sender+"\n" + text + "\t" + timestamp;
+    }
 }

@@ -115,6 +115,7 @@ public class NewMain extends Application {
                     return;
 
                 userLogged.insertMessage(m); //also updates the Chat model
+                System.out.println("Receiving a new message handler");
                 Platform.runLater(updater);
             }
         }
@@ -125,6 +126,7 @@ public class NewMain extends Application {
 
         @Override
         public void run(){
+            System.out.println("Receiving a new javafx handler");
             //TODO update the contact list
             //TODO refresh the display, if the message has been received in an open chat, add it
             //Maybe later, we will implement a notification mechanism for messages received in other chats different from the one opened
