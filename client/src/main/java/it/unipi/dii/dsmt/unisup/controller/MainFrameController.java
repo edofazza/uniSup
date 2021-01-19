@@ -4,9 +4,6 @@ import it.unipi.dii.dsmt.unisup.NewMain;
 import it.unipi.dii.dsmt.unisup.beans.Chat;
 import it.unipi.dii.dsmt.unisup.beans.Message;
 import it.unipi.dii.dsmt.unisup.beans.User;
-import it.unipi.dii.dsmt.unisup.utils.Mediator;
-import it.unipi.dii.dsmt.unisup.beans.Chat;
-import it.unipi.dii.dsmt.unisup.beans.Message;
 import it.unipi.dii.dsmt.unisup.communication.AuthGateway;
 import it.unipi.dii.dsmt.unisup.communication.Authenticator;
 import it.unipi.dii.dsmt.unisup.communication.MessageGateway;
@@ -48,6 +45,8 @@ public class MainFrameController {
     @FXML
     private void initialize() {
         setActionCommands();
+        //TODO load chats and messages
+        startReceiveThread();
         Mediator.setMessagesList(this.messagesList);
     }
 
