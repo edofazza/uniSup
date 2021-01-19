@@ -1,7 +1,12 @@
 package it.unipi.dii.dsmt.unisup;
 
+import it.unipi.dii.dsmt.unisup.beans.Message;
 import it.unipi.dii.dsmt.unisup.beans.User;
+import it.unipi.dii.dsmt.unisup.communication.AuthGateway;
+import it.unipi.dii.dsmt.unisup.communication.Authenticator;
+import it.unipi.dii.dsmt.unisup.communication.MessageGateway;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -13,6 +18,7 @@ import java.io.IOException;
 public class NewMain extends Application {
     private static Stage guiStage;
     private static User userLogged;
+    private static Thread receiveThread;
 
     private static final Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
     public final static int DEF_FRAME_WIDTH = 950;
@@ -26,12 +32,13 @@ public class NewMain extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-         guiStage = stage;
+        guiStage = stage;
         stage.setResizable(false);
         stage.setTitle("UniSup");
         stage.getIcons().add(new javafx.scene.image.Image("/images/logo.png"));
         Scene scene = new Scene(loadFXML("LoginFrame"));
         stage.setScene(scene);
+        stage.setOnCloseRequest(e-> userExit());
         stage.show();
     }
 
@@ -69,8 +76,53 @@ public class NewMain extends Application {
     }
 
     public static void userExit() {
-        userLogged = null;
-        //thread.interrupt();
-        //thread = null;
+        if(getUserLogged()!=null) {
+            Authenticator au = AuthGateway.getInstance();
+            au.logout(getUserLogged()); //logs out the user sending a stop consumer request
+            userLogged = null;
+        }
+        receiveThread.interrupt();
+        receiveThread = null;
     }
+
+    public static Thread getReceiveThread(){
+        if(receiveThread==null){
+            receiveThread = new Thread(new ListenerTask());
+        }
+        return receiveThread;
+    }
+
+    static class ListenerTask implements Runnable {
+
+        @Override
+        public void run() {
+            Runnable updater = new ListenerTaskJavaFx();
+
+            while (true) {
+                MessageGateway messageGateway = MessageGateway.getInstance();
+                Message m = messageGateway.receiveMessage();
+
+                User userLogged = NewMain.getUserLogged();
+                // INSERT IT INTO USER
+                if (userLogged == null)
+                    return;
+
+                userLogged.insertMessage(m); //also updates the Chat model
+                Platform.runLater(updater);
+            }
+        }
+    }
+
+
+    static class ListenerTaskJavaFx implements Runnable {
+
+        @Override
+        public void run(){
+            //TODO update the contact list visualization
+            //TODO refresh the display, if the message has been received in an open chat, add it
+            //Maybe later, we will implement a notification mechanism for messages received in other chats different from the one opened
+            //TODO if I'm forgetting something here, please CONTACT MIRCO
+        }
+    }
+
 }
