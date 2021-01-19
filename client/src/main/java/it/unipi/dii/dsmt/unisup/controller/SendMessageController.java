@@ -43,7 +43,7 @@ public class SendMessageController {
 
     private void setActionCommands() {
         sendBtn.setOnAction((e ->{
-            if (messageTextArea.getText().equals("") || CurrentUI.getUser().userAlreadyPresent(usernameField.getText()))
+            if (messageTextArea.getText().equals("") || usernameField.getText().equals("") || CurrentUI.getUser().userAlreadyPresent(usernameField.getText()))
                 return;
 
             String senderUsername = NewMain.getUserLogged().getUsername();

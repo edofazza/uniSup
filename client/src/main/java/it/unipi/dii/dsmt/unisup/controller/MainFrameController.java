@@ -41,7 +41,7 @@ public class MainFrameController {
     @FXML
     private void initialize() {
         setActionCommands();
-        //TODO load chats and messages
+
         startReceiveThread();
     }
 
