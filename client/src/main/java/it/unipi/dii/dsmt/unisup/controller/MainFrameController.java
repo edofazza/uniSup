@@ -33,8 +33,6 @@ public class MainFrameController {
     private ListView<Message> historyList;
     @FXML
     private TextArea messageTextArea;
-    @FXML
-    private Label usernameLbl;
 
     private final int TIMEOUT = 5000;
     private ObservableList<Chat> contactObsList;
@@ -44,7 +42,6 @@ public class MainFrameController {
     @FXML
     private void initialize() {
         contactList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        usernameLbl.setText(NewMain.getUserLogged().getUsername());
         setActionCommands();
         loadData();
         Mediator.setContactList(contactList);
