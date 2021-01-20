@@ -18,4 +18,4 @@ _build
 rebar3.crashdump
 *~
 /_build/
-
+/Mnesia.unisup_server@localhost/
