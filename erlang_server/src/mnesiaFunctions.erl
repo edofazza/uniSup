@@ -33,6 +33,7 @@ init() ->
         ]),
       mnesia:create_table(unisup_messages,
         [{attributes, record_info(fields, unisup_messages)},
+          {type, bag},
           {disc_copies, [node()]}
         ])
   end.
@@ -157,7 +158,8 @@ add_message(Sender, Receiver, Text) ->
   Fun = fun() ->
     Timestamp = time_format:format_utc_timestamp(),
     mnesia:write(#unisup_messages{
-      sender = {Sender, time_format:format_utc_timestamp()},
+      %sender = {Sender, Timestamp},
+      sender = Sender,
       receiver = Receiver,
       text = Text,
       timestamp = Timestamp
@@ -175,7 +177,8 @@ all_messages() ->
 
 message_sent(Username) ->
   F = fun() ->
-    Q = qlc:q([{Username, E#unisup_messages.receiver, E#unisup_messages.text, E#unisup_messages.timestamp} || E <- mnesia:table(unisup_messages), hd(tuple_to_list(E#unisup_messages.sender)) == Username]),
+    %Q = qlc:q([{Username, E#unisup_messages.receiver, E#unisup_messages.text, E#unisup_messages.timestamp} || E <- mnesia:table(unisup_messages), hd(tuple_to_list(E#unisup_messages.sender)) == Username]),
+    Q = qlc:q([{Username, E#unisup_messages.receiver, E#unisup_messages.text, E#unisup_messages.timestamp} || E <- mnesia:table(unisup_messages), E#unisup_messages.sender == Username]),
     qlc:e(Q)
       end,
   mnesia:transaction(F).
@@ -186,7 +189,8 @@ get_message_sent(Username) ->
 
 message_received(Username) ->
   F = fun() ->
-    Q = qlc:q([{hd(tuple_to_list(E#unisup_messages.sender)), Username, E#unisup_messages.text, E#unisup_messages.timestamp} || E <- mnesia:table(unisup_messages), E#unisup_messages.receiver == Username]),
+    %Q = qlc:q([{hd(tuple_to_list(E#unisup_messages.sender)), Username, E#unisup_messages.text, E#unisup_messages.timestamp} || E <- mnesia:table(unisup_messages), E#unisup_messages.receiver == Username]),
+    Q = qlc:q([{E#unisup_messages.sender, Username, E#unisup_messages.text, E#unisup_messages.timestamp} || E <- mnesia:table(unisup_messages), E#unisup_messages.receiver == Username]),
     qlc:e(Q)
       end,
   mnesia:transaction(F).

@@ -72,8 +72,27 @@ For storing all the information regarding the users and their relative messages 
 \end{itemize}
 Mnesia is also interesting because of its tight coupling to Erlang, thus almost turning Erlang into a database programming language. This has many benefits, the foremost is that the impedance mismatch between the data format used by the DBMS and the data format used by the programming language, which is used to manipulate the data, completely disappears.
 
-The information is store in two tables named \textit{unisup\_users} and \textit{unisup\_messages} in the following mode:
+\textit{UniSup} stores the information cited above in two tables named \textit{unisup\_users} and \textit{unisup\_messages} in records made in this way, respectively:
+\begin{lstlisting}[language=erlang]
+	-record(unisup_messages, {sender,
+               receiver,
+               text,
+               timestamp
+              }).
 
+	-record(unisup_users, {username,
+                  password,
+                  nodeName,
+                  pid
+                }).
+\end{lstlisting}
+
+Because we want to keep the data in a persistent way, so even there is a crash in our server the records shouldn't be lost, the tables are saved using the \textit{disc\_copies} option, thus we maintain the records store in memory and on the disc. Every time the server starts \textit{Mnesia} it waits if the table are present invoking
+
+\begin{lstlisting}[language=erlang]
+mnesia:wait_for_tables([unisup_messages, unisup_users], 5000)
+\end{lstlisting}
+If they are then we simply load them, otherwise we create the tables again.
 
 \subsubsection{Queueing}
 To provide the common messaging behavior for our application, we considered using queuing system by exploiting \textit{RabbitMQ}. Each user must have a queue for receiving the messages. Explicitly, each \textbf{user}  is a consumer, and consumes messages from the queue corresponding to his/her username. In this way, we can also manage the synchronization issue related receive a message. The first message comes into the \textit{queues} will be consumed and delivered to the user first, so we have FIFO queues. Since all the communication pass through the server in our application, we need to send the request for consuming to the server when a user gets online. Accordingly, when a user sends a message to another one, the message should be sent to the server and then the server passes it to the receiver queue. Finally, the \textit{queues} must be persistent since we do not want to the not consumed messages when the connection between server and \textit{RabbitMQ} goes down. 
