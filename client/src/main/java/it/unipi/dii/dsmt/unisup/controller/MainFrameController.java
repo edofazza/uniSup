@@ -17,7 +17,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-import static it.unipi.dii.dsmt.unisup.utils.Mediator.updateMessageHistoryView;
 
 public class MainFrameController {
     @FXML
@@ -70,7 +69,12 @@ public class MainFrameController {
 
     private void setActionCommands() {
 
-        contactList.setOnMouseClicked(this::updateMessageHistory);
+        contactList.setOnMouseClicked(e ->{
+            if (contactList.getItems().size() == 0) return;
+            selectedChat = contactList.getSelectionModel().getSelectedItem();
+            Mediator.setSelectedChat(selectedChat);
+            updateMessageHistoryView();
+        });
 
         logoutBtn.setOnAction(e ->{
             NewMain.userExit();
@@ -118,17 +122,11 @@ public class MainFrameController {
         });
     }
 
-    private void updateMessageHistory(MouseEvent e) {
-        if (contactList.getItems().size() == 0) return;
-        selectedChat = contactList.getSelectionModel().getSelectedItem();
-        Mediator.setSelectedChat(selectedChat);
+    private void updateMessageHistoryView() {
         //TODO make the string more beautiful --> toString method in Message
         Platform.runLater(()->{
-            histObsList.clear();
-            histObsList.addAll(selectedChat.getHistory());
-            historyList.setItems(histObsList);
+            histObsList.add(selectedChat.getHistory().get(selectedChat.getHistory().size() - 1));
         });
-
     }
 
     private void updateContactListView(){

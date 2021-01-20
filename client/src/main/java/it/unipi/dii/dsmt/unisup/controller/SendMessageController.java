@@ -66,17 +66,20 @@ public class SendMessageController {
             NewMain.getUserLogged().addChat(chat);
             handleCloseButtonAction(new ActionEvent());
             //
-            ObservableList<Chat> contactObsList = Mediator.getContactObsList();
-            ListView<Chat> contactList = Mediator.getContactList();
-            Platform.runLater(()->{
-                contactObsList.clear();
-                contactObsList.addAll(NewMain.getUserLogged().getChatList());
-                contactList.setItems(contactObsList);
-            });
+            updateContactListView();
         }));
 
     }
 
+    private void updateContactListView(){
+        ObservableList<Chat> contactObsList = Mediator.getContactObsList();
+        ListView<Chat> contactList = Mediator.getContactList();
+        Platform.runLater(()->{
+            contactObsList.clear();
+            contactObsList.addAll(NewMain.getUserLogged().getChatList());
+            contactList.setItems(contactObsList);
+        });
+    }
     /*
     private void sendMessage(ActionEvent e) {
         //check if the usernameField is empty
