@@ -78,6 +78,7 @@ public class SendMessageController {
         ObservableList<Chat> contactObsList = Mediator.getContactObsList();
         ObservableList<Message> histObsList = Mediator.getHistObsList();
         ListView<Chat> contactList = Mediator.getContactList();
+        ListView<Message> historyList = Mediator.getHistoryList();
         Platform.runLater(()->{
             //for sorting the list we need to load the new data
             contactObsList.clear();
@@ -85,7 +86,9 @@ public class SendMessageController {
             contactList.setItems(contactObsList);
             contactList.getSelectionModel().selectFirst();
             contactList.getFocusModel().focus(0);
-            histObsList.add(message);
+            histObsList.clear();
+            histObsList.addAll(contactList.getSelectionModel().getSelectedItem().getHistory());
+            historyList.setItems(histObsList);
         });
     }
     /*

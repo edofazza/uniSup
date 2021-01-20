@@ -164,7 +164,6 @@ public class NewMain extends Application {
                 }
             }
             if(i ==0) {
-                histObsList.add(receivedMsg);
                 histObsList.clear();
                 histObsList.addAll(modifiedChat.getHistory());
                 historyList.setItems(histObsList);
