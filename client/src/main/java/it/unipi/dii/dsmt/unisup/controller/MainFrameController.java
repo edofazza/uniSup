@@ -7,8 +7,6 @@ import it.unipi.dii.dsmt.unisup.communication.MessageGateway;
 import it.unipi.dii.dsmt.unisup.utils.ChatSorter;
 import it.unipi.dii.dsmt.unisup.utils.Mediator;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -114,8 +112,6 @@ public class MainFrameController {
             messageTextArea.clear();
             updateContactListView();
             updateLastMessageHistoryView(message);
-
-
         });
     }
     private void updateAllMessageHistoryView(){

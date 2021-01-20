@@ -150,15 +150,23 @@ public class NewMain extends Application {
             ObservableList<Chat> contactObsList = Mediator.getContactObsList();
             ObservableList<Message> histObsList = Mediator.getHistObsList();
             ListView<Message> historyList = Mediator.getHistoryList();
+            Chat selected = contactList.getSelectionModel().getSelectedItem();
             contactObsList.clear();
             contactObsList.addAll(new ChatSorter(NewMain.getUserLogged().getChatList()).sort());
             contactList.setItems(contactObsList);
-            histObsList.add(receivedMsg);
-            histObsList.clear();
-            histObsList.addAll(modifiedChat.getHistory());
-            historyList.setItems(histObsList);
-
-
+            int i=0;
+            for(; i<contactObsList.size(); i++){
+                if(contactList.getItems().get(i).getUsernameContact().equals(selected.getUsernameContact())){
+                    contactList.getSelectionModel().select(i);
+                    contactList.getFocusModel().focus(i);
+                }
+            }
+            if(i ==0) {
+                histObsList.add(receivedMsg);
+                histObsList.clear();
+                histObsList.addAll(modifiedChat.getHistory());
+                historyList.setItems(histObsList);
+            }
         }
     }
 }
