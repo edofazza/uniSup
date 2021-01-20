@@ -16,8 +16,8 @@ public class ChatSorter {
     public List<Chat> sort(){
         if(chats ==null || chats.size()<1)
             return new ArrayList<>();
-        //chats.sort((o1, o2) -> o1.getHistory().get(o1.getHistory().size()).getTimestamp().compareTo(o2.getHistory().get(o2.getHistory().size()).getTimestamp()));
-        chats.sort(Comparator.comparing(o -> o.getHistory().get(o.getHistory().size()).getTimestamp()));
+        //chats.sort((o2, o1) -> o1.getHistory().get(o1.getHistory().size()-1).getTimestamp().compareTo(o2.getHistory().get(o2.getHistory().size()-1).getTimestamp()));
+        chats.sort(Comparator.comparing(o -> o.getHistory().get(o.getHistory().size()-1).getTimestamp(), Comparator.reverseOrder()));
         return chats;
     }
 }
