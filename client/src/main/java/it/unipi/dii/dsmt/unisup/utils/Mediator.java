@@ -1,9 +1,7 @@
 package it.unipi.dii.dsmt.unisup.utils;
 
-import it.unipi.dii.dsmt.unisup.NewMain;
 import it.unipi.dii.dsmt.unisup.beans.Chat;
 import it.unipi.dii.dsmt.unisup.beans.Message;
-import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ListView;
 
@@ -13,15 +11,6 @@ public class Mediator {
     private static ObservableList<Chat> contactObsList;
     private static ListView<Message> historyList;
     private static ObservableList<Message> histObsList;
-    private static Chat selectedChat;
-
-    public static Chat getSelectedChat() {
-        return selectedChat;
-    }
-
-    public static void setSelectedChat(Chat selectedChat) {
-        Mediator.selectedChat = selectedChat;
-    }
 
     public static ListView<Chat> getContactList() {
         return contactList;
@@ -54,6 +43,5 @@ public class Mediator {
     public static void setHistObsList(ObservableList<Message> histObsList) {
         Mediator.histObsList = histObsList;
     }
-
 
 }

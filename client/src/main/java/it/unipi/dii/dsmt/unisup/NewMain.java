@@ -6,6 +6,7 @@ import it.unipi.dii.dsmt.unisup.beans.User;
 import it.unipi.dii.dsmt.unisup.communication.AuthGateway;
 import it.unipi.dii.dsmt.unisup.communication.Authenticator;
 import it.unipi.dii.dsmt.unisup.communication.MessageGateway;
+import it.unipi.dii.dsmt.unisup.utils.ChatSorter;
 import it.unipi.dii.dsmt.unisup.utils.Mediator;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -120,7 +121,7 @@ public class NewMain extends Application {
 
 
                 Chat modifiedChat = userLogged.insertMessage(m); //also updates the Chat model
-                updater = new ListenerTaskJavaFx(modifiedChat);
+                updater = new ListenerTaskJavaFx(m, modifiedChat);
                 Platform.runLater(updater);
             }
         }
@@ -128,10 +129,12 @@ public class NewMain extends Application {
 
 
     static class ListenerTaskJavaFx implements Runnable {
-        private Chat modifiedChat;
+        private final Message receivedMsg;
+        private final Chat modifiedChat;
 
-        ListenerTaskJavaFx(Chat c){
-            this.modifiedChat=c;
+        ListenerTaskJavaFx(Message receivedMsg, Chat modifiedChat){
+            this.receivedMsg=receivedMsg;
+            this.modifiedChat = modifiedChat;
         }
 
         @Override
@@ -145,15 +148,17 @@ public class NewMain extends Application {
         private void updateContactListView(){
             ListView<Chat> contactList = Mediator.getContactList();
             ObservableList<Chat> contactObsList = Mediator.getContactObsList();
-            Platform.runLater(()->{
-                //TODO if the NewMain.getUserLogged().getChatList() is sorted based on the timestamp, we can simply add the final chat
-                // TODO and not reload the whole chats!
-                contactObsList.clear();
-                contactObsList.addAll(NewMain.getUserLogged().getChatList());
-                contactList.setItems(contactObsList);
-                //TODO contactList.setSelected(most recent message)
-                contactList.getSelectionModel().selectFirst();
-            });
+            ObservableList<Message> histObsList = Mediator.getHistObsList();
+            ListView<Message> historyList = Mediator.getHistoryList();
+            contactObsList.clear();
+            contactObsList.addAll(new ChatSorter(NewMain.getUserLogged().getChatList()).sort());
+            contactList.setItems(contactObsList);
+            histObsList.add(receivedMsg);
+            histObsList.clear();
+            histObsList.addAll(modifiedChat.getHistory());
+            historyList.setItems(histObsList);
+
+
         }
     }
 }

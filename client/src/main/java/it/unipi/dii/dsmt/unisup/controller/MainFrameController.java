@@ -4,14 +4,16 @@ import it.unipi.dii.dsmt.unisup.NewMain;
 import it.unipi.dii.dsmt.unisup.beans.Chat;
 import it.unipi.dii.dsmt.unisup.beans.Message;
 import it.unipi.dii.dsmt.unisup.communication.MessageGateway;
+import it.unipi.dii.dsmt.unisup.utils.ChatSorter;
 import it.unipi.dii.dsmt.unisup.utils.Mediator;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -53,17 +55,9 @@ public class MainFrameController {
     //example of loading data
     private void loadData() {
         contactObsList = FXCollections.observableArrayList();
-        contactObsList.addAll(NewMain.getUserLogged().getChatList());
+        contactObsList.addAll(new ChatSorter(NewMain.getUserLogged().getChatList()).sort());
         contactList.setItems(contactObsList);
-
         histObsList = FXCollections.observableArrayList();
-        //TODO sort the contact list according to their message history timestamp
-        //by default the most current is selected
-        if (contactObsList.size() > 0) {
-            selectedChat = contactObsList.get(0);
-            Mediator.setSelectedChat(selectedChat);
-            histObsList.addAll(selectedChat.getHistory());
-        }
         historyList.setItems(histObsList);
     }
 
@@ -72,8 +66,7 @@ public class MainFrameController {
         contactList.setOnMouseClicked(e ->{
             if (contactList.getItems().size() == 0) return;
             selectedChat = contactList.getSelectionModel().getSelectedItem();
-            Mediator.setSelectedChat(selectedChat);
-            updateMessageHistoryView();
+            updateAllMessageHistoryView();
         });
 
         logoutBtn.setOnAction(e ->{
@@ -101,6 +94,7 @@ public class MainFrameController {
 
 
         sendBtn.setOnAction(e ->{
+            selectedChat = contactList.getSelectionModel().getSelectedItem();
             String senderUsername = NewMain.getUserLogged().getUsername();
             String receiverUsername = selectedChat.getUsernameContact();
             String textMessage = messageTextArea.getText();
@@ -117,24 +111,33 @@ public class MainFrameController {
 
             selectedChat.addMessageToHistory(message); //adds the message to the chat model
 
-            messageTextArea.setText("");
-            updateMessageHistoryView();
+            messageTextArea.clear();
+            updateContactListView();
+            updateLastMessageHistoryView(message);
+
+
         });
     }
-
-    private void updateMessageHistoryView() {
+    private void updateAllMessageHistoryView(){
+        Platform.runLater(()->{
+            histObsList.clear();
+            histObsList.addAll(selectedChat.getHistory());
+            historyList.setItems(histObsList);
+        });
+    }
+    private void updateLastMessageHistoryView(Message message) {
         //TODO make the string more beautiful --> toString method in Message
         Platform.runLater(()->{
-            histObsList.add(selectedChat.getHistory().get(selectedChat.getHistory().size() - 1));
+            histObsList.add(message);
         });
     }
 
     private void updateContactListView(){
-        Platform.runLater(()->{
-            contactObsList.clear();
-            contactObsList.addAll(NewMain.getUserLogged().getChatList());
-            contactList.setItems(contactObsList);
-        });
+        contactObsList.clear();
+        contactObsList.addAll(new ChatSorter(NewMain.getUserLogged().getChatList()).sort());
+        contactList.setItems(contactObsList);
+        contactList.getSelectionModel().selectFirst();
+        contactList.getFocusModel().focus(0);
     }
 
 

@@ -6,13 +6,19 @@ import it.unipi.dii.dsmt.unisup.beans.Chat;
 import it.unipi.dii.dsmt.unisup.beans.Message;
 import it.unipi.dii.dsmt.unisup.communication.MessageGateway;
 import it.unipi.dii.dsmt.unisup.userinterface.PopUp;
+import it.unipi.dii.dsmt.unisup.utils.ChatSorter;
 import it.unipi.dii.dsmt.unisup.utils.Mediator;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+
+import java.util.Set;
 
 public class SendMessageController {
     @FXML
@@ -23,9 +29,6 @@ public class SendMessageController {
     private TextField usernameField;
 
     private final int TIMEOUT = 5000;
-
-
-    private ListView<Chat> messagesList;
 
     @FXML
     private void initialize() {
@@ -66,18 +69,23 @@ public class SendMessageController {
             NewMain.getUserLogged().addChat(chat);
             handleCloseButtonAction(new ActionEvent());
             //
-            updateContactListView();
+            updateContactListView(message);
         }));
 
     }
 
-    private void updateContactListView(){
+    private void updateContactListView(Message message){
         ObservableList<Chat> contactObsList = Mediator.getContactObsList();
+        ObservableList<Message> histObsList = Mediator.getHistObsList();
         ListView<Chat> contactList = Mediator.getContactList();
         Platform.runLater(()->{
+            //for sorting the list we need to load the new data
             contactObsList.clear();
-            contactObsList.addAll(NewMain.getUserLogged().getChatList());
+            contactObsList.addAll(new ChatSorter(NewMain.getUserLogged().getChatList()).sort());
             contactList.setItems(contactObsList);
+            contactList.getSelectionModel().selectFirst();
+            contactList.getFocusModel().focus(0);
+            histObsList.add(message);
         });
     }
     /*
