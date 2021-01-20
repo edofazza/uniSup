@@ -154,6 +154,8 @@ public class NewMain extends Application {
             contactObsList.clear();
             contactObsList.addAll(new ChatSorter(NewMain.getUserLogged().getChatList()).sort());
             contactList.setItems(contactObsList);
+            if(selected==null)
+                selected=contactList.getItems().get(0);
             int i=0;
             for(; i<contactObsList.size(); i++){
                 if(contactList.getItems().get(i).getUsernameContact().equals(selected.getUsernameContact())){
