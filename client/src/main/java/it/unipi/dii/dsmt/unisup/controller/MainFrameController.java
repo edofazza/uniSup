@@ -7,14 +7,36 @@ import it.unipi.dii.dsmt.unisup.communication.MessageGateway;
 import it.unipi.dii.dsmt.unisup.utils.ChatSorter;
 import it.unipi.dii.dsmt.unisup.utils.Mediator;
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Bounds;
+import javafx.geometry.Insets;
+import javafx.geometry.NodeOrientation;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
+import javax.swing.*;
 import java.io.IOException;
 
 
@@ -40,8 +62,8 @@ public class MainFrameController {
     @FXML
     private void initialize() {
         contactList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        setActionCommands();
         loadData();
+        setActionCommands();
         Mediator.setContactList(contactList);
         Mediator.setContactObsList(contactObsList);
         Mediator.setHistoryList(historyList);
@@ -71,7 +93,7 @@ public class MainFrameController {
             NewMain.userExit();
             NewMain.changeStage("LoginFrame");
         });
-
+        historyList.setCellFactory(param -> new MessageCell());
 
         newMessageBtn.setOnAction(event ->{
             final Stage dialog;
@@ -112,6 +134,7 @@ public class MainFrameController {
             messageTextArea.clear();
             updateContactListView();
             updateLastMessageHistoryView(message);
+
         });
     }
     private void updateAllMessageHistoryView(){
@@ -135,6 +158,56 @@ public class MainFrameController {
         contactList.setItems(contactObsList);
         contactList.getSelectionModel().selectFirst();
         contactList.getFocusModel().focus(0);
+    }
+
+    static class MessageCell extends ListCell<Message> {
+        VBox vbox = new VBox();
+        Label senderLabel = new Label();
+        TextArea textArea = new TextArea();
+        TextFlow textFlow = new TextFlow();
+        Chat lastItem;
+        double oldHeight = 0;
+        public MessageCell() {
+            super();
+            senderLabel.setPrefSize(330, 33);
+            senderLabel.setPadding(new Insets(10,20,5,10));
+            senderLabel.setFont(new Font(19));
+            senderLabel.setText("Sender");
+
+            textArea.setPrefWidth(560);
+            textArea.setEditable(false);
+            textArea.setWrapText(true);
+
+            vbox.getChildren().addAll(senderLabel, textArea);
+            VBox.setVgrow(textArea, Priority.NEVER);
+
+        }
+        @Override
+        protected void updateItem(Message item, boolean empty) {
+            super.updateItem(item, empty);
+            setText(null);  // No text in label of super class
+            if (empty) {
+                lastItem = null;
+                setGraphic(null);
+            } else {
+                senderLabel.setFont(new Font(19));
+                Text text = new Text(item.getText());
+                text.setFont(textArea.getFont());
+//                text.setFont(new Font(15));
+                //TODO change the timestamp to show the proper datetime
+                Text timestamp = new Text("\n"+item.getTimestamp());
+                timestamp.setFont(textArea.getFont());
+//                timestamp.setFont(new Font(13));
+
+                double padding = 20 ;
+                textArea.setMaxHeight(text.getLayoutBounds().getHeight()+5+ timestamp.getLayoutBounds().getHeight());
+                textArea.setMaxWidth(Math.max(text.getLayoutBounds().getWidth(), timestamp.getLayoutBounds().getWidth())+padding);
+                textArea.setText(text.getText() + timestamp.getText());
+
+                senderLabel.setText(item.getSender());
+                setGraphic(vbox);
+            }
+        }
     }
 
 

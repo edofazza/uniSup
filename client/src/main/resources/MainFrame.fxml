@@ -7,8 +7,6 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.FlowPane?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
 <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="400.0" minWidth="700.0" prefHeight="600.0" prefWidth="950.0" style="-fx-background-color: orange;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.dii.dsmt.unisup.controller.MainFrameController">
@@ -19,71 +17,74 @@
                <center>
                   <ListView id="contactList" fx:id="contactList" fixedCellSize="50.0" prefHeight="200.0" prefWidth="200.0" stylesheets="@listview.css" BorderPane.alignment="CENTER" />
                </center></BorderPane>
-            <BorderPane maxWidth="1.7976931348623157E308" minWidth="350.0" style="-fx-background-color: White;">
+            <BorderPane minWidth="450.0" style="-fx-background-color: White;">
                <center>
-                  <FlowPane minWidth="680.0" BorderPane.alignment="CENTER">
-                     <children>
-                        <ListView id="historyList" fx:id="historyList" fixedCellSize="50.0" minWidth="600.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="347.0" prefWidth="597.0" stylesheets="@listview.css">
-                           <FlowPane.margin>
-                              <Insets bottom="10.0" left="50.0" right="50.0" top="20.0" />
-                           </FlowPane.margin>
+                  <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                     <center>
+                        <ListView id="historyList" fx:id="historyList" fixedCellSize="0.0" prefHeight="347.0" prefWidth="597.0" stylesheets="@listview.css" BorderPane.alignment="CENTER">
+                           <BorderPane.margin>
+                              <Insets bottom="20.0" left="20.0" right="20.0" />
+                           </BorderPane.margin>
                         </ListView>
-                     </children>
-                     <BorderPane.margin>
-                        <Insets />
-                     </BorderPane.margin>
-                  </FlowPane>
+                     </center>
+                  </BorderPane>
                </center>
                <bottom>
-                  <FlowPane prefHeight="143.0" prefWidth="640.0" BorderPane.alignment="CENTER">
-                     <children>
-                        <Pane prefHeight="105.0" prefWidth="602.0">
-                           <FlowPane.margin>
-                              <Insets left="50.0" top="20.0" />
-                           </FlowPane.margin>
-                           <children>
-                              <TextArea fx:id="messageTextArea" layoutX="6.0" prefHeight="100.0" prefWidth="485.0" promptText="Write a message..." wrapText="true" />
-                              <Button fx:id="sendBtn" layoutX="534.0" layoutY="32.0" mnemonicParsing="false" stylesheets="@button.css" text="Send">
-                                 <font>
-                                    <Font size="19.0" />
-                                 </font>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </Button>
-                           </children>
-                        </Pane>
-                     </children>
-                  </FlowPane>
+                  <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                     <center>
+                        <TextArea fx:id="messageTextArea" prefHeight="100.0" prefWidth="485.0" promptText="Write a message..." wrapText="true" BorderPane.alignment="CENTER">
+                           <BorderPane.margin>
+                              <Insets bottom="40.0" left="20.0" right="20.0" />
+                           </BorderPane.margin>
+                        </TextArea>
+                     </center>
+                     <right>
+                        <Button fx:id="sendBtn" mnemonicParsing="false" stylesheets="@button.css" text="Send" BorderPane.alignment="CENTER">
+                           <font>
+                              <Font size="19.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <BorderPane.margin>
+                              <Insets bottom="40.0" right="20.0" />
+                           </BorderPane.margin>
+                        </Button>
+                     </right>
+                  </BorderPane>
                </bottom>
             </BorderPane>
          </items>
       </SplitPane>
    </center>
    <top>
-      <FlowPane prefHeight="73.0" prefWidth="950.0" style="-fx-background-color: White;" BorderPane.alignment="CENTER">
-         <children>
-            <Pane prefHeight="74.0" prefWidth="898.0" style="-fx-background-color: White;">
-               <children>
-                  <Button fx:id="newMessageBtn" layoutX="14.0" layoutY="14.0" stylesheets="@button.css" text="New Message">
-                     <font>
-                        <Font size="19.0" />
-                     </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </Button>
-                  <Button fx:id="logoutBtn" layoutX="812.0" layoutY="24.0" mnemonicParsing="false" stylesheets="@button.css" text="Logout">
-                     <font>
-                        <Font size="19.0" />
-                     </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </Button>
-               </children>
-            </Pane>
-         </children>
-      </FlowPane>
+      <BorderPane prefHeight="81.0" prefWidth="950.0" style="-fx-background-color: White;" BorderPane.alignment="CENTER">
+         <left>
+            <Button fx:id="newMessageBtn" stylesheets="@button.css" text="New Message" BorderPane.alignment="CENTER">
+               <font>
+                  <Font size="19.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <BorderPane.margin>
+                  <Insets left="50.0" />
+               </BorderPane.margin>
+            </Button>
+         </left>
+         <right>
+            <Button fx:id="logoutBtn" mnemonicParsing="false" stylesheets="@button.css" text="Logout" BorderPane.alignment="CENTER">
+               <font>
+                  <Font size="19.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <BorderPane.margin>
+                  <Insets right="50.0" />
+               </BorderPane.margin>
+            </Button>
+         </right>
+      </BorderPane>
    </top>
 </BorderPane>
