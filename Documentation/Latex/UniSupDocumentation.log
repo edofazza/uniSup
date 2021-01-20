@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2021.1.15)  20 JAN 2021 19:19
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2021.1.15)  20 JAN 2021 20:50
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -666,19 +666,25 @@ Overfull \hbox (20.82375pt too wide) in paragraph at lines 75--76
  []
 
 [6]
-<img/rabbitMQ.png, id=178, 442.2924pt x 210.5466pt>
+LaTeX Font Info:    Trying to load font information for OMS+cmr on input line 1
+11.
+ (/usr/local/texlive/2020/texmf-dist/tex/latex/base/omscmr.fd
+File: omscmr.fd 2019/12/16 v2.5j Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/it' in size <10.95> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 111.
+<img/rabbitMQ.png, id=189, 442.2924pt x 210.5466pt>
 File: img/rabbitMQ.png Graphic file (type png)
 <use img/rabbitMQ.png>
-Package pdftex.def Info: img/rabbitMQ.png  used on input line 103.
+Package pdftex.def Info: img/rabbitMQ.png  used on input line 119.
 (pdftex.def)             Requested size: 452.9679pt x 215.63174pt.
- [7 <./img/rabbitMQ.png>]
-(/usr/local/texlive/2020/texmf-dist/tex/latex/listings/lstlang1.sty
+ [7 <./img/rabbitMQ.png>] (/usr/local/texlive/2020/texmf-dist/tex/latex/listing
+s/lstlang1.sty
 File: lstlang1.sty 2020/03/24 1.8d listings language file
 )
 LaTeX Font Info:    Trying to load font information for TS1+cmtt on input line 
-131.
-
-(/usr/local/texlive/2020/texmf-dist/tex/latex/base/ts1cmtt.fd
+147.
+ (/usr/local/texlive/2020/texmf-dist/tex/latex/base/ts1cmtt.fd
 File: ts1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )) [8]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 96.
@@ -693,13 +699,13 @@ Package rerunfilecheck Info: File `UniSupDocumentation.out' has not changed.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 96.
  ) 
 Here is how much of TeX's memory you used:
- 12400 strings out of 480608
- 187190 string characters out of 5903630
- 717322 words of memory out of 5000000
- 27992 multiletter control sequences out of 15000+600000
+ 12443 strings out of 480608
+ 187861 string characters out of 5903630
+ 767309 words of memory out of 5000000
+ 28017 multiletter control sequences out of 15000+600000
  539904 words of font info for 50 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 41i,12n,46p,1054b,1483s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 41i,12n,46p,1054b,1914s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2020/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc
 }</usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb>
 </usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><
@@ -712,10 +718,10 @@ cal/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/loc
 al/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb></usr/local
 /texlive/2020/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb></usr/local/t
 exlive/2020/texmf-dist/fonts/type1/public/cm-super/sftt0900.pfb>
-Output written on UniSupDocumentation.pdf (9 pages, 332093 bytes).
+Output written on UniSupDocumentation.pdf (9 pages, 335668 bytes).
 PDF statistics:
- 251 PDF objects out of 1000 (max. 8388607)
- 219 compressed objects within 3 object streams
- 58 named destinations out of 1000 (max. 500000)
+ 270 PDF objects out of 1000 (max. 8388607)
+ 238 compressed objects within 3 object streams
+ 73 named destinations out of 1000 (max. 500000)
  184 words of extra memory for PDF output out of 10000 (max. 10000000)
 
