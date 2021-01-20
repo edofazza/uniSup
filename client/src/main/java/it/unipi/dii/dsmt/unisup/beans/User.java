@@ -1,8 +1,5 @@
 package it.unipi.dii.dsmt.unisup.beans;
 
-import it.unipi.dii.dsmt.unisup.userinterface.javafxextensions.panes.scrollpanes.ChatScrollPane;
-import it.unipi.dii.dsmt.unisup.userinterface.javafxextensions.panes.scrollpanes.ContactUserPanes;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -42,7 +39,7 @@ public class User {
         this.password = password;
     }
 
-    public void insertMessage(Message m) {
+    public Chat insertMessage(Message m) {
         boolean chatAlreadyPresent = false;
 
         String contact = m.getReceiver().equals(username) ? m.getSender() : m.getReceiver();
@@ -61,8 +58,8 @@ public class User {
         if (!chatAlreadyPresent) {
             List<Message> list = new ArrayList<>();
             list.add(m);
-            Chat newChat = new Chat(contact, list);
-            chatList.add(newChat);
+            chat = new Chat(contact, list);
+            chatList.add(chat);
         } else
             chat.addMessageToHistory(m);
 
@@ -70,6 +67,7 @@ public class User {
         //ContactUserPanes.insertContacts();
         //ChatScrollPane.addChat(ChatScrollPane.getChat());
         needToUpdate = true;
+        return chat;
     }
 
     public boolean userAlreadyPresent(String contact) {

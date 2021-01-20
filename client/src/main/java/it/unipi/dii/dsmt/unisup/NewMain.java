@@ -107,7 +107,7 @@ public class NewMain extends Application {
 
         @Override
         public void run() {
-            Runnable updater = new ListenerTaskJavaFx();
+            Runnable updater;
 
             while (true) {
                 MessageGateway messageGateway = MessageGateway.getInstance();
@@ -118,7 +118,9 @@ public class NewMain extends Application {
                 if (userLogged == null)
                     return;
 
-                userLogged.insertMessage(m); //also updates the Chat model
+
+                Chat modifiedChat = userLogged.insertMessage(m); //also updates the Chat model
+                updater = new ListenerTaskJavaFx(modifiedChat);
                 Platform.runLater(updater);
             }
         }
@@ -126,6 +128,11 @@ public class NewMain extends Application {
 
 
     static class ListenerTaskJavaFx implements Runnable {
+        private Chat modifiedChat;
+
+        ListenerTaskJavaFx(Chat c){
+            this.modifiedChat=c;
+        }
 
         @Override
         public void run(){
