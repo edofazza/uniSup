@@ -169,6 +169,10 @@ public class NewMain extends Application {
                 histObsList.addAll(modifiedChat.getHistory());
                 historyList.setItems(histObsList);
             }
+            else{
+                //TODO change the background color of the first element of the contact ListView
+            }
+
         }
     }
 }
