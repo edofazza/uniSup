@@ -1,7 +1,8 @@
 package it.unipi.dii.dsmt.unisup.beans;
 
-import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Message {
@@ -66,7 +67,8 @@ public class Message {
     }
 
     public String getFormattedTimestamp(){
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm a");
-        return sdf.format(this.timestamp);
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("dd-MM-yyyy hh:mm a")
+                .withZone(ZoneId.systemDefault());
+        return df.format(timestamp);
     }
 }
