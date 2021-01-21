@@ -15,7 +15,7 @@
          <items>
             <BorderPane maxWidth="250.0" minWidth="150.0" style="-fx-background-color: White;">
                <center>
-                  <ListView id="contactList" fx:id="contactList" fixedCellSize="50.0" prefHeight="200.0" prefWidth="200.0" stylesheets="@listview.css" BorderPane.alignment="CENTER" />
+                  <ListView id="contactList" fx:id="contactList" fixedCellSize="0.0" prefHeight="200.0" prefWidth="200.0" stylesheets="@listview.css" BorderPane.alignment="CENTER" />
                </center></BorderPane>
             <BorderPane minWidth="450.0" style="-fx-background-color: White;">
                <center>
@@ -32,7 +32,7 @@
                <bottom>
                   <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                      <center>
-                        <TextArea fx:id="messageTextArea" prefHeight="100.0" prefWidth="485.0" promptText="Write a message..." wrapText="true" BorderPane.alignment="CENTER">
+                        <TextArea fx:id="messageTextArea" prefHeight="100.0" prefWidth="485.0" promptText="Write a message..." style="-fx-control-inner-background: #caffe3;" wrapText="true" BorderPane.alignment="CENTER">
                            <BorderPane.margin>
                               <Insets bottom="40.0" left="20.0" right="20.0" />
                            </BorderPane.margin>

@@ -2,20 +2,26 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.TextFlow?>
 
 <VBox maxHeight="1.7976931348623157E308" minWidth="600.0" nodeOrientation="LEFT_TO_RIGHT" prefWidth="597.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label prefHeight="33.0" prefWidth="560.0" text="Sender:">
-         <VBox.margin>
-            <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
-         </VBox.margin>
-         <font>
-            <Font size="19.0" />
-         </font>
-      </Label>
+      <BorderPane prefHeight="46.0" prefWidth="600.0">
+         <center>
+            <Label prefHeight="33.0" prefWidth="412.0" text="Sender:" BorderPane.alignment="CENTER">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+         </center>
+         <right>
+            <Circle fill="#1f93ff" radius="23.0" stroke="BLACK" strokeType="INSIDE" BorderPane.alignment="CENTER" />
+         </right>
+      </BorderPane>
       <TextFlow id="text_area" fx:id="text_area" prefHeight="200.0" prefWidth="200.0" stylesheets="@listview.css" />
       <Label alignment="CENTER_RIGHT" prefHeight="21.0" prefWidth="129.0" text="Date time" textAlignment="CENTER">
          <VBox.margin>

@@ -9,6 +9,7 @@ import java.util.*;
 public class Chat {
     private final String usernameContact;
     private List<Message> history;
+    private int unreadMessages = 0;
 
     public Chat(String usernameContact, List<Message> history) {
         this.usernameContact = usernameContact;
@@ -35,6 +36,20 @@ public class Chat {
         history.add(m);
     }
 
+    public int getUnreadMessages() {
+        return unreadMessages;
+    }
+
+    public void increaseUnreadMessages(int unreadMessages) {
+        this.unreadMessages += unreadMessages;
+    }
+    public void readAllMessages() {
+        this.unreadMessages = 0;
+    }
+
+    public boolean hasUnreadMessages(){
+        return this.unreadMessages > 0;
+    }
     @Override
     public String toString() {
         return  usernameContact;

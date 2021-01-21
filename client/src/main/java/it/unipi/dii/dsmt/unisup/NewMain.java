@@ -123,6 +123,7 @@ public class NewMain extends Application {
 
 
                 Chat modifiedChat = userLogged.insertMessage(m); //also updates the Chat model
+                modifiedChat.increaseUnreadMessages(1);
                 updater = new ListenerTaskJavaFx(m, modifiedChat);
                 Platform.runLater(updater);
             }
@@ -156,24 +157,41 @@ public class NewMain extends Application {
             contactObsList.clear();
             contactObsList.addAll(new ChatSorter(NewMain.getUserLogged().getChatList()).sort());
             contactList.setItems(contactObsList);
-            if(selected==null)
-                selected=contactList.getItems().get(0);
-            //changeColor(contactList, modifiedChat, selected);
-            System.out.println(selected.getUsernameContact());
-            int i=0;
-            for(; i<contactObsList.size(); i++){
-                if(contactList.getItems().get(i).getUsernameContact().equals(selected.getUsernameContact())){
-                    contactList.getSelectionModel().select(i);
-                    contactList.getFocusModel().focus(i);
-                    break;
+            if (selected != null){
+                if (selected.getUsernameContact().equals(modifiedChat.getUsernameContact())) {
+                    histObsList.clear();
+                    histObsList.addAll(modifiedChat.getHistory());
+                    historyList.setItems(histObsList);
+                    historyList.scrollTo(histObsList.get(histObsList.size() - 1));
+                    contactList.getSelectionModel().select(0);
+                    contactList.getFocusModel().focus(0);
+                }else{
+                    int index = contactObsList.indexOf(selected);
+                    contactList.getSelectionModel().select(selected);
+                    contactList.getFocusModel().focus(index);
                 }
             }
-            System.out.println(i);
-            if(i ==0) {
-                histObsList.clear();
-                histObsList.addAll(modifiedChat.getHistory());
-                historyList.setItems(histObsList);
+            else{
+
             }
+//            if(selected==null)
+//                selected=contactList.getItems().get(0);
+//            //changeColor(contactList, modifiedChat, selected);
+//            System.out.println(selected.getUsernameContact());
+//            int i=0;
+//            for(; i<contactObsList.size(); i++){
+//                if(contactList.getItems().get(i).getUsernameContact().equals(selected.getUsernameContact())){
+//                    contactList.getSelectionModel().select(i);
+//                    contactList.getFocusModel().focus(i);
+//                    break;
+//                }
+//            }
+//            System.out.println(i);
+//            if(i ==0) {
+//                histObsList.clear();
+//                histObsList.addAll(modifiedChat.getHistory());
+//                historyList.setItems(histObsList);
+//            }
         }
 
 
