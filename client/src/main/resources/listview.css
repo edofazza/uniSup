@@ -1,8 +1,11 @@
 #historyList .list-cell {
     -fx-alignment: center-right;
     -fx-font-size: 15px;
+    -fx-background-color: #caffe3;
+    -fx-text-fill: black;
 }
 
 #contactList .list-cell {
     -fx-font-size: 20px;
+
 }

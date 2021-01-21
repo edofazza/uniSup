@@ -156,15 +156,17 @@ public class NewMain extends Application {
             contactObsList.clear();
             contactObsList.addAll(new ChatSorter(NewMain.getUserLogged().getChatList()).sort());
             contactList.setItems(contactObsList);
-            if(selected != null){
+            if(selected != null && selected.getUsernameContact().equals(modifiedChat.getUsernameContact())){
+                //check if the selected chat (before receiving) is equal to the chat which receives new message
+                //then update it and keep it selected
                 histObsList.clear();
                 histObsList.addAll(modifiedChat.getHistory());
                 historyList.setItems(histObsList);
                 contactList.getSelectionModel().select(0);
                 contactList.getFocusModel().focus(0);
+            // otherwise
             } else{
                 //TODO change the background color of the first element of the contact ListView
-
             }
 
 //            if(selected==null)

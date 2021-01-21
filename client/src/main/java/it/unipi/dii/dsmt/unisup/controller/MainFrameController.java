@@ -161,7 +161,6 @@ public class MainFrameController {
         VBox vbox = new VBox();
         Label senderLabel = new Label();
         TextArea textArea = new TextArea();
-        TextFlow textFlow = new TextFlow();
         Chat lastItem;
         double oldHeight = 0;
         public MessageCell() {
@@ -174,7 +173,7 @@ public class MainFrameController {
             textArea.setPrefWidth(560);
             textArea.setEditable(false);
             textArea.setWrapText(true);
-
+            textArea.setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
             vbox.getChildren().addAll(senderLabel, textArea);
             VBox.setVgrow(textArea, Priority.NEVER);
 
@@ -197,11 +196,20 @@ public class MainFrameController {
 //                timestamp.setFont(new Font(13));
 
                 double padding = 20 ;
+
                 textArea.setMaxHeight(text.getLayoutBounds().getHeight()+5+ timestamp.getLayoutBounds().getHeight());
                 textArea.setMaxWidth(Math.max(text.getLayoutBounds().getWidth(), timestamp.getLayoutBounds().getWidth())+padding);
                 textArea.setText(text.getText() + timestamp.getText());
 
                 senderLabel.setText(item.getSender());
+                if(NewMain.getUserLogged().getUsername().equals(item.getSender())) {
+                    vbox.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+
+                    textArea.setStyle("-fx-control-inner-background:#73e1f3;");
+
+//                    -fx-background-color: transparent; -fx-border-radius: 10 10 10 10;-fx-background-radius: 20 20 20 20;
+//                    #79d0f8
+                }
                 setGraphic(vbox);
             }
         }
