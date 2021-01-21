@@ -1,5 +1,6 @@
 package it.unipi.dii.dsmt.unisup.beans;
 
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -62,5 +63,10 @@ public class Message {
     @Override
     public String toString() {
         return  sender+"\n" + text + "\t" + timestamp;
+    }
+
+    public String getFormattedTimestamp(){
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm a");
+        return sdf.format(this.timestamp);
     }
 }
