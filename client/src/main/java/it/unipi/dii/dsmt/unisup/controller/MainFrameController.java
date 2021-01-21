@@ -83,8 +83,6 @@ public class MainFrameController {
         contactList.setOnMouseClicked(e ->{
             if (contactList.getItems().size() == 0) return;
             selectedChat = contactList.getSelectionModel().getSelectedItem();
-            if(selectedChat==null)
-                selectedChat = contactList.getItems().get(0);
             //TODO change the background color to white(if there was a new message, it became colored)
             updateAllMessageHistoryView();
         });
@@ -140,7 +138,6 @@ public class MainFrameController {
     private void updateAllMessageHistoryView(){
         Platform.runLater(()->{
             histObsList.clear();
-
             histObsList.addAll(selectedChat.getHistory());
             historyList.setItems(histObsList);
         });
