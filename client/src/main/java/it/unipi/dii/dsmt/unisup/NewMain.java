@@ -158,13 +158,16 @@ public class NewMain extends Application {
             contactList.setItems(contactObsList);
             if(selected==null)
                 selected=contactList.getItems().get(0);
+            System.out.println(selected.getUsernameContact());
             int i=0;
             for(; i<contactObsList.size(); i++){
                 if(contactList.getItems().get(i).getUsernameContact().equals(selected.getUsernameContact())){
                     contactList.getSelectionModel().select(i);
                     contactList.getFocusModel().focus(i);
+                    break;
                 }
             }
+            System.out.println(i);
             if(i ==0) {
                 histObsList.clear();
                 histObsList.addAll(modifiedChat.getHistory());
