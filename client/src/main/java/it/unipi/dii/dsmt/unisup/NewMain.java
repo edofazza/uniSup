@@ -153,11 +153,9 @@ public class NewMain extends Application {
             ObservableList<Message> histObsList = Mediator.getHistObsList();
             ListView<Message> historyList = Mediator.getHistoryList();
             Chat selected = contactList.getSelectionModel().getSelectedItem();
-            System.out.println("selected:"+contactList.getSelectionModel().getSelectedItem());
             contactObsList.clear();
             contactObsList.addAll(new ChatSorter(NewMain.getUserLogged().getChatList()).sort());
             contactList.setItems(contactObsList);
-
             if(selected != null){
                 histObsList.clear();
                 histObsList.addAll(modifiedChat.getHistory());
@@ -168,6 +166,25 @@ public class NewMain extends Application {
                 //TODO change the background color of the first element of the contact ListView
 
             }
+
+//            if(selected==null)
+//                selected=contactList.getItems().get(0);
+//            int i=0;
+//            for(; i<contactObsList.size(); i++){
+//                if(contactList.getItems().get(i).getUsernameContact().equals(selected.getUsernameContact())){
+//                    contactList.getSelectionModel().select(i);
+//                    contactList.getFocusModel().focus(i);
+//                }
+//            }
+//            if(i ==0) {
+//                histObsList.clear();
+//                histObsList.addAll(modifiedChat.getHistory());
+//                historyList.setItems(histObsList);
+//                contactList.getSelectionModel().select(0);
+//                contactList.getFocusModel().focus(0);
+//            } else{
+//
+//            }
 
         }
     }

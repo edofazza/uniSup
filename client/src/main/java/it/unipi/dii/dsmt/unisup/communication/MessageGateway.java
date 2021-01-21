@@ -35,7 +35,6 @@ public class MessageGateway extends Gateway implements Communicator{
                     String text = ((OtpErlangString)incomingMessage.elementAt(3)).stringValue();
                     Instant timestamp = Instant.parse (((OtpErlangString)incomingMessage.elementAt(4)).stringValue());
                     Message m = new Message(sender, receiver, text, timestamp);
-                    System.out.println(m.getSender() + " " + m.getReceiver() + " " + m.getTimestamp() + "\n" + m.getText());
                     return m;
                 }
                 else
