@@ -27,9 +27,20 @@ public class LoginController {
     }
 
     private void setActionCommands() {
+        usernameField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.equals(""))
+                usernameField.setText(newValue);
+            else if (!newValue.matches("^[a-zA-Z_0-9]+$")) {
+                usernameField.setText(oldValue);
+            }
+        });
+
         loginBtn.setOnAction(e ->{
             String username = usernameField.getText();
             String password = passwordField.getText();
+
+            if (username.equals("") || password.equals(""))
+                PopUp.showPopUpMessage("Login Error", "Username/Password must be filled", "", Alert.AlertType.ERROR);
             
             User user = new User(username, password); //We instantiate a new User Object for the current user
             Authenticator au = AuthGateway.getInstance();
@@ -48,6 +59,7 @@ public class LoginController {
                 PopUp.showPopUpMessage("Login Error", "The username/password is wrong!", "", Alert.AlertType.ERROR);
             }
         });
+
         registerBtn.setOnAction(e ->{
             String username = usernameField.getText();
             String password = passwordField.getText();
