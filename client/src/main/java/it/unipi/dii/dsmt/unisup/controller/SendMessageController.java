@@ -63,7 +63,10 @@ public class SendMessageController {
 
             Message message = new Message(senderUsername, receiverUsername, textMessage);
             MessageGateway messageGateway = MessageGateway.getInstance();
-            messageGateway.sendMessage(message, TIMEOUT);
+            if (!messageGateway.sendMessage(message, TIMEOUT)) {
+                PopUp.showPopUpMessage("Send Error", "The receiver doesn't exist", "", Alert.AlertType.ERROR);
+                return;
+            }
 
             chat.addMessageToHistory(message);
             NewMain.getUserLogged().addChat(chat);
