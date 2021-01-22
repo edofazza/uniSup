@@ -57,7 +57,6 @@ public class HistorySorter {
             messages.sort(Comparator.comparing(Message::getTimestamp));
             //messages.sort((o1, o2) -> o1.getTimestamp().compareTo(o2.getTimestamp()));
             Chat c = new Chat(username, messages);
-            LastMessageTracker.setLastTimestamp(c);
             return c;
         }
     }

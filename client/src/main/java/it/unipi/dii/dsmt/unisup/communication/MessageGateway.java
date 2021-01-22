@@ -21,8 +21,6 @@ public class MessageGateway extends Gateway implements Communicator{
     public boolean sendMessage(Message m, int timeout) {
         Callable<Boolean> toRun = new SendTask(m, timeout);
         boolean result = (Boolean)addToExecutor(toRun);
-        if(result)
-            LastMessageTracker.setLastTimestamp(m);
         return result;
     }
 
@@ -38,7 +36,6 @@ public class MessageGateway extends Gateway implements Communicator{
                     String text = ((OtpErlangString)incomingMessage.elementAt(3)).stringValue();
                     Instant timestamp = Instant.parse (((OtpErlangString)incomingMessage.elementAt(4)).stringValue());
                     Message m = new Message(sender, receiver, text, timestamp);
-                    LastMessageTracker.setLastTimestamp(sender, timestamp);
                     System.out.println("received " + m.toString());
                     return m;
                 }

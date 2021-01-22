@@ -7,38 +7,20 @@ import it.unipi.dii.dsmt.unisup.communication.MessageGateway;
 import it.unipi.dii.dsmt.unisup.userinterface.ContactCell;
 import it.unipi.dii.dsmt.unisup.userinterface.MessageCell;
 import it.unipi.dii.dsmt.unisup.utils.ChatSorter;
+import it.unipi.dii.dsmt.unisup.utils.LastMessageTracker;
 import it.unipi.dii.dsmt.unisup.utils.Mediator;
 import javafx.application.Platform;
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.geometry.Bounds;
-import javafx.geometry.Insets;
-import javafx.geometry.NodeOrientation;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
-import javafx.scene.text.TextFlow;
+import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TextArea;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 
-import javax.swing.*;
 import java.io.IOException;
 
 
@@ -94,6 +76,7 @@ public class MainFrameController {
                 selectedChat.readAllMessages();
                 updateContactListView();
             }
+            LastMessageTracker.setLastTimestamp(selectedChat);
             updateAllMessageHistoryView();
         });
 
