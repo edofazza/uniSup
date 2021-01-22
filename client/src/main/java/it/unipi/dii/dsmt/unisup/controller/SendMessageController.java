@@ -7,18 +7,14 @@ import it.unipi.dii.dsmt.unisup.beans.Message;
 import it.unipi.dii.dsmt.unisup.communication.MessageGateway;
 import it.unipi.dii.dsmt.unisup.userinterface.PopUp;
 import it.unipi.dii.dsmt.unisup.utils.ChatSorter;
+import it.unipi.dii.dsmt.unisup.utils.LastMessageTracker;
 import it.unipi.dii.dsmt.unisup.utils.Mediator;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-
-import java.util.Set;
 
 public class SendMessageController {
     @FXML
@@ -70,6 +66,7 @@ public class SendMessageController {
 
             chat.addMessageToHistory(message);
             NewMain.getUserLogged().addChat(chat);
+            LastMessageTracker.setLastTimestamp(chat);
             handleCloseButtonAction(new ActionEvent());
             //
             updateContactListView(message);

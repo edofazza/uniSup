@@ -104,6 +104,7 @@ public class MainFrameController {
                     ); //it actually sends the message
 
             selectedChat.addMessageToHistory(message); //adds the message to the chat model
+            LastMessageTracker.setLastTimestamp(selectedChat);
 
             messageTextArea.clear();
             updateAllContactListView();
