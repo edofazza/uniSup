@@ -87,7 +87,7 @@ handle_call({push, {Msg_Id, Sender_Username, Receiver_Username, Text, Timestamp}
   case lists:keyfind(Receiver_Username, 2, Channels) of
     false ->
       {reply, pushed, {Connections, Channels, Consumers}};
-    true ->
+    _ ->
       Map = create_map({Msg_Id, Sender_Username, Receiver_Username, Text, Timestamp}),
       Payload = jsx:encode(Map),
       {New_Connections, Connection} = get_connection(Connections),
