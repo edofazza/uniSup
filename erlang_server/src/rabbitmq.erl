@@ -83,19 +83,25 @@ handle_call({delete_user, Receiver}, _From, {Connections, Channels, Consumers}) 
 
 %% @private
 handle_call({push, {Msg_Id, Sender_Username, Receiver_Username, Text, Timestamp}}, _From, {Connections, Channels, Consumers}) ->
-  Map = create_map({Msg_Id, Sender_Username, Receiver_Username, Text, Timestamp}),
-  Payload = jsx:encode(Map),
-  {New_Connections, Connection} = get_connection(Connections),
-  {ok, Channel} = amqp_connection:open_channel(Connection),
-  create_queue(Channel, Receiver_Username),
-  %% Queue name is equal to the Receiver which is the username of the Receiver
-  Publish = #'basic.publish'{exchange = <<>>, routing_key = list_to_binary(Receiver_Username)},
-  Props = #'P_basic'{delivery_mode = 2}, %% persistent message
-  %% the inserted message in rabbitmq has the following format
-  %% {"Msg_Id": "*" , "Sender": "*", "Receiver": "*", "Text": "*", "Timestamp": "*"}
-  Msg = #amqp_msg{props = Props, payload = Payload},
-  amqp_channel:cast(Channel, Publish, Msg),
-  {reply, pushed, {New_Connections, Channels, Consumers}}.
+  %%check if the receiver is online or not
+  case lists:keyfind(Receiver_Username, 2, Channels) of
+    false ->
+      {reply, pushed, {Connections, Channels, Consumers}};
+    true ->
+      Map = create_map({Msg_Id, Sender_Username, Receiver_Username, Text, Timestamp}),
+      Payload = jsx:encode(Map),
+      {New_Connections, Connection} = get_connection(Connections),
+      {ok, Channel} = amqp_connection:open_channel(Connection),
+      create_queue(Channel, Receiver_Username),
+      %% Queue name is equal to the Receiver which is the username of the Receiver
+      Publish = #'basic.publish'{exchange = <<>>, routing_key = list_to_binary(Receiver_Username)},
+      Props = #'P_basic'{delivery_mode = 2}, %% persistent message
+      %% the inserted message in rabbitmq has the following format
+      %% {"Msg_Id": "*" , "Sender": "*", "Receiver": "*", "Text": "*", "Timestamp": "*"}
+      Msg = #amqp_msg{props = Props, payload = Payload},
+      amqp_channel:cast(Channel, Publish, Msg),
+      {reply, pushed, {New_Connections, Channels, Consumers}}
+  end.
 
 %% @private
 handle_cast(stop, {Connections, _Channels, Consumers}) ->

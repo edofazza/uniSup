@@ -18,9 +18,7 @@ public class ContactCell extends ListCell<Chat> {
     VBox vbox = new VBox();
     Label senderLabel = new Label();
     Label lastMsgLabel = new Label();
-    Label unreadCountLabel = new Label();
     Chat lastItem;
-    BorderPane borderPane = new BorderPane();
     HBox hBox = new HBox();
     StackPane stackPane = new StackPane();
     Circle circle = new Circle();
@@ -29,8 +27,6 @@ public class ContactCell extends ListCell<Chat> {
         super();
         senderLabel.setPrefWidth(150);
         senderLabel.setPadding(new Insets(10, 10, 5, 10));
-
-
         circle.setFill(Color.DARKGRAY);
         circle.setRadius(23.0);
         circle.setStroke(Color.DARKGRAY);
@@ -41,15 +37,6 @@ public class ContactCell extends ListCell<Chat> {
         circleText.setFill(Color.WHITE);
         circleText.setBoundsType(TextBoundsType.VISUAL);
         stackPane.getChildren().addAll(circle, circleText);
-
-        unreadCountLabel.setAlignment(Pos.CENTER);
-        unreadCountLabel.setPrefWidth(75);
-        unreadCountLabel.setPrefHeight(25);
-        unreadCountLabel.setPadding(new Insets(20, 20, 20, 20));
-        unreadCountLabel.setFont(new Font(14));
-        unreadCountLabel.setStyle("-fx-border-color: #73fce1;-fx-border-radius: 30px");
-        unreadCountLabel.setText("999+");
-
 
         hBox.getChildren().addAll(senderLabel, stackPane);
 
@@ -65,14 +52,13 @@ public class ContactCell extends ListCell<Chat> {
     @Override
     protected void updateItem(Chat item, boolean empty) {
         super.updateItem(item, empty);
-        setText(null);  // No text in label of super class
+
         if (empty) {
             lastItem = null;
             senderLabel.setText("");
             lastMsgLabel.setText("");
             circleText.setText("");
             circle.setVisible(false);
-//            unreadCountLabel.setText("");
             setGraphic(null);
         } else {
             Text usernameContact = new Text(item.getUsernameContact());
@@ -85,15 +71,11 @@ public class ContactCell extends ListCell<Chat> {
             senderLabel.setText(usernameContact.getText());
             lastMsgLabel.setText(lastMsg.getText());
             if (item.getUnreadMessages() > 0) {
-//                unreadCountLabel.setText(item.getUnreadMessages()+"");
                 circleText.setText(item.getUnreadMessages()+"");
                 circle.setVisible(true);
-                vbox.setStyle("-fx-control-inner-background:#15ffe2;");
             }else{
-//                unreadCountLabel.setText("");
                 circleText.setText("");
                 circle.setVisible(false);
-                vbox.setStyle("-fx-control-inner-background:#ffffff;");
             }
             if(NewMain.getUserLogged().getUsername().equals(item.getHistory().get(item.getHistory().size() - 1).getSender())) {
                 lastMsgLabel.setText("You: "+lastMsgLabel.getText());
