@@ -120,8 +120,8 @@ public class AuthGateway extends Gateway implements Authenticator{
             }
             for(Map.Entry<String, ArrayList<Message>> entry : tree.entrySet()){
                 Chat c = new Chat(entry.getKey(), entry.getValue());
-                //System.out.println(c.getUsernameContact());
-                //c.getHistory().forEach((m) -> System.out.println(m.getMessageId() + m.getSender() + m.getReceiver() + m.getText() + m.getTimestamp()) );
+                System.out.println(c.getUsernameContact());
+                c.getHistory().forEach((m) -> System.out.println(m.getMessageId() + m.getSender() + m.getReceiver() + m.getText() + m.getTimestamp()) );
                 toReturn.add(c);
             }
             HistorySorter h = new HistorySorter(toReturn);
