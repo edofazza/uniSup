@@ -15,7 +15,7 @@ import java.util.Map;
 
 public class LastMessageTracker {
     private static Map<String, String> lastMessages=new HashMap<>();
-    private static String jsonFile = "lastMessages.json";
+    private static String jsonFile = "lastMessages" + NewMain.getUserLogged() + ".json";
 
     public static void fetchLastMessages(){
         try {

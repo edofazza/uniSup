@@ -5,6 +5,7 @@ import it.unipi.dii.dsmt.unisup.beans.Chat;
 import it.unipi.dii.dsmt.unisup.beans.Message;
 import it.unipi.dii.dsmt.unisup.beans.User;
 import it.unipi.dii.dsmt.unisup.utils.HistorySorter;
+import it.unipi.dii.dsmt.unisup.utils.LastMessageTracker;
 
 import java.time.Instant;
 import java.util.*;
@@ -47,6 +48,7 @@ public class AuthGateway extends Gateway implements Authenticator{
     public boolean logout(User u) {
         Callable<Boolean> toRun = new AuthGateway.LogoutTask(u);
         boolean result = (Boolean)addToExecutor(toRun);
+        LastMessageTracker.storeLastMessages();
         stopExecutor();
         return result;
     }
@@ -94,8 +96,9 @@ public class AuthGateway extends Gateway implements Authenticator{
             mbox.send(serverRegisteredName, serverNodeName, reqMessage);
 
             OtpErlangList response = (OtpErlangList)mbox.receive();
+            LastMessageTracker.fetchLastMessages();
             ArrayList<Chat> toReturn = new ArrayList<>();
-            TreeMap<String, ArrayList<Message>> tree = new TreeMap<>();
+            TreeMap<String, Chat> tree = new TreeMap<>();
             for(OtpErlangObject o: response.elements()){
                 OtpErlangTuple message = (OtpErlangTuple)o;
                 String sender = ((OtpErlangString)message.elementAt(0)).stringValue();
@@ -110,19 +113,22 @@ public class AuthGateway extends Gateway implements Authenticator{
                     key=sender;
                 else
                     continue;
-                ArrayList<Message> al;
-                if(tree.containsKey(key))
-                    al = tree.get(key);
+                Chat c;
+                if(tree.containsKey(key)){
+                    c = tree.get(key);
+                    if(LastMessageTracker.getLastTimestamp(c.getUsernameContact()).compareTo(m.getTimestamp()) < 0)
+                        c.increaseUnreadMessages(1);
+                }
+
                 else
-                    al = new ArrayList<>();
-                al.add(m);
-                tree.put(key, al);
+                    c = new Chat(key);
+                c.addMessageToHistory(m);
+                tree.put(key, c);
             }
-            for(Map.Entry<String, ArrayList<Message>> entry : tree.entrySet()){
-                Chat c = new Chat(entry.getKey(), entry.getValue());
-                System.out.println(c.getUsernameContact());
-                c.getHistory().forEach((m) -> System.out.println(m.getMessageId() + m.getSender() + m.getReceiver() + m.getText() + m.getTimestamp()) );
-                toReturn.add(c);
+            for(Map.Entry<String, Chat> entry : tree.entrySet()){
+                System.out.println(entry.getValue().getUsernameContact());
+                entry.getValue().getHistory().forEach((m) -> System.out.println(m.getMessageId() + m.getSender() + m.getReceiver() + m.getText() + m.getTimestamp()) );
+                toReturn.add(entry.getValue());
             }
             HistorySorter h = new HistorySorter(toReturn);
             return h.sort();
