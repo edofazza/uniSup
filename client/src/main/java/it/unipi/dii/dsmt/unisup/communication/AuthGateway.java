@@ -116,7 +116,7 @@ public class AuthGateway extends Gateway implements Authenticator{
                 Chat c;
                 if(tree.containsKey(key)){
                     c = tree.get(key);
-                    if(LastMessageTracker.getLastTimestamp(c.getUsernameContact()).compareTo(m.getTimestamp()) < 0)
+                    if(LastMessageTracker.getLastTimestamp(c.getUsernameContact())==null || LastMessageTracker.getLastTimestamp(c.getUsernameContact()).compareTo(m.getTimestamp()) < 0)
                         c.increaseUnreadMessages(1);
                 }
 

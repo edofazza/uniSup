@@ -15,11 +15,15 @@ import java.util.Map;
 
 public class LastMessageTracker {
     private static Map<String, String> lastMessages=new HashMap<>();
-    private static String jsonFile = "lastMessages" + NewMain.getUserLogged() + ".json";
+    private static String jsonFile = "lastMessages" + NewMain.getUserLogged().getUsername() + ".json";
 
     public static void fetchLastMessages(){
         try {
-            Map<String, String> result = new ObjectMapper().readValue(new File(jsonFile), HashMap.class);
+            File f = new File(jsonFile);
+            f.createNewFile();
+            if(f.length()==0)
+                return;
+            Map<String, String> result = new ObjectMapper().readValue(f, HashMap.class);
             lastMessages = result;
         }catch (IOException ioe){
             ioe.printStackTrace();
@@ -36,6 +40,9 @@ public class LastMessageTracker {
     }
 
     public static Instant getLastTimestamp(String contact){
+        String instantString = lastMessages.get(contact);
+        if(instantString==null || instantString.equals(""))
+            return null;
         return Instant.parse(lastMessages.get(contact));
     }
 
