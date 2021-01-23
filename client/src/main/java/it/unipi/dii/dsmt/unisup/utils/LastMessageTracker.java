@@ -19,6 +19,7 @@ public class LastMessageTracker {
 
     public static void fetchLastMessages(){
         try {
+            jsonFile = "lastMessages" + NewMain.getUserLogged().getUsername() + ".json";
             File f = new File(jsonFile);
             f.createNewFile();
             if(f.length()==0)
