@@ -15,11 +15,11 @@ import java.util.Map;
 
 public class LastMessageTracker {
     private static Map<String, String> lastMessages=new HashMap<>();
-    private static String jsonFile = "lastMessages" + NewMain.getUserLogged().getUsername() + ".json";
+    private static String jsonFile = "client/lastMessages" + NewMain.getUserLogged().getUsername() + ".json";
 
     public static void fetchLastMessages(){
         try {
-            jsonFile = "lastMessages" + NewMain.getUserLogged().getUsername() + ".json";
+            jsonFile = "client/lastMessages" + NewMain.getUserLogged().getUsername() + ".json";
             File f = new File(jsonFile);
             f.createNewFile();
             if(f.length()==0)
