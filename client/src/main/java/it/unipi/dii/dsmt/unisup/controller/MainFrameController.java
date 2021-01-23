@@ -52,6 +52,8 @@ public class MainFrameController {
         Mediator.setContactObsList(contactObsList);
         Mediator.setHistoryList(historyList);
         Mediator.setHistObsList(histObsList);
+        Mediator.setMainFrameMsgTextArea(messageTextArea);
+        Mediator.setMainFrameSendButton(sendBtn);
     }
     //example of loading data
     private void loadData() {

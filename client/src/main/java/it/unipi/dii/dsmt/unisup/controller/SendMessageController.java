@@ -76,6 +76,12 @@ public class SendMessageController {
             handleCloseButtonAction(new ActionEvent());
             //
             updateContactListView(message);
+            //
+
+            if (Mediator.getMainFrameSendButton().isDisabled()) {
+                Mediator.getMainFrameSendButton().setDisable(false);
+                Mediator.getMainFrameMsgTextArea().setDisable(false);
+            }
         }));
 
     }
