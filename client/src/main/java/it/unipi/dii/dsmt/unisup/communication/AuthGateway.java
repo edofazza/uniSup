@@ -116,7 +116,7 @@ public class AuthGateway extends Gateway implements Authenticator{
                 Chat c;
                 if(tree.containsKey(key)){
                     c = tree.get(key);
-                    if((LastMessageTracker.getLastTimestamp(c.getUsernameContact())==null) || (LastMessageTracker.getLastTimestamp(c.getUsernameContact()).compareTo(m.getTimestamp()) <= 0)) {
+                    if((LastMessageTracker.getLastTimestamp(c.getUsernameContact())==null) || (LastMessageTracker.getLastTimestamp(c.getUsernameContact()).compareTo(m.getTimestamp()) < 0)) {
                         c.increaseUnreadMessages(1);
                         System.out.println("new unread message on existing chat" + m.getMessageId());
                     }
@@ -124,7 +124,7 @@ public class AuthGateway extends Gateway implements Authenticator{
 
                 else{
                     c = new Chat(key);
-                    if((LastMessageTracker.getLastTimestamp(c.getUsernameContact())==null) || (LastMessageTracker.getLastTimestamp(c.getUsernameContact()).compareTo(m.getTimestamp()) <= 0)) {
+                    if((LastMessageTracker.getLastTimestamp(c.getUsernameContact())==null) || (LastMessageTracker.getLastTimestamp(c.getUsernameContact()).compareTo(m.getTimestamp()) < 0)) {
                         c.increaseUnreadMessages(1);
                         System.out.println("new unread message " + m.getMessageId());
                     }
