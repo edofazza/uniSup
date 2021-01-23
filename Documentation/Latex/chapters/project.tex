@@ -135,7 +135,50 @@ We run a process to handle each user request (sending or consuming). This proces
 In addition, after a certain amount of time (in our case it is thirty minutes), we refreshed the channels by deleting and creating another one. In practice, the heartbeat connection between  \textit{RabbitMQ}  and the server will determine to close the connection after not receiving any data for a certain period. Therefore, we must also check if the connection is dead, recreate the connection and channel again. 
 
 \subsection{Synchronization Management}
+In this chapter, we discuss the main synchronization problems that arise from our application, discussing and motivating the solutions we adopted to address concurrency.
+As we will explain in the next paragraphs, the general approach we chose is the usage of frameworks and other tools that provide efficient and automatic concurrency handling, instead of \textit{“reinventing wheel”}. When this approach was not possible or not so convenient, we addressed concurrency issues manually, always separating tasks from execution strategies. 
+
 \subsubsection{Client-Side}
+Every client can serve only a user at the time, so there is no need of concurrency between different users. However, different tasks on the same client are executed by different threads, and in particular:
+\begin{itemize}
+	\item The main thread, it only spawns the next thread
+	\item \textit{JavaFX Application thread} is in charge of listening for events and performing the actions specified by the relative controller. When an event occurs, this thread performs controller’s code, which means that it may send messages to the server, update the model and/or update the view. After the login is correctly performed by this thread, the next one is spawned: it will be interrupted when a new logout request is performed.
+	\item A listener thread repeatedly blocks itself waiting for a message to come. Every 5 seconds, if no message has been sent, it wakes up checking if it has received interruption request. If not, it blocks itself again. When a new message arrives, it updates the model and sends a request to the view for the update, then another iteration is performed. The relative pseudo-code is the following:
+\end{itemize}
+
+\begin{lstlisting}[language=java]
+while(true):
+	do:
+		M=receiveMessage(TIMEOUT);
+		If(interruptRequestReceived()):
+			Terminate;
+		endif
+	while(M==null);
+	updateModel(m);
+	requestForGuiUpdate(m);
+endloop
+\end{lstlisting}
+Since both the  \textit{JavaFX Application thread} and the listener thread can access the model and the \textbf{GUI}, a synchronization mechanism is required. On the other hand, the two threads contact the server through different mailboxes, so no sync is required at communication level (all the common data structures are final).
+For what concerns the model, it is pointless to make all the data structures synchronized, indeed:
+
+\begin{outline}
+	\1 The write accesses to a \textbf{Message} are only made at construction time, thus only read accesses are allowed.
+	\1 The Chat’s \textit{usernameContact} field is final. On the contrary the message list (history) and the number of the \textbf{unread messages} can be accessed by both the threads: these fields are atomic (\textit{java.util.concurrent.atomic}). The accesses to the list are always read or append, so no risk of update while we iterate it.
+	\1 The \textbf{User}’s account fields are unique for the session lifecycle: they are only updated at login time, when the listener thread does not exist yet. Anyway, the list of chat is again shared by the threads (\textit{synchronizedList} has been exploited).
+This time, it could also be accessed in write mode by the listener while the other thread is iterating it. In order to prevent this, we lock it while the iteration is performed. Why this choice instead of a thread-safe iterator?
+	\2 Because for our application purposes, we expect to have a small amount of contacts, thus the iteration will be fast
+	\2 Because we only have 2 threads, so there is a very little chance of concurrent accesses
+	\2 Because the operations performed at each iteration and the ones performed while we access it in write mode are very easy, which reduces the amount of time the data structure is locked
+	\1 For these reasons, we decided not to use a safe iterator, which could have introduced a higher amount of overhead, choosing a normal synchronized-block approach instead.
+\end{outline}
+A totally different speech has to be made for addressing GUI concurrency. In order to explain it, we must take into account how \textit{JavaFX} works.
+The Application Thread is in charge of executing the controller code corresponding to every event has been fired: when an event is triggered, it is inserted into a  \textit{JavaFX} queue; the \textit{Application Thread} loops the queue executing the code associated to each event. When the queue is empty, the  \textit{Application Thread} is blocked.
+\textit{JavaFX} \textbf{does not allow user-defined threads to update the visualization}, so there is no need to synchronize GUI data structures since the listener thread cannot access them.
+But how do we update the visualization when a message arrives?
+The JavaFx concurrency API allows to define a Worker (for example, a Task), but it is spawned only when an event is triggered: it is not suitable for our application, in which we want that receive messages are shown asynchronously w.r.t. the user interaction with the GUI. Note that although the listener blocks itself waiting for a message, from the global point of view we can see this receive operation as asynchronous: even if a new message does not arrive, the application is still responsive to user inputs.
+The approach we choose is exploiting the \textit{javafx.application.Platform.runLater()}s method, that allows to push a new Runnable into the \textit{Application Thread} queue. 
+Of course we took care not to insert code that accesses the model in this \textit{Runnable} object.
+
 \subsubsection{Server-Side}
 
 \subsection{Sequence UML Diagrams}
