@@ -41,21 +41,6 @@ public class Message {
         return text;
     }
 
-    public void setReceiver(String receiver) {
-        this.receiver = receiver;
-    }
-
-    public void setSender(String sender) {
-        this.sender = sender;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public void setTimestamp(Instant timestamp) {
-        this.timestamp = timestamp;
-    }
 
     public int getMessageId() {
         return messageId;

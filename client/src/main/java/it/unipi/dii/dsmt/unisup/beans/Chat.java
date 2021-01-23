@@ -1,6 +1,7 @@
 package it.unipi.dii.dsmt.unisup.beans;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Chat {
@@ -10,12 +11,12 @@ public class Chat {
 
     public Chat(String usernameContact, List<Message> history) {
         this.usernameContact = usernameContact;
-        this.history=history;
+        this.history= Collections.synchronizedList(history);
     }
 
     public Chat(String usernameContact, List<Message> history, int unreadMessages){
         this.usernameContact=usernameContact;
-        this.history=history;
+        this.history= Collections.synchronizedList(history);
         this.unreadMessages=unreadMessages;
     }
 
@@ -32,7 +33,7 @@ public class Chat {
     }
 
     public void setHistory(List<Message> history) {
-        this.history = history;
+        this.history = Collections.synchronizedList(history);
     }
 
     public void addMessageToHistory(Message m){

@@ -71,11 +71,13 @@ public class User {
     }
 
     public boolean userAlreadyPresent(String contact) {
-        for (Chat c: chatList) {
-            if (c.getUsernameContact().equals(contact))
-                return true;
+        synchronized (chatList) {
+            for (Chat c : chatList) {
+                if (c.getUsernameContact().equals(contact))
+                    return true;
+            }
+            return false;
         }
-        return false;
     }
 
     public void addChat(Chat chat) {
