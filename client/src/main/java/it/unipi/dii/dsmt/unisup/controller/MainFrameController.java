@@ -73,6 +73,7 @@ public class MainFrameController {
 
             selectedChat = contactList.getSelectionModel().getSelectedItem();
             if (selectedChat.hasUnreadMessages()) {
+                System.out.println("Number of unread messages: " + selectedChat.getUnreadMessages());
                 selectedChat.readAllMessages();
                 updateContactListView();
             }

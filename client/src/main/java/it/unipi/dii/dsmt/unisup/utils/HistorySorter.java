@@ -54,9 +54,10 @@ public class HistorySorter {
         public Chat call() throws Exception {
             String username = toOrder.getUsernameContact();
             List<Message> messages = toOrder.getHistory();
+            int unread = toOrder.getUnreadMessages();
             messages.sort(Comparator.comparing(Message::getTimestamp));
             //messages.sort((o1, o2) -> o1.getTimestamp().compareTo(o2.getTimestamp()));
-            Chat c = new Chat(username, messages);
+            Chat c = new Chat(username, messages, unread);
             return c;
         }
     }

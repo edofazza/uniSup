@@ -1,10 +1,7 @@
 package it.unipi.dii.dsmt.unisup.beans;
 
-import it.unipi.dii.dsmt.unisup.userinterface.CurrentUI;
-import it.unipi.dii.dsmt.unisup.userinterface.javafxextensions.panes.scrollpanes.ChatScrollPane;
-import it.unipi.dii.dsmt.unisup.userinterface.javafxextensions.panes.scrollpanes.ContactUserPanes;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Chat {
     private final String usernameContact;
@@ -14,6 +11,12 @@ public class Chat {
     public Chat(String usernameContact, List<Message> history) {
         this.usernameContact = usernameContact;
         this.history=history;
+    }
+
+    public Chat(String usernameContact, List<Message> history, int unreadMessages){
+        this.usernameContact=usernameContact;
+        this.history=history;
+        this.unreadMessages=unreadMessages;
     }
 
     public Chat(String usernameContact){
