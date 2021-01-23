@@ -45,8 +45,14 @@ public class SendMessageController {
                 PopUp.showPopUpMessage("Send Error", "All the fields must be filled", "", Alert.AlertType.ERROR);
                 return;
             }
+
             if(NewMain.getUserLogged().userAlreadyPresent(usernameField.getText())) {
                 PopUp.showPopUpMessage("Send Error", "The receiver is already present in the chats", "", Alert.AlertType.ERROR);
+                return;
+            }
+
+            if(NewMain.getUserLogged().getUsername().equals(usernameField.getText())) {
+                PopUp.showPopUpMessage("Send Error", "You cannot send messages to yourself", "", Alert.AlertType.ERROR);
                 return;
             }
 
@@ -91,23 +97,5 @@ public class SendMessageController {
             historyList.setItems(histObsList);
         });
     }
-    /*
-    private void sendMessage(ActionEvent e) {
-        //check if the usernameField is empty
-        String username = usernameField.getText();
-        if(!username.isEmpty() || !username.trim().isEmpty()){
-            //check if the inserted username is already in the list
-            Chat existed = messagesList.getItems().stream().filter
-                    (x->username.equalsIgnoreCase(x.getUsernameContact())).findAny().orElse(null);
-            System.out.println(existed);
-            if (existed == null){
-                existed = new Chat(username);
-                messagesList.getItems().add(0, existed);
-            }
-            existed.addMessageToHistory(new Message("io", username, messageTextArea.getText()));
-            //close the popup
-           handleCloseButtonAction(e);
-        }
-    }*/
 
 }

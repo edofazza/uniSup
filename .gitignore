@@ -5,3 +5,4 @@ out/
 /erlang_server/log/*
 /erlang_server/_build/*
 /erlang_server/Mnesia.unisup_server@localhost/
+*.json
