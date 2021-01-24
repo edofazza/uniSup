@@ -68,8 +68,6 @@ public class LoginController {
             User user = new User(username,password);
             boolean result = auth.register(user);
 
-            //TODO if I'm forgetting something at registration time, please add it. If not, remove this TODO
-
             if (result) {
                 PopUp.showPopUpMessage("Registration successfully", "You have been registered to the application.", "", Alert.AlertType.INFORMATION);
             } else {

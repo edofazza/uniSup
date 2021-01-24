@@ -16,7 +16,7 @@ public class User {
         this.username=username;
         this.password=password;
 
-        this.chatList = Collections.synchronizedList(new ArrayList<>()); // TODO: load msgs
+        this.chatList = Collections.synchronizedList(new ArrayList<>());
     }
 
     public String getUsername() {

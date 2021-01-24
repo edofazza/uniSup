@@ -142,8 +142,6 @@ public class Main extends Application {
 
         @Override
         public void run(){
-            //TODO update the contact list
-            //TODO refresh the display, if the message has been received in an open chat, add it
             //Maybe later, we will implement a notification mechanism for messages received in other chats different from the one opened
             updateContactListView();
         }
@@ -171,27 +169,6 @@ public class Main extends Application {
                     contactList.getFocusModel().focus(index);
                 }
             }
-            else{
-
-            }
-//            if(selected==null)
-//                selected=contactList.getItems().get(0);
-//            //changeColor(contactList, modifiedChat, selected);
-//            System.out.println(selected.getUsernameContact());
-//            int i=0;
-//            for(; i<contactObsList.size(); i++){
-//                if(contactList.getItems().get(i).getUsernameContact().equals(selected.getUsernameContact())){
-//                    contactList.getSelectionModel().select(i);
-//                    contactList.getFocusModel().focus(i);
-//                    break;
-//                }
-//            }
-//            System.out.println(i);
-//            if(i ==0) {
-//                histObsList.clear();
-//                histObsList.addAll(modifiedChat.getHistory());
-//                historyList.setItems(histObsList);
-//            }
         }
 
 
