@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2021.1.15)  23 JAN 2021 22:46
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2021.1.15)  24 JAN 2021 12:10
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -605,7 +605,7 @@ LaTeX Info: Redefining \nameref on input line 63.
 pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./img/marchio_unipi_pant541-
 eps-converted-to.pdf): PDF inclusion: found PDF version <1.7>, but at most vers
 ion <1.5> allowed
-<img/marchio_unipi_pant541-eps-converted-to.pdf, id=88, 565.11125pt x 301.125pt
+<img/marchio_unipi_pant541-eps-converted-to.pdf, id=84, 565.11125pt x 301.125pt
 >
 File: img/marchio_unipi_pant541-eps-converted-to.pdf Graphic file (type pdf)
 <use img/marchio_unipi_pant541-eps-converted-to.pdf>
@@ -644,7 +644,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 15--92
 \openout2 = `chapters/project.aux'.
 
  (./chapters/project.tex
-<img/dag.png, id=140, 291.0875pt x 431.6125pt>
+<img/dag.png, id=135, 291.0875pt x 431.6125pt>
 File: img/dag.png Graphic file (type png)
 <use img/dag.png>
 Package pdftex.def Info: img/dag.png  used on input line 12.
@@ -676,7 +676,7 @@ File: omscmr.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/it' in size <10.95> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 111.
-<img/rabbitMQ.png, id=189, 442.2924pt x 210.5466pt>
+<img/rabbitMQ.png, id=184, 442.2924pt x 210.5466pt>
 File: img/rabbitMQ.png Graphic file (type png)
 <use img/rabbitMQ.png>
 Package pdftex.def Info: img/rabbitMQ.png  used on input line 119.
@@ -684,15 +684,16 @@ Package pdftex.def Info: img/rabbitMQ.png  used on input line 119.
  [7 <./img/rabbitMQ.png>] (/usr/local/texlive/2020/texmf-dist/tex/latex/listing
 s/lstlang1.sty
 File: lstlang1.sty 2020/03/24 1.8d listings language file
-) [8] [9] (/usr/local/texlive/2020/texmf-dist/tex/latex/listings/lstlang1.sty
+) [8] [9] [10]
+(/usr/local/texlive/2020/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2020/03/24 1.8d listings language file
 )
 LaTeX Font Info:    Trying to load font information for TS1+cmtt on input line 
-190.
+215.
 
 (/usr/local/texlive/2020/texmf-dist/tex/latex/base/ts1cmtt.fd
 File: ts1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
-)) [10]
+)) [11]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 97.
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 97.
 
@@ -701,14 +702,14 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 97.
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 97.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 97.
 Package rerunfilecheck Info: File `UniSupDocumentation.out' has not changed.
-(rerunfilecheck)             Checksum: DD6487AB9280C07BC11BFF003060179C;1425.
+(rerunfilecheck)             Checksum: 558CFFBF666AE784EBA29501422CCE7C;1354.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 97.
  ) 
 Here is how much of TeX's memory you used:
- 12540 strings out of 480608
- 189172 string characters out of 5903630
+ 12539 strings out of 480608
+ 189149 string characters out of 5903630
  768635 words of memory out of 5000000
- 28095 multiletter control sequences out of 15000+600000
+ 28094 multiletter control sequences out of 15000+600000
  539904 words of font info for 50 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  41i,12n,46p,1054b,1943s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -724,10 +725,10 @@ cal/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/loc
 al/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb></usr/local
 /texlive/2020/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb></usr/local/t
 exlive/2020/texmf-dist/fonts/type1/public/cm-super/sftt0900.pfb>
-Output written on UniSupDocumentation.pdf (11 pages, 347465 bytes).
+Output written on UniSupDocumentation.pdf (12 pages, 352655 bytes).
 PDF statistics:
- 291 PDF objects out of 1000 (max. 8388607)
- 257 compressed objects within 3 object streams
+ 290 PDF objects out of 1000 (max. 8388607)
+ 255 compressed objects within 3 object streams
  86 named destinations out of 1000 (max. 500000)
- 184 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 176 words of extra memory for PDF output out of 10000 (max. 10000000)
 

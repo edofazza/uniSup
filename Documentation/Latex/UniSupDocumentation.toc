@@ -18,5 +18,4 @@
 \contentsline {subsection}{\numberline {3.4}Synchronization Management}{8}{subsection.3.4}%
 \contentsline {subsubsection}{\numberline {3.4.1}Client-Side}{8}{subsubsection.3.4.1}%
 \contentsline {subsubsection}{\numberline {3.4.2}Server-Side}{10}{subsubsection.3.4.2}%
-\contentsline {subsection}{\numberline {3.5}Sequence UML Diagrams}{10}{subsection.3.5}%
-\contentsline {subsection}{\numberline {3.6}Rebar3}{10}{subsection.3.6}%
+\contentsline {subsection}{\numberline {3.5}Rebar3}{11}{subsection.3.5}%

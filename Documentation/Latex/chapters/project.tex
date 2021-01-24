@@ -158,7 +158,7 @@ while(true):
 	requestForGuiUpdate(m);
 endloop
 \end{lstlisting}
-Since both the  \textit{JavaFX Application thread} and the listener thread can access the model and the \textbf{GUI}, a synchronization mechanism is required. On the other hand, the two threads contact the server through different mailboxes, so no sync is required at communication level (all the common data structures are final).
+Since both the  \textit{JavaFX Application thread} and the \textit{listener thread} can access the model and the \textbf{GUI}, a synchronization mechanism is required. On the other hand, the two threads contact the server through different mailboxes, so no sync is required at communication level (all the common data structures are final).
 For what concerns the model, it is pointless to make all the data structures synchronized, indeed:
 
 \begin{outline}
@@ -171,17 +171,42 @@ This time, it could also be accessed in write mode by the listener while the oth
 	\2 Because the operations performed at each iteration and the ones performed while we access it in write mode are very easy, which reduces the amount of time the data structure is locked
 	\1 For these reasons, we decided not to use a safe iterator, which could have introduced a higher amount of overhead, choosing a normal synchronized-block approach instead.
 \end{outline}
-A totally different speech has to be made for addressing GUI concurrency. In order to explain it, we must take into account how \textit{JavaFX} works.
+A totally different speech has to be made for addressing \textbf{GUI concurrency}. In order to explain it, we must take into account how \textit{JavaFX} works.
 The Application Thread is in charge of executing the controller code corresponding to every event has been fired: when an event is triggered, it is inserted into a  \textit{JavaFX} queue; the \textit{Application Thread} loops the queue executing the code associated to each event. When the queue is empty, the  \textit{Application Thread} is blocked.
 \textit{JavaFX} \textbf{does not allow user-defined threads to update the visualization}, so there is no need to synchronize GUI data structures since the listener thread cannot access them.
 But how do we update the visualization when a message arrives?
-The JavaFx concurrency API allows to define a Worker (for example, a Task), but it is spawned only when an event is triggered: it is not suitable for our application, in which we want that receive messages are shown asynchronously w.r.t. the user interaction with the GUI. Note that although the listener blocks itself waiting for a message, from the global point of view we can see this receive operation as asynchronous: even if a new message does not arrive, the application is still responsive to user inputs.
+The \textit{JavaFX} concurrency API allows to define a \textit{Worker} (for example, a Task), but it is spawned only when an event is triggered: it is not suitable for our application, in which we want that receive messages are shown asynchronously \textit{w.r.t.} the user interaction with the GUI. Note that although the listener blocks itself waiting for a message, from the global point of view we can see this receive operation as asynchronous: even if a new message does not arrive, the application is still responsive to user inputs.
 The approach we choose is exploiting the \textit{javafx.application.Platform.runLater()}s method, that allows to push a new Runnable into the \textit{Application Thread} queue. 
 Of course we took care not to insert code that accesses the model in this \textit{Runnable} object.
 
 \subsubsection{Server-Side}
+For what concerns the server, the handling of requests coming from different users requires a fine grain level of concurrency and parallelism. Indeed, in order to ensure high performance, we wanted the server to be able to handle multiple request at a time: the need for a quick and lightweight server and for a developer-friendly handling of the concurrency guided us to the choice of implementing it completely in \textit{Erlang}. In fact:
 
-\subsection{Sequence UML Diagrams}
+\begin{itemize}
+	\item \textit{Erlang}’s processes share no memory (actor model inspired), so we can spawn a process for each request with no concern about possible concurrent accesses to server’s data structure
+	\item \textit{Erlang}’s communication protocol hides the details of the physical network layer: it was a very helpful starting point to develop an application capable of hiding also client-server communication, so that sender and receiver seem to be directly connected each other
+	\item \textit{Erlang} code is fast to run, so it can ensure good performances even if we have to handle a discrete number of processes
+\end{itemize}
+The \textbf{server} is basically \textit{service-oriented} and \textit{not resource-oriented}, which means that it does not provide documents or files to the clients, nor it computes and send back results. \textit{Unisup} server is basically a middleware component that ensure communication between end users (hiding IDs of processes and the reliable data transfer protocol) and persistence to their messages, so that a user can access \textit{Unisup} from any \textbf{client} and always be able to get his/her own chat history and communicate with his/her contacts.
+For these reasons, all we needed in our server is:
+
+\begin{itemize}
+	\item A \textbf{listener module}, which is in charge of listening for \textbf{client} request and spawning a process to handle the request. This module, when initialized, sets up also the main server data structure (\textit{Mnesia persistency} and \textit{RabbitMQ queueing}). The listener is an always-up registered process, so that clients have not to deal with PIDs. The listener is able to filter out messages whose syntax is not the one established for every \textit{Unisup} message (\textit{SenderPid, OpIdAtom, Arguments})
+	\item A \textbf{request handling module} (\textit{callback}) built on the top of the \textit{gen\_server} behavior (which provides a standard API and efficient communication operations). This module, together with the filtering of all the messages whose couple (\textit{OpIdAtom, Arguments}) is not recognized as valid, is the one that processes requests communicating with \textit{Mnesia} and/or \textit{RabbitMQ} if required and sending back a message that, depending on the specific request, can be an \textit{ACK/NACK}, a true/false result or more complex results (\textit{e.g.}, chat history, \textit{i.e.} a list of messages)
+	\item A \textit{Mnesia} module with all the functions that a \textbf{client}  could request to run on the shared database. Only the callback module is able to call these functions
+	\item A \textit{RabbitMQ} module with all the functions for the handling of the queues. Only the callback module is able to call these functions
+	\item Utility modules. They contain no shared data structures, so no need for synchronization.
+\end{itemize}
+
+Analyzing these modules, it’s easy to see that, in spite the fact that we handle multiple processes together, thanks to \textit{Erlang} and the other frameworks’ properties, we don’t need to address concurrency manually, indeed:
+
+\begin{itemize}
+	\item The \textit{listener module} processes a message at a time.
+	\item The \textit{multiple processes} spawned by the listener execute the callback code. Anyway, thanks to the \textit{Erlang}’s lack of state and absence of shared memory, each request is independent from the others
+	\item The \textit{Mnesia Database} is a shared data store. In order to guarantee mutex accesses to the data, we chose to operate on it through \textbf{Mnesia transactions}, \textit{i.e.}, \textit{ACID operations} capable of ensuring \textbf{Atomic} and \textbf{Isolated statements}. Thanks to transactions, there is no risk for critical races on the data between processes.
+	\item The \textit{RabbitMQ} module provides by construction concurrency management: push and consume are primitive operations (at this level of abstraction of course), so there is no possibility of critical races between processes. 
+The queueing management also prevents the uncontrolled growth of needed channels in case of high amount of traffic, and can handle messages destined to offline users
+\end{itemize}
 
 \subsection{Rebar3}
 Since our server is implemented in erlang, we realized that we can use Rebar3 to manage our application in proper way. Rebar3 is a build tool and package management for creating and deploying erlang applications [1 – 2]. To use \textbf{amqp} (\textit{RabbitMQ}) and \textbf{jsx} (\textit{JSON}) libraries, we added the dependencies in \textit{Rebar3 config file}, so all of them work under a unified project. To compile and run our server application we simply run the following command
