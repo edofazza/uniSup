@@ -1,12 +1,13 @@
 package it.unipi.dii.dsmt.unisup.userinterface;
 
-import it.unipi.dii.dsmt.unisup.NewMain;
+import it.unipi.dii.dsmt.unisup.Main;
 import it.unipi.dii.dsmt.unisup.beans.Chat;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
-import javafx.scene.layout.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.StrokeType;
@@ -77,7 +78,7 @@ public class ContactCell extends ListCell<Chat> {
                 circleText.setText("");
                 circle.setVisible(false);
             }
-            if(NewMain.getUserLogged().getUsername().equals(item.getHistory().get(item.getHistory().size() - 1).getSender())) {
+            if(Main.getUserLogged().getUsername().equals(item.getHistory().get(item.getHistory().size() - 1).getSender())) {
                 lastMsgLabel.setText("You: "+lastMsgLabel.getText());
             }else{
                 lastMsgLabel.setText(lastMsgLabel.getText());

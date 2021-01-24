@@ -1,7 +1,6 @@
 package it.unipi.dii.dsmt.unisup.userinterface;
 
-import it.unipi.dii.dsmt.unisup.NewMain;
-import it.unipi.dii.dsmt.unisup.beans.Chat;
+import it.unipi.dii.dsmt.unisup.Main;
 import it.unipi.dii.dsmt.unisup.beans.Message;
 import javafx.geometry.Insets;
 import javafx.geometry.NodeOrientation;
@@ -54,7 +53,7 @@ public class MessageCell extends ListCell<Message> {
             textArea.setText(text.getText() + timestamp.getText());
 
             senderLabel.setText(item.getSender());
-            if(NewMain.getUserLogged().getUsername().equals(item.getSender())) {
+            if(Main.getUserLogged().getUsername().equals(item.getSender())) {
                 vbox.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
                 textArea.setStyle("-fx-control-inner-background:#73e1f3;");
             }else{

@@ -20,7 +20,7 @@ import javafx.stage.Stage;
 import java.awt.*;
 import java.io.IOException;
 
-public class NewMain extends Application {
+public class Main extends Application {
     private static Stage guiStage;
     private static User userLogged;
     private static Thread receiveThread;
@@ -48,7 +48,7 @@ public class NewMain extends Application {
     }
 
     public static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(NewMain.class.getResource("/"+ fxml + ".fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/"+ fxml + ".fxml"));
 
         if(fxml.equalsIgnoreCase("LoginFrame")){
             guiStage.setX(dim.width/2 - LOG_FRAME_WIDTH / 2);
@@ -73,7 +73,7 @@ public class NewMain extends Application {
                 guiStage.setTitle("UniSup");
                 guiStage.setResizable(false);
             }
-            guiStage.setScene(new Scene(NewMain.loadFXML(sceneToLoad)));
+            guiStage.setScene(new Scene(Main.loadFXML(sceneToLoad)));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -116,7 +116,7 @@ public class NewMain extends Application {
                 MessageGateway messageGateway = MessageGateway.getInstance();
                 Message m = messageGateway.receiveMessage();
 
-                User userLogged = NewMain.getUserLogged();
+                User userLogged = Main.getUserLogged();
                 // INSERT IT INTO USER
                 if (userLogged == null)
                     return;
@@ -155,7 +155,7 @@ public class NewMain extends Application {
             ListView<Message> historyList = Mediator.getHistoryList();
             Chat selected = contactList.getSelectionModel().getSelectedItem();
             contactObsList.clear();
-            contactObsList.addAll(new ChatSorter(NewMain.getUserLogged().getChatList()).sort());
+            contactObsList.addAll(new ChatSorter(Main.getUserLogged().getChatList()).sort());
             contactList.setItems(contactObsList);
             if (selected != null){
                 if (selected.getUsernameContact().equals(modifiedChat.getUsernameContact())) {

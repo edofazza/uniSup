@@ -1,6 +1,6 @@
 package it.unipi.dii.dsmt.unisup.controller;
 
-import it.unipi.dii.dsmt.unisup.NewMain;
+import it.unipi.dii.dsmt.unisup.Main;
 import it.unipi.dii.dsmt.unisup.beans.User;
 import it.unipi.dii.dsmt.unisup.communication.AuthGateway;
 import it.unipi.dii.dsmt.unisup.communication.Authenticator;
@@ -45,15 +45,15 @@ public class LoginController {
             User user = new User(username, password); //We instantiate a new User Object for the current user
             Authenticator au = AuthGateway.getInstance();
             if(au.login(user)) {     //Tries to login
-                NewMain.setUser(user);
+                Main.setUser(user);
 
                 // LOAD THE CHATS
                 AuthGateway authGateway = AuthGateway.getInstance();
-                NewMain.getUserLogged().setChatList(authGateway.getChatHistory(user));  // Retrieves chat history of the logged user and add them to the chat list.
+                Main.getUserLogged().setChatList(authGateway.getChatHistory(user));  // Retrieves chat history of the logged user and add them to the chat list.
                                                                                         //So, every time you need them, pick them from the user object
                 startReceiveThread();
 
-                NewMain.changeStage("MainFrame");
+                Main.changeStage("MainFrame");
             }
             else{
                 PopUp.showPopUpMessage("Login Error", "The username/password is wrong!", "", Alert.AlertType.ERROR);
@@ -79,7 +79,7 @@ public class LoginController {
     }
 
     private void startReceiveThread(){
-        Thread thread = NewMain.getReceiveThread();
+        Thread thread = Main.getReceiveThread();
         thread.setDaemon(true);
         thread.start();
     }

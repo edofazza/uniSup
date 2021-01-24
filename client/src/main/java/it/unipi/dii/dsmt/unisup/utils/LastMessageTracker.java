@@ -1,7 +1,7 @@
 package it.unipi.dii.dsmt.unisup.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import it.unipi.dii.dsmt.unisup.NewMain;
+import it.unipi.dii.dsmt.unisup.Main;
 import it.unipi.dii.dsmt.unisup.beans.Chat;
 import it.unipi.dii.dsmt.unisup.beans.Message;
 
@@ -15,11 +15,11 @@ import java.util.Map;
 
 public class LastMessageTracker {
     private static Map<String, String> lastMessages=new HashMap<>();
-    private static String jsonFile = "client/lastMessages" + NewMain.getUserLogged().getUsername() + ".json";
+    private static String jsonFile = "client/lastMessages" + Main.getUserLogged().getUsername() + ".json";
 
     public static void fetchLastMessages(){
         try {
-            jsonFile = "client/lastMessages" + NewMain.getUserLogged().getUsername() + ".json";
+            jsonFile = "client/lastMessages" + Main.getUserLogged().getUsername() + ".json";
             File f = new File(jsonFile);
             f.createNewFile();
             if(f.length()==0)
@@ -52,7 +52,7 @@ public class LastMessageTracker {
     }
 
     public static void setLastTimestamp(Message m){
-        String contact = m.getSender().equals(NewMain.getUserLogged().getUsername()) ? m.getReceiver() : m.getSender();
+        String contact = m.getSender().equals(Main.getUserLogged().getUsername()) ? m.getReceiver() : m.getSender();
         lastMessages.put(contact, m.getTimestamp().toString());
     }
 

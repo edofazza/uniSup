@@ -1,6 +1,6 @@
 package it.unipi.dii.dsmt.unisup.controller;
 
-import it.unipi.dii.dsmt.unisup.NewMain;
+import it.unipi.dii.dsmt.unisup.Main;
 import it.unipi.dii.dsmt.unisup.beans.Chat;
 import it.unipi.dii.dsmt.unisup.beans.Message;
 import it.unipi.dii.dsmt.unisup.communication.MessageGateway;
@@ -58,7 +58,7 @@ public class MainFrameController {
     //example of loading data
     private void loadData() {
         contactObsList = FXCollections.observableArrayList();
-        contactObsList.addAll(new ChatSorter(NewMain.getUserLogged().getChatList()).sort());
+        contactObsList.addAll(new ChatSorter(Main.getUserLogged().getChatList()).sort());
         contactList.setItems(contactObsList);
         histObsList = FXCollections.observableArrayList();
         historyList.setItems(histObsList);
@@ -84,15 +84,15 @@ public class MainFrameController {
         });
 
         logoutBtn.setOnAction(e ->{
-            NewMain.userExit();
-            NewMain.changeStage("LoginFrame");
+            Main.userExit();
+            Main.changeStage("LoginFrame");
         });
         historyList.setCellFactory(param -> new MessageCell());
         contactList.setCellFactory(param -> new ContactCell());
 
         sendBtn.setOnAction(e ->{
             selectedChat = contactList.getSelectionModel().getSelectedItem();
-            String senderUsername = NewMain.getUserLogged().getUsername();
+            String senderUsername = Main.getUserLogged().getUsername();
             String receiverUsername = selectedChat.getUsernameContact();
             String textMessage = messageTextArea.getText();
 
@@ -122,8 +122,8 @@ public class MainFrameController {
                 dialog.setTitle("UniSup");
                 dialog.getIcons().add(new javafx.scene.image.Image("/images/logo.png"));
                 dialog.initModality(Modality.APPLICATION_MODAL);
-                dialog.initOwner(NewMain.getStage());
-                Scene dialogScene = new Scene(NewMain.loadFXML("SendMessage"));
+                dialog.initOwner(Main.getStage());
+                Scene dialogScene = new Scene(Main.loadFXML("SendMessage"));
                 dialog.setScene(dialogScene);
                 dialog.show();
             } catch (IOException e) {
@@ -157,7 +157,7 @@ public class MainFrameController {
     }
     private void updateAllContactListView(){
         contactObsList.clear();
-        contactObsList.addAll(new ChatSorter(NewMain.getUserLogged().getChatList()).sort());
+        contactObsList.addAll(new ChatSorter(Main.getUserLogged().getChatList()).sort());
         contactList.setItems(contactObsList);
         contactList.getSelectionModel().selectFirst();
         contactList.getFocusModel().focus(0);

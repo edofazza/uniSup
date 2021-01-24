@@ -1,7 +1,7 @@
 package it.unipi.dii.dsmt.unisup.controller;
 
 
-import it.unipi.dii.dsmt.unisup.NewMain;
+import it.unipi.dii.dsmt.unisup.Main;
 import it.unipi.dii.dsmt.unisup.beans.Chat;
 import it.unipi.dii.dsmt.unisup.beans.Message;
 import it.unipi.dii.dsmt.unisup.communication.MessageGateway;
@@ -46,19 +46,19 @@ public class SendMessageController {
                 return;
             }
 
-            if(NewMain.getUserLogged().userAlreadyPresent(usernameField.getText())) {
+            if(Main.getUserLogged().userAlreadyPresent(usernameField.getText())) {
                 PopUp.showPopUpMessage("Send Error", "The receiver is already present in the chats", "", Alert.AlertType.ERROR);
                 return;
             }
 
-            if(NewMain.getUserLogged().getUsername().equals(usernameField.getText())) {
+            if(Main.getUserLogged().getUsername().equals(usernameField.getText())) {
                 PopUp.showPopUpMessage("Send Error", "You cannot send messages to yourself", "", Alert.AlertType.ERROR);
                 return;
             }
 
-            System.out.println(NewMain.getUserLogged().getUsername());
+            System.out.println(Main.getUserLogged().getUsername());
 
-            String senderUsername = NewMain.getUserLogged().getUsername();
+            String senderUsername = Main.getUserLogged().getUsername();
             String receiverUsername = usernameField.getText();
             String textMessage = messageTextArea.getText();
             Chat chat = new Chat(receiverUsername);
@@ -71,7 +71,7 @@ public class SendMessageController {
             }
 
             chat.addMessageToHistory(message);
-            NewMain.getUserLogged().addChat(chat);
+            Main.getUserLogged().addChat(chat);
             LastMessageTracker.setLastTimestamp(chat);
             handleCloseButtonAction(new ActionEvent());
             //
@@ -94,7 +94,7 @@ public class SendMessageController {
         Platform.runLater(()->{
             //for sorting the list we need to load the new data
             contactObsList.clear();
-            contactObsList.addAll(new ChatSorter(NewMain.getUserLogged().getChatList()).sort());
+            contactObsList.addAll(new ChatSorter(Main.getUserLogged().getChatList()).sort());
             contactList.setItems(contactObsList);
             contactList.getSelectionModel().selectFirst();
             contactList.getFocusModel().focus(0);
