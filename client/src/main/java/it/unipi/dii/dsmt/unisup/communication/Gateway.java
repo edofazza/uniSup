@@ -46,6 +46,10 @@ public abstract class Gateway {
         }
     }
 
+    public Future addToExecutorAndGetFuture(Callable task){
+        return myExecutor.submit(task);
+    }
+
     public void stopExecutor(){
         myExecutor.shutdown();
         try {
