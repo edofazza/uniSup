@@ -11,5 +11,5 @@ How to run the application:
 	-- On the run configurations, set it.unipi.dii.dsmt.unisup.Main as Main class
 	-- (For MacOS) Click on "Modify options" and select "Allow multiple instances", then "Apply"
 	-- (For Windows) Tick the "Allow parallel run" checkbox
-	-- Run as many istances as the number of clients you want to test. 
+	-- Run as many instances as the number of clients you want to test.
 	-- DO NOT LOGIN WITH THE SAME USER IN MORE THAN 1 INSTANCE!!
