@@ -1,0 +1,14 @@
+The following frameworks are required in order to correctly compile and run the application:
+-Oracle jdk 8 with JavaFx   https://www.oracle.com/it/java/technologies/javase/javase-jdk8-downloads.html
+-Erlang ERTS 23  https://www.erlang.org/
+-RabbitMQ 3.8  https://www.rabbitmq.com/
+-Rebar3 https://github.com/erlang/rebar3
+
+How to run the application:
+-to run the server, execute the starter script (.cmd for Windows, .sh for MAC_OS)
+-to run the client, you can directly run the Main.class with client/ as classpath, anyway the suggested way is to use IntelliJ
+	--open the project in IntelliJ
+	--on the run configurations, set it.unipi.dii.dsmt.unisup.Main as Main class
+	--Tick the "Allow parallel run" checkbox
+	--Run as many istances as the number of clients you want to test. 
+	--DO NOT LOGIN WITH THE SAME USER IN MORE THAN 1 INSTANCE!!
