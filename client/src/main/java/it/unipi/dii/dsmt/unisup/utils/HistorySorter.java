@@ -20,7 +20,7 @@ public class HistorySorter {
     }
 
     public List<Chat> sort(){
-        if(histories.size()<1)
+        if(histories==null || histories.size()<1)
             return new ArrayList<>();
         List<Chat> toReturn = new ArrayList<>();
         List<Future<Chat>> futures= new ArrayList<>();

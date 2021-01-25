@@ -8,11 +8,16 @@ import it.unipi.dii.dsmt.unisup.utils.HistorySorter;
 import it.unipi.dii.dsmt.unisup.utils.LastMessageTracker;
 
 import java.time.Instant;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
 
 public class AuthGateway extends Gateway implements Authenticator{
     private static AuthGateway ref=null;
+    public Future chatHistory=null;
 
     public static AuthGateway getInstance(){
         if(ref==null){
@@ -24,16 +29,22 @@ public class AuthGateway extends Gateway implements Authenticator{
     @Override
     public boolean login(User u) {
         prepareGateway(u.getUsername());
-        Callable<Boolean> toRun = new AuthGateway.LogTask(u);
-        boolean result = (Boolean)addToExecutor(toRun);
+        Callable<Boolean> toRunLogin = new AuthGateway.LogTask(u);
+        Callable<List<Chat>> toRunHistory = new AuthGateway.GetHistoryTask(u);
+        chatHistory = addToExecutorAndGetFuture(toRunHistory);
+        boolean result = (Boolean)addToExecutor(toRunLogin);
         return result;
     }
 
     @Override
     public List<Chat> getChatHistory(User u) {
-        Callable<List<Chat>> toRun = new AuthGateway.GetHistoryTask(u);
-        List<Chat> result = (List<Chat>)addToExecutor(toRun);
-        return result;
+        try {
+            List<Chat> result = (List<Chat>) chatHistory.get();
+            return result;
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
@@ -47,8 +58,9 @@ public class AuthGateway extends Gateway implements Authenticator{
     @Override
     public boolean logout(User u) {
         Callable<Boolean> toRun = new AuthGateway.LogoutTask(u);
-        boolean result = (Boolean)addToExecutor(toRun);
         LastMessageTracker.storeLastMessages();
+        boolean result = (Boolean)addToExecutor(toRun);
+
         stopExecutor();
         return result;
     }
@@ -96,7 +108,7 @@ public class AuthGateway extends Gateway implements Authenticator{
             mbox.send(serverRegisteredName, serverNodeName, reqMessage);
 
             OtpErlangList response = (OtpErlangList)mbox.receive();
-            LastMessageTracker.fetchLastMessages();
+            LastMessageTracker.fetchLastMessages(me.getUsername());
             ArrayList<Chat> toReturn = new ArrayList<>();
             TreeMap<String, Chat> tree = new TreeMap<>();
             for(OtpErlangObject o: response.elements()){
