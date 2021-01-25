@@ -2,7 +2,6 @@ package it.unipi.dii.dsmt.unisup.communication;
 
 import com.ericsson.otp.erlang.*;
 import it.unipi.dii.dsmt.unisup.beans.Message;
-import it.unipi.dii.dsmt.unisup.utils.LastMessageTracker;
 
 import java.time.Instant;
 import java.util.concurrent.Callable;
@@ -43,7 +42,6 @@ public class MessageGateway extends Gateway implements Communicator{
                     continue;
             }
         }catch (Exception e) {
-            e.printStackTrace();
         }
         return null;
     }

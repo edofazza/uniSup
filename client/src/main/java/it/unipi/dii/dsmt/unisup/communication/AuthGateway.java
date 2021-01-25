@@ -58,8 +58,9 @@ public class AuthGateway extends Gateway implements Authenticator{
     @Override
     public boolean logout(User u) {
         Callable<Boolean> toRun = new AuthGateway.LogoutTask(u);
-        boolean result = (Boolean)addToExecutor(toRun);
         LastMessageTracker.storeLastMessages();
+        boolean result = (Boolean)addToExecutor(toRun);
+
         stopExecutor();
         return result;
     }

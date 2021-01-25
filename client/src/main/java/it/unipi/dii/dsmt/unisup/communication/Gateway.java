@@ -51,6 +51,16 @@ public abstract class Gateway {
     }
 
     public void stopExecutor(){
+        myName=null;
+        if(receiveMessagesMailbox!=null){
+            receiveMessagesMailbox.close();
+            receiveMessagesMailbox=null;
+        }
+        if(clientNode!=null){
+            clientNode.close();
+            clientNode=null;
+        }
+
         myExecutor.shutdown();
         try {
             if (!myExecutor.awaitTermination(800, TimeUnit.MILLISECONDS)) {
