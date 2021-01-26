@@ -11,11 +11,11 @@
 \contentsline {subsubsection}{\numberline {3.2.2}Technologies}{5}{subsubsection.3.2.2}%
 \contentsline {subsection}{\numberline {3.3}The Server}{5}{subsection.3.3}%
 \contentsline {subsubsection}{\numberline {3.3.1}Role of the Server}{5}{subsubsection.3.3.1}%
-\contentsline {subsubsection}{\numberline {3.3.2}Implementation of the Server}{5}{subsubsection.3.3.2}%
+\contentsline {subsubsection}{\numberline {3.3.2}Implementation of the Server}{6}{subsubsection.3.3.2}%
 \contentsline {subsubsection}{\numberline {3.3.3}Persistent Data Storing}{6}{subsubsection.3.3.3}%
 \contentsline {subsubsection}{\numberline {3.3.4}Queueing}{7}{subsubsection.3.3.4}%
-\contentsline {subsubsection}{\numberline {3.3.5}Queueing Architecture}{7}{subsubsection.3.3.5}%
-\contentsline {subsection}{\numberline {3.4}Synchronization Management}{8}{subsection.3.4}%
-\contentsline {subsubsection}{\numberline {3.4.1}Client-Side}{8}{subsubsection.3.4.1}%
+\contentsline {subsubsection}{\numberline {3.3.5}Queueing Architecture}{8}{subsubsection.3.3.5}%
+\contentsline {subsection}{\numberline {3.4}Synchronization Management}{9}{subsection.3.4}%
+\contentsline {subsubsection}{\numberline {3.4.1}Client-Side}{9}{subsubsection.3.4.1}%
 \contentsline {subsubsection}{\numberline {3.4.2}Server-Side}{10}{subsubsection.3.4.2}%
 \contentsline {subsection}{\numberline {3.5}Rebar3}{11}{subsection.3.5}%

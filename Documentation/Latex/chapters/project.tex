@@ -9,7 +9,7 @@
 \begin{figure}[H]
 	\begin{subfigure}{\textwidth}
 	\centering
-		\includegraphics[width=0.3\linewidth]{img/dag.png} 
+		\includegraphics[width=0.7\linewidth]{img/systemArchitecture.png} 
 	\end{subfigure}
 \end{figure}
 
@@ -27,10 +27,17 @@ Eventually, the database icon has been added since it is required for mapping cl
 \subsection{Clients}
 \subsubsection{Role of the Client}
 During the normal usage of the application, the users interact with their client device, so the client is the principal actor of our application.
-As described in the use cases analysis user i can register to the application, sign in into his/her account, then he/she can do all the operation of a typical instant-message application like sending/receiving messages and read old messages through clicking on chats. Because the applicative isn’t bound to a specific client, as \textit{Whatsapp} is, a client device can be used by multiple \textbf{users}, they only need to register/login to their account.
+As described in the use cases analysis user \textit{i} can register to the application, sign in into his/her account, then he/she can do all the operation of a typical instant-message application like sending/receiving messages and read old messages through clicking on chats. Because the applicative isn’t bound to a specific client, as \textit{Whatsapp} is, a client device can be used by multiple \textbf{users}, they only need to register/login to their account.
 From an architectural point of view, the \textbf{client} is only in charge of providing the \textbf{user} a GUI and the communication with the server. The \textbf{client}  device does not store the history of the messages, nor information about the user, but it is in charge of showing chats and messages in the correct natural order that is sorted by ascending timestamp. On client-side, a multithreaded approach has been developed according to the following DAG.
 
 Since SEND A MESSAGE and RECEIVE A MESSAGE are concurrent actions, they are performed by different flows of execution. The only shared data structured is the message list of the relative chat, so the access to it must be synchronized.
+
+\begin{figure}[H]
+	\begin{subfigure}{\textwidth}
+	\centering
+		\includegraphics[width=0.3\linewidth]{img/dag.png} 
+	\end{subfigure}
+\end{figure}
 
 \subsubsection{Technologies}
 The applicative code runs entirely on the clients: every interaction with the GUI is handled locally and may trigger a send request to the server. The principles technologies used in the client side are JavaFX and Jinterface.
